@@ -3,7 +3,7 @@
  * Initializes configuration, services, and starts the background processes.
  */
 import { loadConfig } from './config';
-import { MockSpotifyService } from './spotify';
+import { SpotifyService } from './spotify-live';
 import { SlackService } from './slack';
 import { SyncService } from './sync';
 
@@ -16,14 +16,8 @@ async function bootstrap() {
   try {
     const config = loadConfig();
 
-    // Initialize Mock Spotify Service with some default playing state
-    const spotify = new MockSpotifyService({
-      initialState: {
-        isPlaying: true,
-        songName: 'Mock Song',
-        artistName: 'Mock Artist',
-      },
-    });
+    // Initialize Live Spotify Service
+    const spotify = new SpotifyService(config);
 
     const slack = new SlackService(config);
     const syncService = new SyncService(spotify, slack, config);
