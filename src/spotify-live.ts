@@ -5,70 +5,85 @@
 import axios from 'axios';
 import { AppConfig } from './config';
 import { ISpotifyService, TrackState } from './spotify';
+import { User } from './user';
 
 /**
  * Live implementation of the Spotify service.
  */
 export class SpotifyService implements ISpotifyService {
-  private accessToken: string | null = null;
-  private tokenExpirationTime: number = 0;
+  private accessTokens: Map<string, string> = new Map();
+  private tokenExpirations: Map<string, number> = new Map();
 
   /**
    * Constructs a new SpotifyService.
    *
-   * @param {AppConfig} config - The application configuration.
+   * @param config - The application configuration.
    */
   constructor(private config: AppConfig) {}
 
   /**
-   * Refreshes the access token if it is expired or missing.
+   * Ensures the given user has a valid access token, refreshing if necessary.
+   * @param user - The user whose token we are checking.
+   * @returns The valid access token.
    */
-  private async ensureAccessToken(): Promise<void> {
-    if (this.accessToken && Date.now() < this.tokenExpirationTime) {
-      return; // Token is still valid
+  private async ensureAccessToken(user: User): Promise<string> {
+    const now = Date.now();
+    const currentToken = this.accessTokens.get(user.id);
+    const expiration = this.tokenExpirations.get(user.id) || 0;
+
+    // If we have a token and it hasn't expired (giving a 60s buffer), use it
+    if (currentToken && now < expiration - 60000) {
+      return currentToken;
     }
 
-    const { clientId, clientSecret, refreshToken } = this.config.spotify;
+    // Otherwise, refresh the token using the user's refresh token
+    const authHeader = Buffer.from(
+      `${this.config.spotify.clientId}:${this.config.spotify.clientSecret}`,
+    ).toString('base64');
 
-    if (!refreshToken) {
-      throw new Error('Spotify refresh token is missing in the configuration.');
-    }
-
-    const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-
-    const response = await axios.post(
-      'https://accounts.spotify.com/api/token',
-      new URLSearchParams({
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-      }).toString(),
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Basic ${authHeader}`,
+    try {
+      const response = await axios.post(
+        'https://accounts.spotify.com/api/token',
+        new URLSearchParams({
+          grant_type: 'refresh_token',
+          refresh_token: user.spotifyRefreshToken,
+        }).toString(),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${authHeader}`,
+          },
         },
-      },
-    );
+      );
 
-    this.accessToken = response.data.access_token;
-    // Buffer expiration by 1 minute to ensure we don't use an expired token
-    this.tokenExpirationTime = Date.now() + response.data.expires_in * 1000 - 60000;
+      const data = response.data;
+      const newToken = data.access_token;
+
+      this.accessTokens.set(user.id, newToken);
+      this.tokenExpirations.set(user.id, now + data.expires_in * 1000);
+
+      return newToken;
+    } catch (error) {
+      console.error(`Failed to refresh Spotify token for user ${user.id}:`, error);
+      throw error;
+    }
   }
 
   /**
-   * Fetches the currently playing track from the live Spotify API.
+   * Fetches the currently playing track from the live Spotify API for a given user.
    *
-   * @returns {Promise<TrackState | null>} A promise resolving to the track state or null if stopped.
+   * @param user - The user whose track we are fetching.
+   * @returns The track state or null if nothing is playing/valid.
    */
-  public async getCurrentlyPlaying(): Promise<TrackState | null> {
-    await this.ensureAccessToken();
+  public async getCurrentlyPlaying(user: User): Promise<TrackState | null> {
+    const token = await this.ensureAccessToken(user);
 
     try {
       const response = await axios.get<SpotifyApi.CurrentlyPlayingResponse>(
         'https://api.spotify.com/v1/me/player/currently-playing',
         {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );

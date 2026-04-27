@@ -20,16 +20,29 @@ export interface AppConfig {
   };
   /** Slack API configuration credentials */
   slack: {
+    clientId: string;
+    clientSecret: string;
     userToken: string;
     signingSecret: string;
     appToken?: string;
   };
   /** Bot behavior configuration */
   bot: {
+    baseUrl: string;
     pollIntervalMs: number;
     statusEmoji: string;
     pausedEmoji: string;
     statusFormat: string;
+    port: number;
+  };
+  db: {
+    dialect: 'mysql' | 'sqlite';
+    host: string;
+    port: number;
+    user: string;
+    pass: string;
+    name: string;
+    storage?: string; // For SQLite in testing
   };
 }
 
@@ -37,7 +50,7 @@ export interface AppConfig {
  * Loads the application configuration from environment variables.
  * Validates that all required variables are present.
  *
- * @returns {AppConfig} The loaded and validated configuration object.
+ * @returns The loaded and validated configuration object.
  * @throws {Error} If any required environment variable is missing.
  */
 export function loadConfig(): AppConfig {
@@ -46,6 +59,8 @@ export function loadConfig(): AppConfig {
     'SPOTIFY_CLIENT_SECRET',
     'SPOTIFY_REDIRECT_URI',
     'SPOTIFY_REFRESH_TOKEN',
+    'SLACK_CLIENT_ID',
+    'SLACK_CLIENT_SECRET',
     'SLACK_USER_TOKEN',
     'SLACK_SIGNING_SECRET',
   ];
@@ -64,17 +79,28 @@ export function loadConfig(): AppConfig {
       refreshToken: process.env.SPOTIFY_REFRESH_TOKEN as string,
     },
     slack: {
+      clientId: process.env.SLACK_CLIENT_ID as string,
+      clientSecret: process.env.SLACK_CLIENT_SECRET as string,
       userToken: process.env.SLACK_USER_TOKEN as string,
       signingSecret: process.env.SLACK_SIGNING_SECRET as string,
       appToken: process.env.SLACK_APP_TOKEN,
     },
     bot: {
-      pollIntervalMs: process.env.POLL_INTERVAL_MS
-        ? parseInt(process.env.POLL_INTERVAL_MS, 10)
-        : 60000,
+      baseUrl: process.env.BASE_URL || `http://localhost:${process.env.PORT || '3000'}`,
+      pollIntervalMs: parseInt(process.env.POLL_INTERVAL_MS || '60000', 10),
       statusEmoji: process.env.STATUS_EMOJI || ':headphones:',
       pausedEmoji: process.env.PAUSED_EMOJI || ':double_vertical_bar:',
       statusFormat: process.env.STATUS_FORMAT || '{song} - {artist}',
+      port: parseInt(process.env.PORT || '3000', 10),
+    },
+    db: {
+      dialect: (process.env.DB_DIALECT as 'mysql' | 'sqlite') || 'mysql',
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT || '3306', 10),
+      user: process.env.DB_USER || 'root',
+      pass: process.env.DB_PASS || '',
+      name: process.env.DB_NAME || 'spotify_status_bot',
+      storage: process.env.DB_STORAGE, // e.g. ':memory:' for tests
     },
   };
 }

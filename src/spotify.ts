@@ -3,6 +3,8 @@
  * Provides data models and interfaces for interacting with the Spotify API.
  */
 
+import { User } from './user';
+
 /**
  * Represents the current playback state of a track on Spotify.
  */
@@ -12,12 +14,17 @@ export interface TrackState {
   artistName?: string;
 }
 
+/**
+ * Interface defining the operations for interacting with Spotify.
+ */
 export interface ISpotifyService {
   /**
-   * Fetches the currently playing track.
-   * @returns TrackState if a session is active (playing or paused), null if stopped (204 No Content)
+   * Fetches the currently playing track for the given user.
+   *
+   * @param user - The user whose track we are fetching.
+   * @returns A promise resolving to the track state or null.
    */
-  getCurrentlyPlaying(): Promise<TrackState | null>;
+  getCurrentlyPlaying(user: User): Promise<TrackState | null>;
 }
 
 /**
@@ -36,22 +43,31 @@ export class MockSpotifyService implements ISpotifyService {
   /**
    * Constructs a new MockSpotifyService.
    *
-   * @param {MockSpotifyConfig} [config] - Optional configuration with an initial state.
+   * @param config - Optional configuration with an initial state.
    */
   constructor(config?: MockSpotifyConfig) {
     this.currentState = config?.initialState !== undefined ? config.initialState : null;
   }
 
-  public async getCurrentlyPlaying(): Promise<TrackState | null> {
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 50));
-    return this.currentState;
+  /**
+   * Simulates fetching the currently playing track for a user.
+   *
+   * @param user - The user whose track we are fetching.
+   * @returns A promise resolving to the track state or null.
+   */
+  public async getCurrentlyPlaying(user: User): Promise<TrackState | null> {
+    // For mock testing, we'll return a static track or null
+    return {
+      artistName: `Mock Artist for ${user.slackUserId}`,
+      songName: 'Mock Song',
+      isPlaying: true,
+    };
   }
 
   /**
    * Dynamically sets the simulated state for testing purposes.
    *
-   * @param {TrackState | null} state - The new track state to simulate.
+   * @param state - The new track state to simulate.
    */
   public setMockState(state: TrackState | null): void {
     this.currentState = state;

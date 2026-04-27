@@ -2,9 +2,9 @@
   "name": "spotify-status-bot",
   "version": "1.0.0",
   "description": "A Slack bot that updates your status based on your currently playing Spotify track",
-  "main": "dist/app.js",
+  "main": "dist/src/app.js",
   "scripts": {
-    "start": "node dist/app.js",
+    "start": "node dist/src/app.js",
     "dev": "nodemon src/app.ts",
     "build": "tsc",
     "auth:spotify": "ts-node src/scripts/spotify-auth.ts",
@@ -13,6 +13,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "test": "jest",
     "test:watch": "jest --watch",
+    "docs": "typedoc --plugin typedoc-plugin-markdown --out docs/api --entryPointStrategy expand src",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -26,13 +27,18 @@
     "@slack/bolt": "^3.18.0",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mysql2": "^3.22.2",
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.8",
+    "sequelize-typescript": "^2.1.6"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
     "@types/spotify-api": "^0.0.26",
+    "@types/validator": "^13.15.10",
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
     "eslint": "^8.57.0",
@@ -43,9 +49,12 @@
     "lint-staged": "^16.4.0",
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
+    "sqlite3": "^6.0.1",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsc-files": "^1.1.4",
+    "typedoc": "^0.28.19",
+    "typedoc-plugin-markdown": "^4.11.0",
     "typescript": "^5.4.5"
   }
 }

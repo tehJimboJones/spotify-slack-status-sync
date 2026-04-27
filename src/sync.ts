@@ -3,8 +3,9 @@
  * Orchestrates the polling of Spotify and updating of Slack.
  */
 import { AppConfig } from './config';
-import { ISpotifyService, TrackState } from './spotify';
+import { ISpotifyService } from './spotify';
 import { ISlackService } from './slack';
+import { IUserService } from './user';
 
 /**
  * Interface defining the operations for the synchronization service.
@@ -22,19 +23,22 @@ export interface ISyncService {
  * Service responsible for syncing Spotify playback state to Slack status.
  */
 export class SyncService implements ISyncService {
-  private intervalId: NodeJS.Timeout | null = null;
-  private lastStateStr: string = '';
+  private timer: NodeJS.Timeout | null = null;
+  private isRunning: boolean = false;
+  private userStates: Map<string, string> = new Map();
 
   /**
    * Constructs a new SyncService.
    *
-   * @param {ISpotifyService} spotify - The Spotify service instance.
-   * @param {ISlackService} slack - The Slack service instance.
-   * @param {AppConfig} config - The application configuration.
+   * @param spotify - The Spotify service.
+   * @param slack - The Slack service.
+   * @param userService - The User service.
+   * @param config - The application configuration.
    */
   constructor(
     private spotify: ISpotifyService,
     private slack: ISlackService,
+    private userService: IUserService,
     private config: AppConfig,
   ) {}
 
@@ -42,61 +46,77 @@ export class SyncService implements ISyncService {
    * Starts the polling loop to continuously synchronize state.
    */
   public start(): void {
-    if (this.intervalId) {
+    if (this.isRunning) {
       return;
     }
-
-    // Run immediately, then set interval
-    this.syncNow();
-    this.intervalId = setInterval(() => this.syncNow(), this.config.bot.pollIntervalMs);
+    this.isRunning = true;
     console.log(`SyncService started. Polling every ${this.config.bot.pollIntervalMs}ms.`);
+    this.runLoop();
   }
 
   /**
    * Stops the polling loop.
    */
   public stop(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-      console.log('SyncService stopped.');
+    this.isRunning = false;
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+    console.log('SyncService stopped.');
+  }
+
+  /**
+   * Internal loop to execute sync and schedule the next execution.
+   */
+  private async runLoop(): Promise<void> {
+    if (!this.isRunning) return;
+
+    await this.syncNow();
+
+    if (this.isRunning) {
+      this.timer = setTimeout(() => this.runLoop(), this.config.bot.pollIntervalMs);
     }
   }
 
   /**
    * Checks the current Spotify state and updates Slack if it has changed.
    *
-   * @returns {Promise<void>}
+   * @returns A promise that resolves when the sync is complete.
    */
   public async syncNow(): Promise<void> {
     try {
-      const track = await this.spotify.getCurrentlyPlaying();
-      const stateStr = JSON.stringify(track);
+      const activeUsers = await this.userService.getActiveUsers();
 
-      // Only update if state changed
-      if (stateStr === this.lastStateStr) {
-        return;
-      }
+      for (const user of activeUsers) {
+        const track = await this.spotify.getCurrentlyPlaying(user);
+        const stateStr = track
+          ? `${track.isPlaying ? 'playing' : 'paused'}:${track.songName}:${track.artistName}`
+          : '';
 
-      this.lastStateStr = stateStr;
+        const lastStateStr = this.userStates.get(user.id) ?? null;
 
-      if (!track) {
-        // Stopped playing
-        await this.slack.clearStatus();
-      } else {
-        // Playing or paused
-        const text = this.formatStatus(track);
-        const emoji = track.isPlaying ? this.config.bot.statusEmoji : this.config.bot.pausedEmoji;
-        await this.slack.setStatus(text, emoji);
+        if (stateStr !== lastStateStr) {
+          if (track) {
+            const emoji = track.isPlaying ? user.statusEmoji : user.pausedEmoji;
+            let statusText = user.statusFormat;
+
+            if (track.songName) {
+              statusText = statusText.replace('{song}', track.songName);
+            }
+            if (track.artistName) {
+              statusText = statusText.replace('{artist}', track.artistName);
+            }
+
+            await this.slack.setStatus(user, statusText, emoji);
+          } else {
+            await this.slack.clearStatus(user);
+          }
+          this.userStates.set(user.id, stateStr);
+        }
       }
     } catch (error) {
-      console.error('Error during syncNow:', error);
+      console.error('Error during sync:', error);
     }
-  }
-
-  private formatStatus(track: TrackState): string {
-    return this.config.bot.statusFormat
-      .replace('{song}', track.songName || 'Unknown Song')
-      .replace('{artist}', track.artistName || 'Unknown Artist');
   }
 }

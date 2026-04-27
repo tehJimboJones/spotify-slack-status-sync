@@ -1,0 +1,8 @@
+FROM mysql:8.0
+
+# Create initialization directory for any future database setup scripts.
+# SQL or shell scripts added here will run automatically when the container starts.
+RUN mkdir -p /docker-entrypoint-initdb.d
+
+# Copy our initialization script into the entrypoint directory
+COPY init.sql /docker-entrypoint-initdb.d/

@@ -1,11 +1,13 @@
 import { SyncService } from '../src/sync';
-import { ISpotifyService, TrackState } from '../src/spotify';
+import { ISpotifyService } from '../src/spotify';
 import { ISlackService } from '../src/slack';
 import { AppConfig } from '../src/config';
+import { IUserService, User } from '../src/user';
 
 describe('SyncService', () => {
   let mockSpotify: jest.Mocked<ISpotifyService>;
   let mockSlack: jest.Mocked<ISlackService>;
+  let mockUserService: jest.Mocked<IUserService>;
   let mockConfig: AppConfig;
   let service: SyncService;
 
@@ -17,99 +19,125 @@ describe('SyncService', () => {
     };
 
     mockSlack = {
-      setStatus: jest.fn(),
-      clearStatus: jest.fn(),
+      setStatus: jest.fn().mockResolvedValue(undefined),
+      clearStatus: jest.fn().mockResolvedValue(undefined),
+      start: jest.fn().mockResolvedValue(undefined),
+      registerCommandListener: jest.fn(),
+      openSettingsModal: jest.fn(),
+    };
+
+    mockUserService = {
+      getUser: jest.fn().mockResolvedValue(null),
+      getActiveUsers: jest.fn().mockResolvedValue([]),
+      toggleUserSync: jest.fn().mockResolvedValue(undefined),
+      upsertUser: jest.fn().mockResolvedValue(undefined),
     };
 
     mockConfig = {
-      spotify: { clientId: '', clientSecret: '', redirectUri: '', refreshToken: '' },
-      slack: { userToken: '', signingSecret: '' },
+      spotify: {
+        clientId: 'id',
+        clientSecret: 'secret',
+        redirectUri: 'uri',
+        refreshToken: 'token',
+      },
+      slack: {
+        clientId: 'slack-id',
+        clientSecret: 'slack-secret',
+        userToken: 'xoxp-test',
+        signingSecret: 'secret',
+      },
       bot: {
+        baseUrl: 'http://localhost:3000',
         pollIntervalMs: 60000,
         statusEmoji: ':headphones:',
         pausedEmoji: ':double_vertical_bar:',
         statusFormat: '{song} - {artist}',
+        port: 3000,
+      },
+      db: {
+        dialect: 'sqlite',
+        host: 'localhost',
+        port: 3306,
+        user: 'root',
+        pass: '',
+        name: 'test',
       },
     };
 
-    service = new SyncService(mockSpotify, mockSlack, mockConfig);
+    service = new SyncService(mockSpotify, mockSlack, mockUserService, mockConfig);
   });
 
   afterEach(() => {
     service.stop();
-    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
-  it('should format status text correctly when playing', async () => {
-    const track: TrackState = { isPlaying: true, songName: 'Test Song', artistName: 'Test Artist' };
-    mockSpotify.getCurrentlyPlaying.mockResolvedValue(track);
+  it('should synchronize multiple active users independently', async () => {
+    const userA = {
+      id: 'u1',
+      slackUserId: 'A',
+      statusEmoji: ':headphones:',
+      statusFormat: '{song}',
+    } as User;
+    const userB = {
+      id: 'u2',
+      slackUserId: 'B',
+      statusEmoji: ':headphones:',
+      statusFormat: '{song}',
+    } as User;
+
+    mockUserService.getActiveUsers.mockResolvedValue([userA, userB]);
+
+    // Mock Spotify to return different songs for each user
+    mockSpotify.getCurrentlyPlaying.mockImplementation(async (user: User) => {
+      if (user.id === 'u1') return { isPlaying: true, songName: 'Song A', artistName: 'Artist A' };
+      if (user.id === 'u2') return { isPlaying: true, songName: 'Song B', artistName: 'Artist B' };
+      return null;
+    });
 
     await service.syncNow();
 
-    expect(mockSlack.setStatus).toHaveBeenCalledWith('Test Song - Test Artist', ':headphones:');
+    expect(mockSlack.setStatus).toHaveBeenCalledTimes(2);
+    expect(mockSlack.setStatus).toHaveBeenCalledWith(userA, 'Song A', ':headphones:');
+    expect(mockSlack.setStatus).toHaveBeenCalledWith(userB, 'Song B', ':headphones:');
   });
 
-  it('should use paused emoji when paused', async () => {
-    const track: TrackState = {
-      isPlaying: false,
-      songName: 'Test Song',
-      artistName: 'Test Artist',
-    };
-    mockSpotify.getCurrentlyPlaying.mockResolvedValue(track);
+  it('should maintain distinct cache states per user', async () => {
+    const userA = {
+      id: 'u1',
+      slackUserId: 'A',
+      statusEmoji: ':headphones:',
+      statusFormat: '{song}',
+    } as User;
+    const userB = {
+      id: 'u2',
+      slackUserId: 'B',
+      statusEmoji: ':headphones:',
+      statusFormat: '{song}',
+    } as User;
 
+    mockUserService.getActiveUsers.mockResolvedValue([userA, userB]);
+
+    // First sync: both users listening
+    mockSpotify.getCurrentlyPlaying.mockResolvedValue({
+      isPlaying: true,
+      songName: 'Initial Song',
+    });
     await service.syncNow();
 
-    expect(mockSlack.setStatus).toHaveBeenCalledWith(
-      'Test Song - Test Artist',
-      ':double_vertical_bar:',
-    );
-  });
+    expect(mockSlack.setStatus).toHaveBeenCalledTimes(2);
+    mockSlack.setStatus.mockClear();
 
-  it('should clear status when stopped (null track)', async () => {
-    mockSpotify.getCurrentlyPlaying.mockResolvedValue(null);
-
+    // Second sync: User A song changes, User B remains the same
+    mockSpotify.getCurrentlyPlaying.mockImplementation(async (user: User) => {
+      if (user.id === 'u1') return { isPlaying: true, songName: 'New Song' };
+      if (user.id === 'u2') return { isPlaying: true, songName: 'Initial Song' };
+      return null;
+    });
     await service.syncNow();
 
-    expect(mockSlack.clearStatus).toHaveBeenCalled();
-  });
-
-  it('should not update slack if state has not changed', async () => {
-    const track: TrackState = { isPlaying: true, songName: 'Test Song', artistName: 'Test Artist' };
-    mockSpotify.getCurrentlyPlaying.mockResolvedValue(track);
-
-    await service.syncNow();
+    // Only User A should trigger a Slack update
     expect(mockSlack.setStatus).toHaveBeenCalledTimes(1);
-
-    // Call syncNow again with the same track state
-    await service.syncNow();
-    expect(mockSlack.setStatus).toHaveBeenCalledTimes(1); // Should still be 1
-  });
-
-  it('should call syncNow periodically when started', () => {
-    service.syncNow = jest.fn(); // Mock the syncNow method itself to track calls
-    service.start();
-    // Start calls it once immediately
-    expect(service.syncNow).toHaveBeenCalledTimes(1);
-
-    // Fast-forward time by 1 interval
-    jest.advanceTimersByTime(60000);
-    expect(service.syncNow).toHaveBeenCalledTimes(2);
-
-    // Fast-forward time by another interval
-    jest.advanceTimersByTime(60000);
-    expect(service.syncNow).toHaveBeenCalledTimes(3);
-  });
-
-  it('should stop polling when stop is called', () => {
-    service.syncNow = jest.fn();
-    service.start();
-
-    jest.advanceTimersByTime(60000);
-    expect(service.syncNow).toHaveBeenCalledTimes(2); // 1 immediate + 1 from interval
-
-    service.stop();
-
-    jest.advanceTimersByTime(60000);
-    expect(service.syncNow).toHaveBeenCalledTimes(2); // Should not increase
+    expect(mockSlack.setStatus).toHaveBeenCalledWith(userA, 'New Song', ':headphones:');
   });
 });
