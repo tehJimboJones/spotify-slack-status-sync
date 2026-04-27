@@ -16,8 +16,8 @@ services:
 
   db:
     build:
-      context: .
-      dockerfile: Dockerfile.db
+      context: ..
+      dockerfile: docker/Dockerfile.db
     container_name: spotify-status-bot-db
     restart: unless-stopped
     environment:
@@ -25,6 +25,8 @@ services:
       MYSQL_DATABASE: ${DB_NAME:-spotify_bot}
       MYSQL_USER: ${DB_USER:-bot_user}
       MYSQL_PASSWORD: ${DB_PASSWORD:-bot_pass}
+    env_file:
+      - ../.env
     ports:
       - "3306:3306"
     volumes:
