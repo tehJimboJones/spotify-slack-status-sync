@@ -13,6 +13,10 @@ export interface User {
   statusFormat: string;
   statusEmoji: string;
   pausedEmoji: string;
+  syncPodcasts: boolean;
+  podcastStatusFormat: string;
+  podcastStatusEmoji: string;
+  podcastPausedEmoji: string;
 }
 
 /**
@@ -44,6 +48,10 @@ export class MockUserRepository implements IUserRepository {
       statusFormat: config.bot.statusFormat,
       statusEmoji: config.bot.statusEmoji,
       pausedEmoji: config.bot.pausedEmoji,
+      syncPodcasts: false,
+      podcastStatusFormat: '{podcast name} - {episode title}',
+      podcastStatusEmoji: ':microphone:',
+      podcastPausedEmoji: ':double_vertical_bar:',
     });
   }
 
@@ -138,6 +146,10 @@ export class UserService implements IUserService {
         statusFormat: data.statusFormat || '{song} - {artist}',
         statusEmoji: data.statusEmoji || ':headphones:',
         pausedEmoji: data.pausedEmoji || ':double_vertical_bar:',
+        syncPodcasts: data.syncPodcasts ?? false,
+        podcastStatusFormat: data.podcastStatusFormat || '{podcast name} - {episode title}',
+        podcastStatusEmoji: data.podcastStatusEmoji || ':microphone:',
+        podcastPausedEmoji: data.podcastPausedEmoji || ':double_vertical_bar:',
       });
     }
   }

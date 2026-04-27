@@ -54,4 +54,20 @@ describe('UserService', () => {
 
     await expect(service.getUser('UNKNOWN')).rejects.toThrow(UserNotFoundError);
   });
+
+  it('should upsert user with default podcast properties when not provided', async () => {
+    mockRepository.findBySlackId.mockResolvedValue(null);
+
+    await service.upsertUser('U_NEW', { slackUserToken: 'test' });
+
+    expect(mockRepository.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        slackUserId: 'U_NEW',
+        syncPodcasts: false,
+        podcastStatusFormat: '{podcast name} - {episode title}',
+        podcastStatusEmoji: ':microphone:',
+        podcastPausedEmoji: ':double_vertical_bar:',
+      }),
+    );
+  });
 });

@@ -80,7 +80,7 @@ export class SpotifyService implements ISpotifyService {
 
     try {
       const response = await axios.get<SpotifyApi.CurrentlyPlayingResponse>(
-        'https://api.spotify.com/v1/me/player/currently-playing',
+        'https://api.spotify.com/v1/me/player/currently-playing?additional_types=episode',
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -114,6 +114,7 @@ export class SpotifyService implements ISpotifyService {
         isPlaying,
         songName,
         artistName,
+        type: item.type as 'track' | 'episode',
       };
     } catch (error) {
       console.error('Error fetching currently playing track from Spotify:', error);

@@ -140,4 +140,53 @@ describe('SyncService', () => {
     expect(mockSlack.setStatus).toHaveBeenCalledTimes(1);
     expect(mockSlack.setStatus).toHaveBeenCalledWith(userA, 'New Song', ':headphones:');
   });
+
+  it('should clear status if listening to an episode and syncPodcasts is false', async () => {
+    const user = {
+      id: 'u1',
+      slackUserId: 'A',
+      statusEmoji: ':headphones:',
+      statusFormat: '{song}',
+      syncPodcasts: false,
+    } as User;
+
+    mockUserService.getActiveUsers.mockResolvedValue([user]);
+    mockSpotify.getCurrentlyPlaying.mockResolvedValue({
+      isPlaying: true,
+      songName: 'Episode 1',
+      artistName: 'Podcast A',
+      type: 'episode',
+    });
+
+    await service.syncNow();
+
+    expect(mockSlack.clearStatus).toHaveBeenCalledWith(user);
+    expect(mockSlack.setStatus).not.toHaveBeenCalled();
+  });
+
+  it('should format status correctly for an episode if syncPodcasts is true', async () => {
+    const user = {
+      id: 'u1',
+      slackUserId: 'A',
+      statusEmoji: ':headphones:',
+      statusFormat: '{song}',
+      syncPodcasts: true,
+      podcastStatusFormat: '{podcast name} - {episode title}',
+      podcastStatusEmoji: ':microphone:',
+      podcastPausedEmoji: ':double_vertical_bar:',
+    } as User;
+
+    mockUserService.getActiveUsers.mockResolvedValue([user]);
+    mockSpotify.getCurrentlyPlaying.mockResolvedValue({
+      isPlaying: true,
+      songName: 'Episode 1',
+      artistName: 'Podcast A',
+      type: 'episode',
+    });
+
+    await service.syncNow();
+
+    expect(mockSlack.setStatus).toHaveBeenCalledWith(user, 'Podcast A - Episode 1', ':microphone:');
+    expect(mockSlack.clearStatus).not.toHaveBeenCalled();
+  });
 });

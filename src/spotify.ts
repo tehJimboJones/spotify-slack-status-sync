@@ -12,6 +12,7 @@ export interface TrackState {
   isPlaying: boolean;
   songName?: string;
   artistName?: string;
+  type?: 'track' | 'episode';
 }
 
 /**

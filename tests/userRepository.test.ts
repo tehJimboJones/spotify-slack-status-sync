@@ -48,6 +48,10 @@ describe('MockUserRepository', () => {
       spotifyRefreshToken: 'mock_spotify_token',
       isSyncActive: true,
       statusEmoji: ':headphones:',
+      syncPodcasts: false,
+      podcastStatusFormat: '{podcast name} - {episode title}',
+      podcastStatusEmoji: ':microphone:',
+      podcastPausedEmoji: ':double_vertical_bar:',
     });
   });
 

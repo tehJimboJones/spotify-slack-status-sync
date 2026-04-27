@@ -91,24 +91,39 @@ export class SyncService implements ISyncService {
       for (const user of activeUsers) {
         const track = await this.spotify.getCurrentlyPlaying(user);
         const stateStr = track
-          ? `${track.isPlaying ? 'playing' : 'paused'}:${track.songName}:${track.artistName}`
+          ? `${track.isPlaying ? 'playing' : 'paused'}:${track.type || 'track'}:${track.songName}:${track.artistName}`
           : '';
 
         const lastStateStr = this.userStates.get(user.id) ?? null;
 
         if (stateStr !== lastStateStr) {
           if (track) {
-            const emoji = track.isPlaying ? user.statusEmoji : user.pausedEmoji;
-            let statusText = user.statusFormat;
+            if (track.type === 'episode' && !user.syncPodcasts) {
+              await this.slack.clearStatus(user);
+            } else {
+              const isEpisode = track.type === 'episode';
 
-            if (track.songName) {
-              statusText = statusText.replace('{song}', track.songName);
-            }
-            if (track.artistName) {
-              statusText = statusText.replace('{artist}', track.artistName);
-            }
+              let emoji: string;
+              if (isEpisode) {
+                emoji = track.isPlaying ? user.podcastStatusEmoji : user.podcastPausedEmoji;
+              } else {
+                emoji = track.isPlaying ? user.statusEmoji : user.pausedEmoji;
+              }
 
-            await this.slack.setStatus(user, statusText, emoji);
+              let statusText = isEpisode ? user.podcastStatusFormat : user.statusFormat;
+
+              if (isEpisode) {
+                if (track.artistName)
+                  statusText = statusText.replace('{podcast name}', track.artistName);
+                if (track.songName)
+                  statusText = statusText.replace('{episode title}', track.songName);
+              } else {
+                if (track.songName) statusText = statusText.replace('{song}', track.songName);
+                if (track.artistName) statusText = statusText.replace('{artist}', track.artistName);
+              }
+
+              await this.slack.setStatus(user, statusText, emoji);
+            }
           } else {
             await this.slack.clearStatus(user);
           }

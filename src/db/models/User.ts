@@ -59,4 +59,32 @@ export class UserModel extends Model<UserModel> implements User {
     allowNull: false,
   })
   declare pausedEmoji: string;
+
+  @Default(false)
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+  })
+  declare syncPodcasts: boolean;
+
+  @Default('{podcast name} - {episode title}')
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare podcastStatusFormat: string;
+
+  @Default(':microphone:')
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare podcastStatusEmoji: string;
+
+  @Default(':double_vertical_bar:')
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare podcastPausedEmoji: string;
 }

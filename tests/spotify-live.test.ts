@@ -76,7 +76,7 @@ describe('Live SpotifyService', () => {
 
     expect(mockedAxios.post).toHaveBeenCalledTimes(1); // Token refresh
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://api.spotify.com/v1/me/player/currently-playing',
+      'https://api.spotify.com/v1/me/player/currently-playing?additional_types=episode',
       { headers: { Authorization: 'Bearer new_access_token' } },
     );
 
@@ -84,6 +84,7 @@ describe('Live SpotifyService', () => {
       isPlaying: true,
       songName: 'Test Song',
       artistName: 'Test Artist',
+      type: 'track',
     });
   });
 
@@ -106,7 +107,7 @@ describe('Live SpotifyService', () => {
 
     await service.getCurrentlyPlaying(mockUser); // Should use cached token
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://api.spotify.com/v1/me/player/currently-playing',
+      'https://api.spotify.com/v1/me/player/currently-playing?additional_types=episode',
       {
         headers: {
           Authorization: 'Bearer new_access_token',
@@ -132,5 +133,38 @@ describe('Live SpotifyService', () => {
 
     const track = await service.getCurrentlyPlaying(mockUser);
     expect(track).toBeNull();
+  });
+
+  it('should fetch and parse an episode correctly', async () => {
+    const mockUser = {
+      id: 'u1',
+      spotifyRefreshToken: 'token',
+      slackUserId: 'test',
+    } as unknown as User;
+
+    mockedAxios.post.mockResolvedValueOnce({
+      data: { access_token: 'new_access_token', expires_in: 3600 },
+    });
+
+    mockedAxios.get.mockResolvedValueOnce({
+      status: 200,
+      data: {
+        is_playing: true,
+        item: {
+          type: 'episode',
+          name: 'Test Episode',
+          show: { name: 'Test Podcast' },
+        },
+      },
+    });
+
+    const track = await service.getCurrentlyPlaying(mockUser);
+
+    expect(track).toEqual({
+      isPlaying: true,
+      songName: 'Test Episode',
+      artistName: 'Test Podcast',
+      type: 'episode',
+    });
   });
 });

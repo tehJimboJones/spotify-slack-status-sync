@@ -38,6 +38,10 @@ describe('SequelizeUserRepository', () => {
       statusFormat: '{song}',
       statusEmoji: ':emoji:',
       pausedEmoji: ':pause:',
+      syncPodcasts: false,
+      podcastStatusFormat: '{podcast name} - {episode title}',
+      podcastStatusEmoji: ':microphone:',
+      podcastPausedEmoji: ':double_vertical_bar:',
     });
 
     expect(createdUser.id).toBeDefined();
@@ -45,6 +49,10 @@ describe('SequelizeUserRepository', () => {
     const foundUser = await repository.findById(createdUser.id);
     expect(foundUser).not.toBeNull();
     expect(foundUser?.slackUserId).toBe('U_TEST');
+    expect(foundUser?.syncPodcasts).toBe(false);
+    expect(foundUser?.podcastStatusFormat).toBe('{podcast name} - {episode title}');
+    expect(foundUser?.podcastStatusEmoji).toBe(':microphone:');
+    expect(foundUser?.podcastPausedEmoji).toBe(':double_vertical_bar:');
   });
 
   it('should find a user by Slack ID', async () => {
@@ -56,6 +64,10 @@ describe('SequelizeUserRepository', () => {
       statusFormat: '{song}',
       statusEmoji: ':emoji:',
       pausedEmoji: ':pause:',
+      syncPodcasts: false,
+      podcastStatusFormat: '{podcast name} - {episode title}',
+      podcastStatusEmoji: ':microphone:',
+      podcastPausedEmoji: ':double_vertical_bar:',
     });
 
     const foundUser = await repository.findBySlackId('U_SLACK');
@@ -72,6 +84,10 @@ describe('SequelizeUserRepository', () => {
       statusFormat: '{song}',
       statusEmoji: ':emoji:',
       pausedEmoji: ':pause:',
+      syncPodcasts: false,
+      podcastStatusFormat: '{podcast name} - {episode title}',
+      podcastStatusEmoji: ':microphone:',
+      podcastPausedEmoji: ':double_vertical_bar:',
     });
 
     await repository.update('U_UPDATE', { isSyncActive: false });
@@ -89,6 +105,10 @@ describe('SequelizeUserRepository', () => {
       statusFormat: '{song}',
       statusEmoji: ':emoji:',
       pausedEmoji: ':pause:',
+      syncPodcasts: false,
+      podcastStatusFormat: '{podcast name} - {episode title}',
+      podcastStatusEmoji: ':microphone:',
+      podcastPausedEmoji: ':double_vertical_bar:',
     });
 
     await repository.create({
@@ -99,6 +119,10 @@ describe('SequelizeUserRepository', () => {
       statusFormat: '{song}',
       statusEmoji: ':emoji:',
       pausedEmoji: ':pause:',
+      syncPodcasts: false,
+      podcastStatusFormat: '{podcast name} - {episode title}',
+      podcastStatusEmoji: ':microphone:',
+      podcastPausedEmoji: ':double_vertical_bar:',
     });
 
     const users = await repository.findAll();

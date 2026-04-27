@@ -92,11 +92,21 @@ export class SlackService implements ISlackService {
       const statusEmoji = values.status_emoji_block.status_emoji.value;
       const pausedEmoji = values.paused_emoji_block.paused_emoji.value;
 
+      const syncPodcasts =
+        (values.sync_podcasts_block?.sync_podcasts?.selected_options?.length || 0) > 0;
+      const podcastStatusFormat = values.podcast_status_format_block?.podcast_status_format?.value;
+      const podcastStatusEmoji = values.podcast_status_emoji_block?.podcast_status_emoji?.value;
+      const podcastPausedEmoji = values.podcast_paused_emoji_block?.podcast_paused_emoji?.value;
+
       if (this.userService) {
         await this.userService.upsertUser(slackUserId, {
           statusFormat: statusFormat || undefined,
           statusEmoji: statusEmoji || undefined,
           pausedEmoji: pausedEmoji || undefined,
+          syncPodcasts: syncPodcasts,
+          podcastStatusFormat: podcastStatusFormat || undefined,
+          podcastStatusEmoji: podcastStatusEmoji || undefined,
+          podcastPausedEmoji: podcastPausedEmoji || undefined,
         });
       }
     });
@@ -226,6 +236,65 @@ export class SlackService implements ISlackService {
                 initial_value: currentSettings.pausedEmoji || ':double_vertical_bar:',
               },
               label: { type: 'plain_text', text: 'Paused Emoji' },
+            },
+            {
+              type: 'input',
+              block_id: 'sync_podcasts_block',
+              optional: true,
+              element: {
+                type: 'checkboxes',
+                action_id: 'sync_podcasts',
+                initial_options: currentSettings.syncPodcasts
+                  ? [
+                      {
+                        text: { type: 'plain_text', text: 'Sync Podcasts' },
+                        value: 'true',
+                      },
+                    ]
+                  : undefined,
+                options: [
+                  {
+                    text: { type: 'plain_text', text: 'Sync Podcasts' },
+                    value: 'true',
+                  },
+                ],
+              },
+              label: { type: 'plain_text', text: 'Podcasts' },
+            },
+            {
+              type: 'input',
+              block_id: 'podcast_status_format_block',
+              element: {
+                type: 'plain_text_input',
+                action_id: 'podcast_status_format',
+                initial_value:
+                  currentSettings.podcastStatusFormat || '{podcast name} - {episode title}',
+              },
+              label: { type: 'plain_text', text: 'Podcast Status Format' },
+              hint: {
+                type: 'plain_text',
+                text: 'Use {podcast name} and {episode title} as placeholders.',
+              },
+            },
+            {
+              type: 'input',
+              block_id: 'podcast_status_emoji_block',
+              element: {
+                type: 'plain_text_input',
+                action_id: 'podcast_status_emoji',
+                initial_value: currentSettings.podcastStatusEmoji || ':microphone:',
+              },
+              label: { type: 'plain_text', text: 'Podcast Playing Emoji' },
+            },
+            {
+              type: 'input',
+              block_id: 'podcast_paused_emoji_block',
+              element: {
+                type: 'plain_text_input',
+                action_id: 'podcast_paused_emoji',
+                initial_value: currentSettings.podcastPausedEmoji || ':double_vertical_bar:',
+              },
+              label: { type: 'plain_text', text: 'Podcast Paused Emoji' },
             },
           ],
         },
