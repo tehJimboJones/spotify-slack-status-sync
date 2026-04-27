@@ -5,7 +5,8 @@
 import { App } from '@slack/bolt';
 import { AppConfig } from './config';
 import { ICommandListener } from './command';
-import { User, IUserService } from './user';
+import { User } from './user';
+import { IViewListener } from './view';
 
 /**
  * Interface defining the operations for interacting with Slack.
@@ -44,6 +45,13 @@ export interface ISlackService {
   registerCommandListener(listener: ICommandListener): void;
 
   /**
+   * Registers a view listener with the underlying Bolt app.
+   *
+   * @param listener - The view listener to register.
+   */
+  registerViewListener(listener: IViewListener): void;
+
+  /**
    * Opens the settings modal for a user.
    */
   openSettingsModal(
@@ -63,52 +71,24 @@ export class SlackService implements ISlackService {
    * Constructs a new SlackService instance.
    *
    * @param config - The application configuration containing Slack credentials.
-   * @param userService - The user service for saving settings.
    */
-  constructor(
-    private config: AppConfig,
-    private userService?: IUserService,
-  ) {
+  constructor(private config: AppConfig) {
     this.app = new App({
       token: config.slack.userToken,
       signingSecret: config.slack.signingSecret,
       appToken: config.slack.appToken,
       socketMode: !!config.slack.appToken,
     });
-
-    if (this.userService) {
-      this.registerViewListeners();
-    }
   }
 
-  private registerViewListeners(): void {
-    this.app.view('settings_modal', async ({ ack, body, view }) => {
-      await ack();
-
-      const slackUserId = body.user.id;
-      const values = view.state.values;
-
-      const statusFormat = values.status_format_block.status_format.value;
-      const statusEmoji = values.status_emoji_block.status_emoji.value;
-      const pausedEmoji = values.paused_emoji_block.paused_emoji.value;
-
-      const syncPodcasts =
-        (values.sync_podcasts_block?.sync_podcasts?.selected_options?.length || 0) > 0;
-      const podcastStatusFormat = values.podcast_status_format_block?.podcast_status_format?.value;
-      const podcastStatusEmoji = values.podcast_status_emoji_block?.podcast_status_emoji?.value;
-      const podcastPausedEmoji = values.podcast_paused_emoji_block?.podcast_paused_emoji?.value;
-
-      if (this.userService) {
-        await this.userService.upsertUser(slackUserId, {
-          statusFormat: statusFormat || undefined,
-          statusEmoji: statusEmoji || undefined,
-          pausedEmoji: pausedEmoji || undefined,
-          syncPodcasts: syncPodcasts,
-          podcastStatusFormat: podcastStatusFormat || undefined,
-          podcastStatusEmoji: podcastStatusEmoji || undefined,
-          podcastPausedEmoji: podcastPausedEmoji || undefined,
-        });
-      }
+  /**
+   * Registers a view listener.
+   *
+   * @param listener - The view listener to register.
+   */
+  public registerViewListener(listener: IViewListener): void {
+    this.app.view(listener.viewCallbackId, async ({ ack, body, view }) => {
+      await listener.handle({ ack, body, view });
     });
   }
 

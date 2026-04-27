@@ -8,6 +8,7 @@ import { SlackService } from './slack';
 import { SyncService } from './sync';
 import { CommandListenerService } from './command';
 import { UserService } from './user';
+import { SettingsModalViewListener } from './view';
 import { getDbConnection } from './db/connection';
 import { SequelizeUserRepository } from './db/repositories/UserRepository';
 import express from 'express';
@@ -34,11 +35,13 @@ async function bootstrap() {
 
     // Initialize core services
     const spotify = new SpotifyService(config);
-    const slack = new SlackService(config, userService);
+    const slack = new SlackService(config);
     const syncService = new SyncService(spotify, slack, userService, config);
     const commandListener = new CommandListenerService(userService, slack, config);
 
     slack.registerCommandListener(commandListener);
+    const settingsModalViewListener = new SettingsModalViewListener(userService);
+    slack.registerViewListener(settingsModalViewListener);
 
     // Start the Slack Bolt app to listen for commands
     await slack.start();

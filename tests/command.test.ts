@@ -22,6 +22,7 @@ describe('CommandListenerService', () => {
       clearStatus: jest.fn().mockResolvedValue(undefined),
       start: jest.fn().mockResolvedValue(undefined),
       registerCommandListener: jest.fn(),
+      registerViewListener: jest.fn(),
       openSettingsModal: jest.fn().mockResolvedValue(undefined),
     };
     mockConfig = { bot: { baseUrl: 'http://localhost:3000' } } as unknown as AppConfig;

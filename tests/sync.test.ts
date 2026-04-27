@@ -23,6 +23,7 @@ describe('SyncService', () => {
       clearStatus: jest.fn().mockResolvedValue(undefined),
       start: jest.fn().mockResolvedValue(undefined),
       registerCommandListener: jest.fn(),
+      registerViewListener: jest.fn(),
       openSettingsModal: jest.fn(),
     };
 

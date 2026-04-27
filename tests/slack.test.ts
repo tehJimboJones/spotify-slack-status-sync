@@ -1,7 +1,7 @@
 import { SlackService } from '../src/slack';
 import { AppConfig } from '../src/config';
 import { App } from '@slack/bolt';
-import { User, IUserService } from '../src/user';
+import { User } from '../src/user';
 
 // Mock the @slack/bolt module
 jest.mock('@slack/bolt', () => {
@@ -25,7 +25,6 @@ jest.mock('@slack/bolt', () => {
 
 describe('SlackService', () => {
   let mockConfig: AppConfig;
-  let mockUserService: jest.Mocked<IUserService>;
   let service: SlackService;
 
   beforeEach(() => {
@@ -63,14 +62,7 @@ describe('SlackService', () => {
     // Clear all mocks before each test
     jest.clearAllMocks();
 
-    mockUserService = {
-      getUser: jest.fn(),
-      getActiveUsers: jest.fn(),
-      toggleUserSync: jest.fn(),
-      upsertUser: jest.fn().mockResolvedValue(undefined),
-    };
-
-    service = new SlackService(mockConfig, mockUserService);
+    service = new SlackService(mockConfig);
   });
 
   it('should initialize the bolt app with the correct credentials', () => {
@@ -163,43 +155,15 @@ describe('SlackService', () => {
     );
   });
 
-  it('should parse view submission and pass podcast values to upsertUser', async () => {
-    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
-
-    // Simulate Bolt passing a view handler to the registered listener
-    const viewCall = mockedAppInstance.view.mock.calls.find(
-      (c: [string, (...args: unknown[]) => unknown]) => c[0] === 'settings_modal',
-    );
-    expect(viewCall).toBeDefined();
-
-    const handler = viewCall[1];
-    const mockAck = jest.fn();
-    const mockBody = { user: { id: 'U1' } };
-    const mockView = {
-      state: {
-        values: {
-          status_format_block: { status_format: { value: '{song}' } },
-          status_emoji_block: { status_emoji: { value: ':playing:' } },
-          paused_emoji_block: { paused_emoji: { value: ':paused:' } },
-          sync_podcasts_block: { sync_podcasts: { selected_options: [{ value: 'true' }] } },
-          podcast_status_format_block: { podcast_status_format: { value: '{podcast}' } },
-          podcast_status_emoji_block: { podcast_status_emoji: { value: ':mic:' } },
-          podcast_paused_emoji_block: { podcast_paused_emoji: { value: ':stop:' } },
-        },
-      },
+  it('should register view listener', () => {
+    const mockListener = {
+      viewCallbackId: 'test_modal',
+      handle: jest.fn(),
     };
 
-    await handler({ ack: mockAck, body: mockBody, view: mockView });
+    service.registerViewListener(mockListener);
 
-    expect(mockAck).toHaveBeenCalled();
-    expect(mockUserService.upsertUser).toHaveBeenCalledWith('U1', {
-      statusFormat: '{song}',
-      statusEmoji: ':playing:',
-      pausedEmoji: ':paused:',
-      syncPodcasts: true,
-      podcastStatusFormat: '{podcast}',
-      podcastStatusEmoji: ':mic:',
-      podcastPausedEmoji: ':stop:',
-    });
+    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+    expect(mockedAppInstance.view).toHaveBeenCalledWith('test_modal', expect.any(Function));
   });
 });
