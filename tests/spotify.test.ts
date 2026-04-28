@@ -1,5 +1,5 @@
-import { MockSpotifyService } from '../src/spotify';
-import { User } from '../src/user';
+import { MockSpotifyService } from '../src/services/spotify/mock-spotify.service';
+import { User } from '../src/services/user/types';
 
 describe('MockSpotifyService', () => {
   const mockUser = { slackUserId: 'test-user' } as User;

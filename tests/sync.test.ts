@@ -1,14 +1,14 @@
-import { SyncService } from '../src/sync';
-import { ISpotifyService } from '../src/spotify';
-import { ISlackService } from '../src/slack';
-import { AppConfig } from '../src/config';
-import { IUserService, User } from '../src/user';
+import { SyncService } from '../src/services/sync/sync.service';
+import { ISpotifyService } from '../src/services/spotify/types';
+import { ISlackService } from '../src/services/slack/types';
+import { IConfigService } from '../src/services/config/types';
+import { IUserService, User } from '../src/services/user/types';
 
 describe('SyncService', () => {
   let mockSpotify: jest.Mocked<ISpotifyService>;
   let mockSlack: jest.Mocked<ISlackService>;
   let mockUserService: jest.Mocked<IUserService>;
-  let mockConfig: AppConfig;
+  let mockConfig: IConfigService;
   let service: SyncService;
 
   beforeEach(() => {
@@ -35,35 +35,35 @@ describe('SyncService', () => {
     };
 
     mockConfig = {
-      spotify: {
+      getSpotifyConfig: () => ({
         clientId: 'id',
         clientSecret: 'secret',
         redirectUri: 'uri',
         refreshToken: 'token',
-      },
-      slack: {
+      }),
+      getSlackConfig: () => ({
         clientId: 'slack-id',
         clientSecret: 'slack-secret',
         userToken: 'xoxp-test',
         signingSecret: 'secret',
-      },
-      bot: {
+      }),
+      getBotConfig: () => ({
         baseUrl: 'http://localhost:3000',
         pollIntervalMs: 60000,
         statusEmoji: ':headphones:',
         pausedEmoji: ':double_vertical_bar:',
         statusFormat: '{song} - {artist}',
         port: 3000,
-      },
-      db: {
+      }),
+      getDbConfig: () => ({
         dialect: 'sqlite',
         host: 'localhost',
         port: 3306,
         user: 'root',
         pass: '',
         name: 'test',
-      },
-    };
+      }),
+    } as unknown as IConfigService;
 
     service = new SyncService(mockSpotify, mockSlack, mockUserService, mockConfig);
   });

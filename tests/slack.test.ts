@@ -1,7 +1,7 @@
-import { SlackService } from '../src/slack';
-import { AppConfig } from '../src/config';
+import { SlackService } from '../src/services/slack/slack.service';
+import { IConfigService } from '../src/services/config/types';
 import { App } from '@slack/bolt';
-import { User } from '../src/user';
+import { User } from '../src/services/user/types';
 
 // Mock the @slack/bolt module
 jest.mock('@slack/bolt', () => {
@@ -24,40 +24,40 @@ jest.mock('@slack/bolt', () => {
 });
 
 describe('SlackService', () => {
-  let mockConfig: AppConfig;
+  let mockConfig: IConfigService;
   let service: SlackService;
 
   beforeEach(() => {
     mockConfig = {
-      spotify: {
+      getSpotifyConfig: () => ({
         clientId: 'id',
         clientSecret: 'secret',
         redirectUri: 'uri',
         refreshToken: 'token',
-      },
-      slack: {
+      }),
+      getSlackConfig: () => ({
         clientId: 'slack-id',
         clientSecret: 'slack-secret',
         userToken: 'xoxp-test',
         signingSecret: 'secret',
-      },
-      bot: {
+      }),
+      getBotConfig: () => ({
         baseUrl: 'http://localhost:3000',
         pollIntervalMs: 60000,
         statusEmoji: ':headphones:',
         pausedEmoji: ':pause:',
         statusFormat: '{song} - {artist}',
         port: 3000,
-      },
-      db: {
+      }),
+      getDbConfig: () => ({
         dialect: 'sqlite',
         host: 'localhost',
         port: 3306,
         user: 'root',
         pass: '',
         name: 'test',
-      },
-    };
+      }),
+    } as unknown as IConfigService;
 
     // Clear all mocks before each test
     jest.clearAllMocks();

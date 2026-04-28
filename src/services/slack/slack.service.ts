@@ -1,105 +1,28 @@
-/**
- * Slack service module.
- * Provides integration with the Slack API to update user profile status.
- */
 import { App } from '@slack/bolt';
-import { AppConfig } from './config';
-import { ICommandListener } from './command';
-import { User } from './user';
-import { IViewListener } from './view';
+import { IConfigService } from '../config/types';
+import { User } from '../user/types';
+import { ICommandListener } from './command/types';
+import { IViewListener } from './view/types';
+import { ISlackService } from './types';
 
-/**
- * Interface defining the operations for interacting with Slack.
- */
-export interface ISlackService {
-  /**
-   * Sets the user's Slack status.
-   *
-   * @param user - The user whose status is being updated.
-   * @param text - The status text to display.
-   * @param emoji - The emoji to display next to the status.
-   * @returns A promise that resolves when the status is set.
-   */
-  setStatus(user: User, text: string, emoji: string): Promise<void>;
-
-  /**
-   * Clears the user's Slack status.
-   *
-   * @param user - The user whose status is being cleared.
-   * @returns A promise that resolves when the status is cleared.
-   */
-  clearStatus(user: User): Promise<void>;
-
-  /**
-   * Starts the Bolt app listener to receive incoming commands/events.
-   *
-   * @returns A promise that resolves when the app is started.
-   */
-  start(): Promise<void>;
-
-  /**
-   * Registers a slash command listener with the underlying Bolt app.
-   *
-   * @param listener - The listener to register.
-   */
-  registerCommandListener(listener: ICommandListener): void;
-
-  /**
-   * Registers a view listener with the underlying Bolt app.
-   *
-   * @param listener - The view listener to register.
-   */
-  registerViewListener(listener: IViewListener): void;
-
-  /**
-   * Opens the settings modal for a user.
-   */
-  openSettingsModal(
-    triggerId: string,
-    userId: string,
-    currentSettings: Partial<User>,
-  ): Promise<void>;
-}
-
-/**
- * Implementation of the Slack service using the @slack/bolt framework.
- */
 export class SlackService implements ISlackService {
   private app: App;
 
-  /**
-   * Constructs a new SlackService instance.
-   *
-   * @param config - The application configuration containing Slack credentials.
-   */
-  constructor(private config: AppConfig) {
+  constructor(private configService: IConfigService) {
     this.app = new App({
-      token: config.slack.userToken,
-      signingSecret: config.slack.signingSecret,
-      appToken: config.slack.appToken,
-      socketMode: !!config.slack.appToken,
+      token: configService.getSlackConfig().userToken,
+      signingSecret: configService.getSlackConfig().signingSecret,
+      appToken: configService.getSlackConfig().appToken,
+      socketMode: !!configService.getSlackConfig().appToken,
     });
   }
 
-  /**
-   * Registers a view listener.
-   *
-   * @param listener - The view listener to register.
-   */
   public registerViewListener(listener: IViewListener): void {
     this.app.view(listener.viewCallbackId, async ({ ack, body, view }) => {
       await listener.handle({ ack, body, view });
     });
   }
 
-  /**
-   * Sets the user's Slack status.
-   *
-   * @param user - The user whose status is being updated.
-   * @param text - The status text to display.
-   * @param emoji - The emoji to display next to the status.
-   * @returns A promise that resolves when the status is set.
-   */
   public async setStatus(user: User, text: string, emoji: string): Promise<void> {
     try {
       await this.app.client.users.profile.set({
@@ -116,12 +39,6 @@ export class SlackService implements ISlackService {
     }
   }
 
-  /**
-   * Clears the user's Slack status.
-   *
-   * @param user - The user whose status is being cleared.
-   * @returns A promise that resolves when the status is cleared.
-   */
   public async clearStatus(user: User): Promise<void> {
     try {
       await this.app.client.users.profile.set({
@@ -138,21 +55,11 @@ export class SlackService implements ISlackService {
     }
   }
 
-  /**
-   * Starts the Bolt app listener.
-   *
-   * @returns A promise that resolves when the app is started.
-   */
   public async start(): Promise<void> {
-    await this.app.start(this.config.bot.port);
-    console.log(`Slack Bolt app started on port ${this.config.bot.port}`);
+    await this.app.start(this.configService.getBotConfig().port);
+    console.log(`Slack Bolt app started on port ${this.configService.getBotConfig().port}`);
   }
 
-  /**
-   * Registers a command listener.
-   *
-   * @param listener - The command listener to register.
-   */
   public registerCommandListener(listener: ICommandListener): void {
     this.app.command(listener.commandName, async ({ command, ack, respond }) => {
       await ack();
@@ -167,9 +74,6 @@ export class SlackService implements ISlackService {
     });
   }
 
-  /**
-   * Opens the settings modal.
-   */
   public async openSettingsModal(
     triggerId: string,
     userId: string,

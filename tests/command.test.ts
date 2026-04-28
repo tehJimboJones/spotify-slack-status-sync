@@ -1,13 +1,13 @@
-import { CommandListenerService } from '../src/command';
-import { IUserService } from '../src/user';
-import { UserNotFoundError } from '../src/errors';
-import { ISlackService } from '../src/slack';
-import { AppConfig } from '../src/config';
+import { CommandListenerService } from '../src/services/slack/command/command-listener.service';
+import { IUserService } from '../src/services/user/types';
+import { UserNotFoundError } from '../src/services/user/errors';
+import { ISlackService } from '../src/services/slack/types';
+import { IConfigService } from '../src/services/config/types';
 
 describe('CommandListenerService', () => {
   let mockUserService: jest.Mocked<IUserService>;
   let mockSlackService: jest.Mocked<ISlackService>;
-  let mockConfig: AppConfig;
+  let mockConfig: IConfigService;
   let commandListener: CommandListenerService;
 
   beforeEach(() => {
@@ -25,7 +25,9 @@ describe('CommandListenerService', () => {
       registerViewListener: jest.fn(),
       openSettingsModal: jest.fn().mockResolvedValue(undefined),
     };
-    mockConfig = { bot: { baseUrl: 'http://localhost:3000' } } as unknown as AppConfig;
+    mockConfig = {
+      getBotConfig: () => ({ baseUrl: 'http://localhost:3000' }),
+    } as unknown as IConfigService;
 
     commandListener = new CommandListenerService(mockUserService, mockSlackService, mockConfig);
   });

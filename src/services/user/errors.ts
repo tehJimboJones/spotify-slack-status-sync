@@ -1,5 +1,5 @@
 /**
- * Custom error classes for the application.
+ * Custom error classes for the user service.
  */
 
 export class UserNotFoundError extends Error {

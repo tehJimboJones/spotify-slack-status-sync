@@ -1,5 +1,6 @@
-import { SettingsModalViewListener, IViewContext } from '../src/view';
-import { IUserService } from '../src/user';
+import { SettingsModalViewListener } from '../src/services/slack/view/settings-modal-view-listener.service';
+import { IViewContext } from '../src/services/slack/view/types';
+import { IUserService } from '../src/services/user/types';
 import { SlackViewAction, ViewOutput } from '@slack/bolt';
 
 describe('SettingsModalViewListener', () => {

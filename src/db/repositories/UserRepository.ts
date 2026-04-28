@@ -1,4 +1,4 @@
-import { IUserRepository, User } from '../../user';
+import { IUserRepository, User } from '../../services/user/types';
 import { UserModel } from '../models/User';
 
 /**

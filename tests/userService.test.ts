@@ -1,5 +1,6 @@
-import { UserService, IUserRepository, User } from '../src/user';
-import { UserNotFoundError } from '../src/errors';
+import { UserService } from '../src/services/user/user.service';
+import { IUserRepository, User } from '../src/services/user/types';
+import { UserNotFoundError } from '../src/services/user/errors';
 
 describe('UserService', () => {
   let mockRepository: jest.Mocked<IUserRepository>;

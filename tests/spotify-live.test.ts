@@ -1,46 +1,46 @@
 import axios from 'axios';
-import { SpotifyService } from '../src/spotify-live';
-import { AppConfig } from '../src/config';
-import { User } from '../src/user';
+import { SpotifyService } from '../src/services/spotify/spotify.service';
+import { IConfigService } from '../src/services/config/types';
+import { User } from '../src/services/user/types';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('Live SpotifyService', () => {
-  let mockConfig: AppConfig;
+  let mockConfig: IConfigService;
   let service: SpotifyService;
 
   beforeEach(() => {
     mockConfig = {
-      spotify: {
+      getSpotifyConfig: () => ({
         clientId: 'test_client',
         clientSecret: 'test_secret',
         redirectUri: 'uri',
         refreshToken: 'test_refresh_token',
-      },
-      slack: {
+      }),
+      getSlackConfig: () => ({
         clientId: 'slack-id',
         clientSecret: 'slack-secret',
         userToken: '',
         signingSecret: '',
-      },
-      bot: {
+      }),
+      getBotConfig: () => ({
         baseUrl: 'http://localhost:3000',
         pollIntervalMs: 60000,
         statusEmoji: ':headphones:',
         pausedEmoji: ':pause:',
         statusFormat: '{song} - {artist}',
         port: 3000,
-      },
-      db: {
+      }),
+      getDbConfig: () => ({
         dialect: 'sqlite',
         host: 'localhost',
         port: 3306,
         user: 'root',
         pass: '',
         name: 'test',
-      },
-    };
+      }),
+    } as unknown as IConfigService;
 
     service = new SpotifyService(mockConfig);
     jest.clearAllMocks();

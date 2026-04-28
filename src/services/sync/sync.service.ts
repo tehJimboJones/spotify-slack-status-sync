@@ -1,62 +1,32 @@
-/**
- * Synchronization service module.
- * Orchestrates the polling of Spotify and updating of Slack.
- */
-import { AppConfig } from './config';
-import { ISpotifyService } from './spotify';
-import { ISlackService } from './slack';
-import { IUserService } from './user';
+import { IConfigService } from '../config/types';
+import { ISpotifyService } from '../spotify/types';
+import { ISlackService } from '../slack/types';
+import { IUserService } from '../user/types';
+import { ISyncService } from './types';
 
-/**
- * Interface defining the operations for the synchronization service.
- */
-export interface ISyncService {
-  /** Starts the synchronization polling loop. */
-  start(): void;
-  /** Stops the synchronization polling loop. */
-  stop(): void;
-  /** Performs an immediate synchronization check. */
-  syncNow(): Promise<void>;
-}
-
-/**
- * Service responsible for syncing Spotify playback state to Slack status.
- */
 export class SyncService implements ISyncService {
   private timer: NodeJS.Timeout | null = null;
   private isRunning: boolean = false;
   private userStates: Map<string, string> = new Map();
 
-  /**
-   * Constructs a new SyncService.
-   *
-   * @param spotify - The Spotify service.
-   * @param slack - The Slack service.
-   * @param userService - The User service.
-   * @param config - The application configuration.
-   */
   constructor(
     private spotify: ISpotifyService,
     private slack: ISlackService,
     private userService: IUserService,
-    private config: AppConfig,
+    private configService: IConfigService,
   ) {}
 
-  /**
-   * Starts the polling loop to continuously synchronize state.
-   */
   public start(): void {
     if (this.isRunning) {
       return;
     }
     this.isRunning = true;
-    console.log(`SyncService started. Polling every ${this.config.bot.pollIntervalMs}ms.`);
+    console.log(
+      `SyncService started. Polling every ${this.configService.getBotConfig().pollIntervalMs}ms.`,
+    );
     this.runLoop();
   }
 
-  /**
-   * Stops the polling loop.
-   */
   public stop(): void {
     this.isRunning = false;
     if (this.timer) {
@@ -66,24 +36,19 @@ export class SyncService implements ISyncService {
     console.log('SyncService stopped.');
   }
 
-  /**
-   * Internal loop to execute sync and schedule the next execution.
-   */
   private async runLoop(): Promise<void> {
     if (!this.isRunning) return;
 
     await this.syncNow();
 
     if (this.isRunning) {
-      this.timer = setTimeout(() => this.runLoop(), this.config.bot.pollIntervalMs);
+      this.timer = setTimeout(
+        () => this.runLoop(),
+        this.configService.getBotConfig().pollIntervalMs,
+      );
     }
   }
 
-  /**
-   * Checks the current Spotify state and updates Slack if it has changed.
-   *
-   * @returns A promise that resolves when the sync is complete.
-   */
   public async syncNow(): Promise<void> {
     try {
       const activeUsers = await this.userService.getActiveUsers();

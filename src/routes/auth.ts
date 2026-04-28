@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import axios from 'axios';
-import { AppConfig } from '../config';
-import { IUserService } from '../user';
+import { IConfigService } from '../services/config/types';
+import { IUserService } from '../services/user/types';
 import * as crypto from 'crypto';
 
 interface SessionData {
@@ -13,7 +13,7 @@ interface SessionData {
 // In a production environment, this should be backed by Redis or a database.
 const sessionCache = new Map<string, SessionData>();
 
-export function createAuthRouter(config: AppConfig, userService: IUserService): Router {
+export function createAuthRouter(configService: IConfigService, userService: IUserService): Router {
   const router = Router();
 
   /**
@@ -27,9 +27,9 @@ export function createAuthRouter(config: AppConfig, userService: IUserService): 
       return;
     }
 
-    const redirectUri = `${config.bot.baseUrl}/auth/slack/callback`;
+    const redirectUri = `${configService.getBotConfig().baseUrl}/auth/slack/callback`;
     const slackAuthUrl = new URL('https://slack.com/oauth/v2/authorize');
-    slackAuthUrl.searchParams.append('client_id', config.slack.clientId);
+    slackAuthUrl.searchParams.append('client_id', configService.getSlackConfig().clientId);
     slackAuthUrl.searchParams.append('user_scope', 'users.profile:write');
     slackAuthUrl.searchParams.append('redirect_uri', redirectUri);
     // Pass the slackUserId through the state so we have it later if needed,
@@ -60,12 +60,12 @@ export function createAuthRouter(config: AppConfig, userService: IUserService): 
     }
 
     try {
-      const redirectUri = `${config.bot.baseUrl}/auth/slack/callback`;
+      const redirectUri = `${configService.getBotConfig().baseUrl}/auth/slack/callback`;
       const response = await axios.post(
         'https://slack.com/api/oauth.v2.access',
         new URLSearchParams({
-          client_id: config.slack.clientId,
-          client_secret: config.slack.clientSecret,
+          client_id: configService.getSlackConfig().clientId,
+          client_secret: configService.getSlackConfig().clientSecret,
           code,
           redirect_uri: redirectUri,
         }).toString(),
@@ -93,9 +93,12 @@ export function createAuthRouter(config: AppConfig, userService: IUserService): 
 
       // Redirect to Spotify OAuth
       const spotifyAuthUrl = new URL('https://accounts.spotify.com/authorize');
-      spotifyAuthUrl.searchParams.append('client_id', config.spotify.clientId);
+      spotifyAuthUrl.searchParams.append('client_id', configService.getSpotifyConfig().clientId);
       spotifyAuthUrl.searchParams.append('response_type', 'code');
-      spotifyAuthUrl.searchParams.append('redirect_uri', config.spotify.redirectUri);
+      spotifyAuthUrl.searchParams.append(
+        'redirect_uri',
+        configService.getSpotifyConfig().redirectUri,
+      );
       spotifyAuthUrl.searchParams.append('scope', 'user-read-currently-playing');
       spotifyAuthUrl.searchParams.append('state', sessionId);
 
@@ -137,7 +140,7 @@ export function createAuthRouter(config: AppConfig, userService: IUserService): 
 
     try {
       const authHeader = Buffer.from(
-        `${config.spotify.clientId}:${config.spotify.clientSecret}`,
+        `${configService.getSpotifyConfig().clientId}:${configService.getSpotifyConfig().clientSecret}`,
       ).toString('base64');
 
       const response = await axios.post(
@@ -145,7 +148,7 @@ export function createAuthRouter(config: AppConfig, userService: IUserService): 
         new URLSearchParams({
           grant_type: 'authorization_code',
           code,
-          redirect_uri: config.spotify.redirectUri,
+          redirect_uri: configService.getSpotifyConfig().redirectUri,
         }).toString(),
         {
           headers: {

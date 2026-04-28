@@ -1,44 +1,25 @@
-/**
- * Live Spotify service module.
- * Provides integration with the real Spotify API using OAuth 2.0.
- */
 import axios from 'axios';
-import { AppConfig } from './config';
-import { ISpotifyService, TrackState } from './spotify';
-import { User } from './user';
+import { IConfigService } from '../config/types';
+import { User } from '../user/types';
+import { ISpotifyService, TrackState } from './types';
 
-/**
- * Live implementation of the Spotify service.
- */
 export class SpotifyService implements ISpotifyService {
   private accessTokens: Map<string, string> = new Map();
   private tokenExpirations: Map<string, number> = new Map();
 
-  /**
-   * Constructs a new SpotifyService.
-   *
-   * @param config - The application configuration.
-   */
-  constructor(private config: AppConfig) {}
+  constructor(private configService: IConfigService) {}
 
-  /**
-   * Ensures the given user has a valid access token, refreshing if necessary.
-   * @param user - The user whose token we are checking.
-   * @returns The valid access token.
-   */
   private async ensureAccessToken(user: User): Promise<string> {
     const now = Date.now();
     const currentToken = this.accessTokens.get(user.id);
     const expiration = this.tokenExpirations.get(user.id) || 0;
 
-    // If we have a token and it hasn't expired (giving a 60s buffer), use it
     if (currentToken && now < expiration - 60000) {
       return currentToken;
     }
 
-    // Otherwise, refresh the token using the user's refresh token
     const authHeader = Buffer.from(
-      `${this.config.spotify.clientId}:${this.config.spotify.clientSecret}`,
+      `${this.configService.getSpotifyConfig().clientId}:${this.configService.getSpotifyConfig().clientSecret}`,
     ).toString('base64');
 
     try {
@@ -69,12 +50,6 @@ export class SpotifyService implements ISpotifyService {
     }
   }
 
-  /**
-   * Fetches the currently playing track from the live Spotify API for a given user.
-   *
-   * @param user - The user whose track we are fetching.
-   * @returns The track state or null if nothing is playing/valid.
-   */
   public async getCurrentlyPlaying(user: User): Promise<TrackState | null> {
     const token = await this.ensureAccessToken(user);
 
@@ -88,7 +63,6 @@ export class SpotifyService implements ISpotifyService {
         },
       );
 
-      // 204 No Content means nothing is currently playing
       if (response.status === 204 || !response.data || !response.data.item) {
         return null;
       }
@@ -99,7 +73,6 @@ export class SpotifyService implements ISpotifyService {
       let songName = 'Unknown Song';
       let artistName = 'Unknown Artist';
 
-      // The item can be a TrackObjectFull or EpisodeObjectFull
       if (item.type === 'track') {
         const track = item as SpotifyApi.TrackObjectFull;
         songName = track.name;

@@ -1,41 +1,41 @@
-import { MockUserRepository } from '../src/user';
-import { AppConfig } from '../src/config';
+import { MockUserRepository } from '../src/services/user/mock-user.repository';
+import { IConfigService } from '../src/services/config/types';
 
 describe('MockUserRepository', () => {
-  let mockConfig: AppConfig;
+  let mockConfig: IConfigService;
   let repository: MockUserRepository;
 
   beforeEach(() => {
     mockConfig = {
-      spotify: {
+      getSpotifyConfig: () => ({
         clientId: 'client_id',
         clientSecret: 'client_secret',
         redirectUri: 'uri',
         refreshToken: 'mock_spotify_token',
-      },
-      slack: {
+      }),
+      getSlackConfig: () => ({
         clientId: 'id',
         clientSecret: 'secret',
         userToken: 'mock_slack_token',
         signingSecret: 'secret',
-      },
-      bot: {
+      }),
+      getBotConfig: () => ({
         baseUrl: 'http://localhost:3000',
         pollIntervalMs: 60000,
         statusEmoji: ':headphones:',
         pausedEmoji: ':pause:',
         statusFormat: '{song}',
         port: 3000,
-      },
-      db: {
+      }),
+      getDbConfig: () => ({
         dialect: 'sqlite',
         host: 'localhost',
         port: 3306,
         user: 'root',
         pass: '',
         name: 'test',
-      },
-    };
+      }),
+    } as unknown as IConfigService;
 
     repository = new MockUserRepository(mockConfig);
   });

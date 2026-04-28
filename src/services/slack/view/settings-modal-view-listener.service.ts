@@ -1,46 +1,11 @@
-/**
- * View listening module.
- * Provides the interfaces and business logic for interacting with Slack views (modals).
- */
-import { IUserService } from './user';
-import { SlackViewAction, ViewOutput } from '@slack/bolt';
+import { IUserService } from '../../user/types';
+import { IViewContext, IViewListener } from './types';
 
-/**
- * Context payload injected into view handlers.
- */
-export interface IViewContext {
-  ack: () => Promise<void>;
-  body: SlackViewAction;
-  view: ViewOutput;
-}
-
-/**
- * Interface for view listener services.
- */
-export interface IViewListener {
-  viewCallbackId: string | RegExp;
-  handle(context: IViewContext): Promise<void>;
-}
-
-/**
- * Service to handle the settings_modal view submission.
- */
 export class SettingsModalViewListener implements IViewListener {
   public readonly viewCallbackId = 'settings_modal';
 
-  /**
-   * Constructs the SettingsModalViewListener.
-   *
-   * @param userService - The user service to save settings.
-   */
   constructor(private userService: IUserService) {}
 
-  /**
-   * Handles incoming view submissions.
-   *
-   * @param context - The view context.
-   * @returns A promise that resolves when the view is handled.
-   */
   public async handle(context: IViewContext): Promise<void> {
     await context.ack();
 

@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import { AppConfig } from '../config';
+import { IConfigService } from '../services/config/types';
 import { UserModel } from './models/User';
 
 let sequelizeInstance: Sequelize | null = null;
@@ -10,19 +10,21 @@ let sequelizeInstance: Sequelize | null = null;
  * @param config - The application configuration containing DB credentials.
  * @returns The authenticated Sequelize instance.
  */
-export function getDbConnection(config: AppConfig): Sequelize {
+export function getDbConnection(configService: IConfigService): Sequelize {
   if (sequelizeInstance) {
     return sequelizeInstance;
   }
 
+  const dbConfig = configService.getDbConfig();
+
   sequelizeInstance = new Sequelize({
-    dialect: config.db.dialect,
-    host: config.db.host,
-    port: config.db.port,
-    username: config.db.user,
-    password: config.db.pass,
-    database: config.db.name,
-    storage: config.db.storage,
+    dialect: dbConfig.dialect,
+    host: dbConfig.host,
+    port: dbConfig.port,
+    username: dbConfig.user,
+    password: dbConfig.pass,
+    database: dbConfig.name,
+    storage: dbConfig.storage,
     logging: false, // Set to console.log to see SQL queries
     models: [UserModel],
   });
