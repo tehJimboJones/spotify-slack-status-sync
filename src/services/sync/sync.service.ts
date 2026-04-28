@@ -3,6 +3,8 @@ import { ISpotifyService } from '../spotify/types';
 import { ISlackService } from '../slack/types';
 import { IUserService } from '../user/types';
 import { ISyncService } from './types';
+import { SlackStatusSetError } from '../slack/errors';
+import { SpotifyTokenRefreshError, SpotifyCurrentlyPlayingError } from '../spotify/errors';
 
 export class SyncService implements ISyncService {
   private timer: NodeJS.Timeout | null = null;
@@ -54,45 +56,101 @@ export class SyncService implements ISyncService {
       const activeUsers = await this.userService.getActiveUsers();
 
       for (const user of activeUsers) {
-        const track = await this.spotify.getCurrentlyPlaying(user);
-        const stateStr = track
-          ? `${track.isPlaying ? 'playing' : 'paused'}:${track.type || 'track'}:${track.songName}:${track.artistName}`
-          : '';
+        try {
+          const track = await this.spotify.getCurrentlyPlaying(user);
+          const stateStr = track
+            ? `${track.isPlaying ? 'playing' : 'paused'}:${track.type || 'track'}:${track.songName}:${track.artistName}`
+            : '';
 
-        const lastStateStr = this.userStates.get(user.id) ?? null;
+          const lastStateStr = this.userStates.get(user.id) ?? null;
 
-        if (stateStr !== lastStateStr) {
-          if (track) {
-            if (track.type === 'episode' && !user.syncPodcasts) {
-              await this.slack.clearStatus(user);
+          if (stateStr !== lastStateStr) {
+            if (track) {
+              if (track.type === 'episode' && !user.syncPodcasts) {
+                try {
+                  await this.slack.clearStatus(user);
+                } catch (error) {
+                  console.error(`Error clearing status for ${user.slackUserId}:`, error);
+                }
+              } else {
+                const isEpisode = track.type === 'episode';
+
+                let emoji: string;
+                if (isEpisode) {
+                  emoji = track.isPlaying ? user.podcastStatusEmoji : user.podcastPausedEmoji;
+                } else {
+                  emoji = track.isPlaying ? user.statusEmoji : user.pausedEmoji;
+                }
+
+                let statusText = isEpisode ? user.podcastStatusFormat : user.statusFormat;
+
+                if (isEpisode) {
+                  if (track.artistName)
+                    statusText = statusText.replace('{podcast name}', track.artistName);
+                  if (track.songName)
+                    statusText = statusText.replace('{episode title}', track.songName);
+                } else {
+                  if (track.songName) statusText = statusText.replace('{song}', track.songName);
+                  if (track.artistName)
+                    statusText = statusText.replace('{artist}', track.artistName);
+                }
+
+                try {
+                  await this.slack.setStatus(user, statusText, emoji);
+                } catch (error) {
+                  if (error instanceof SlackStatusSetError) {
+                    console.warn(
+                      `Failed to update Slack status for ${user.slackUserId} with emoji "${emoji}". Retrying with default emoji...`,
+                      error.message,
+                    );
+
+                    let defaultEmoji: string;
+                    if (isEpisode) {
+                      defaultEmoji = track.isPlaying ? ':microphone:' : ':double_vertical_bar:';
+                    } else {
+                      const botConfig = this.configService.getBotConfig();
+                      defaultEmoji = track.isPlaying
+                        ? botConfig.statusEmoji
+                        : botConfig.pausedEmoji;
+                    }
+
+                    try {
+                      await this.slack.setStatus(user, statusText, defaultEmoji);
+                      console.log(
+                        `Successfully updated Slack status for ${user.slackUserId} using fallback emoji.`,
+                      );
+                    } catch (fallbackError) {
+                      console.error(
+                        `Failed to update Slack status for ${user.slackUserId} even with fallback emoji:`,
+                        fallbackError instanceof Error ? fallbackError.message : fallbackError,
+                      );
+                    }
+                  } else {
+                    console.error(
+                      `Unexpected error updating status for ${user.slackUserId}:`,
+                      error,
+                    );
+                  }
+                }
+              }
             } else {
-              const isEpisode = track.type === 'episode';
-
-              let emoji: string;
-              if (isEpisode) {
-                emoji = track.isPlaying ? user.podcastStatusEmoji : user.podcastPausedEmoji;
-              } else {
-                emoji = track.isPlaying ? user.statusEmoji : user.pausedEmoji;
+              try {
+                await this.slack.clearStatus(user);
+              } catch (error) {
+                console.error(`Error clearing status for ${user.slackUserId}:`, error);
               }
-
-              let statusText = isEpisode ? user.podcastStatusFormat : user.statusFormat;
-
-              if (isEpisode) {
-                if (track.artistName)
-                  statusText = statusText.replace('{podcast name}', track.artistName);
-                if (track.songName)
-                  statusText = statusText.replace('{episode title}', track.songName);
-              } else {
-                if (track.songName) statusText = statusText.replace('{song}', track.songName);
-                if (track.artistName) statusText = statusText.replace('{artist}', track.artistName);
-              }
-
-              await this.slack.setStatus(user, statusText, emoji);
             }
-          } else {
-            await this.slack.clearStatus(user);
+            this.userStates.set(user.id, stateStr);
           }
-          this.userStates.set(user.id, stateStr);
+        } catch (error) {
+          if (
+            error instanceof SpotifyTokenRefreshError ||
+            error instanceof SpotifyCurrentlyPlayingError
+          ) {
+            console.error(`Spotify sync failed for user ${user.slackUserId}:`, error.message);
+          } else {
+            console.error(`Unexpected error during sync for user ${user.slackUserId}:`, error);
+          }
         }
       }
     } catch (error) {

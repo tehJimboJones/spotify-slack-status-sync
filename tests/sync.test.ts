@@ -3,6 +3,7 @@ import { ISpotifyService } from '../src/services/spotify/types';
 import { ISlackService } from '../src/services/slack/types';
 import { IConfigService } from '../src/services/config/types';
 import { IUserService, User } from '../src/services/user/types';
+import { SlackStatusSetError } from '../src/services/slack/errors';
 
 describe('SyncService', () => {
   let mockSpotify: jest.Mocked<ISpotifyService>;
@@ -192,5 +193,97 @@ describe('SyncService', () => {
 
     expect(mockSlack.setStatus).toHaveBeenCalledWith(user, 'Podcast A - Episode 1', ':microphone:');
     expect(mockSlack.clearStatus).not.toHaveBeenCalled();
+  });
+
+  it('should retry setStatus with a fallback emoji if the initial setStatus call throws an error', async () => {
+    const user = {
+      id: 'u1',
+      slackUserId: 'A',
+      statusEmoji: ':invalid_emoji:',
+      statusFormat: '{song}',
+    } as User;
+
+    mockUserService.getActiveUsers.mockResolvedValue([user]);
+    mockSpotify.getCurrentlyPlaying.mockResolvedValue({
+      isPlaying: true,
+      songName: 'Song A',
+      artistName: 'Artist A',
+    });
+
+    // Mock first call to reject, second call to resolve
+    mockSlack.setStatus
+      .mockRejectedValueOnce(new SlackStatusSetError('invalid_emoji'))
+      .mockResolvedValueOnce(undefined);
+
+    await service.syncNow();
+
+    expect(mockSlack.setStatus).toHaveBeenCalledTimes(2);
+    // First attempt with user's invalid emoji
+    expect(mockSlack.setStatus).toHaveBeenNthCalledWith(1, user, 'Song A', ':invalid_emoji:');
+    // Second attempt with fallback bot emoji
+    expect(mockSlack.setStatus).toHaveBeenNthCalledWith(2, user, 'Song A', ':headphones:');
+  });
+
+  it('should handle failure gracefully when fallback emoji also throws an error', async () => {
+    const user = {
+      id: 'u1',
+      slackUserId: 'A',
+      statusEmoji: ':invalid_emoji:',
+      statusFormat: '{song}',
+    } as User;
+
+    mockUserService.getActiveUsers.mockResolvedValue([user]);
+    mockSpotify.getCurrentlyPlaying.mockResolvedValue({
+      isPlaying: true,
+      songName: 'Song A',
+      artistName: 'Artist A',
+    });
+
+    // Mock all calls to reject
+    mockSlack.setStatus.mockRejectedValue(new SlackStatusSetError('fatal_error'));
+
+    // Should not throw and crash the sync loop
+    await expect(service.syncNow()).resolves.not.toThrow();
+
+    expect(mockSlack.setStatus).toHaveBeenCalledTimes(2);
+  });
+
+  it('should not crash the sync loop if clearStatus throws an error', async () => {
+    const user = {
+      id: 'u1',
+      slackUserId: 'A',
+      statusEmoji: ':headphones:',
+      statusFormat: '{song}',
+    } as User;
+
+    mockUserService.getActiveUsers.mockResolvedValue([user]);
+    mockSpotify.getCurrentlyPlaying.mockResolvedValue(null);
+
+    mockSlack.clearStatus.mockRejectedValue(new Error('clear_status_error'));
+
+    await expect(service.syncNow()).resolves.not.toThrow();
+    expect(mockSlack.clearStatus).toHaveBeenCalledWith(user);
+  });
+
+  it('should continue syncing other users if spotify fetch fails for one user', async () => {
+    const user1 = { id: 'u1', slackUserId: 'A' } as User;
+    const user2 = {
+      id: 'u2',
+      slackUserId: 'B',
+      statusEmoji: ':headphones:',
+      statusFormat: '{song}',
+    } as User;
+
+    mockUserService.getActiveUsers.mockResolvedValue([user1, user2]);
+
+    mockSpotify.getCurrentlyPlaying.mockImplementation(async (u) => {
+      if (u.id === 'u1') throw new Error('Spotify API down for U1');
+      return { isPlaying: true, songName: 'Song B', artistName: 'Artist B', type: 'track' };
+    });
+
+    await service.syncNow();
+
+    expect(mockSlack.setStatus).toHaveBeenCalledTimes(1);
+    expect(mockSlack.setStatus).toHaveBeenCalledWith(user2, 'Song B', ':headphones:');
   });
 });

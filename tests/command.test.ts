@@ -1,5 +1,5 @@
 import { CommandListenerService } from '../src/services/slack/command/command-listener.service';
-import { IUserService } from '../src/services/user/types';
+import { IUserService, User } from '../src/services/user/types';
 import { UserNotFoundError } from '../src/services/user/errors';
 import { ISlackService } from '../src/services/slack/types';
 import { IConfigService } from '../src/services/config/types';
@@ -71,8 +71,10 @@ describe('CommandListenerService', () => {
     expect(mockRespond).toHaveBeenCalledWith(expect.stringContaining('started'));
   });
 
-  it('should toggle user sync to false when the stop command is received', async () => {
+  it('should toggle user sync to false and clear status when the stop command is received', async () => {
     const mockRespond = jest.fn().mockResolvedValue(undefined);
+    const mockUser = { id: 'U123', slackUserId: 'U123' } as unknown as User;
+    mockUserService.getUser.mockResolvedValue(mockUser);
 
     await commandListener.handle(
       {
@@ -86,6 +88,29 @@ describe('CommandListenerService', () => {
 
     expect(mockUserService.toggleUserSync).toHaveBeenCalledTimes(1);
     expect(mockUserService.toggleUserSync).toHaveBeenCalledWith('U123', false);
+    expect(mockUserService.getUser).toHaveBeenCalledWith('U123');
+    expect(mockSlackService.clearStatus).toHaveBeenCalledWith(mockUser);
+    expect(mockRespond).toHaveBeenCalledWith(expect.stringContaining('stopped'));
+  });
+
+  it('should toggle user sync to false and still respond if clearStatus throws an error', async () => {
+    const mockRespond = jest.fn().mockResolvedValue(undefined);
+    const mockUser = { id: 'U123', slackUserId: 'U123' } as unknown as User;
+    mockUserService.getUser.mockResolvedValue(mockUser);
+    mockSlackService.clearStatus.mockRejectedValueOnce(new Error('clear status failed'));
+
+    await commandListener.handle(
+      {
+        userId: 'U123',
+        triggerId: 'T123',
+        text: 'stop',
+        respond: mockRespond,
+      },
+      mockSlackService,
+    );
+
+    expect(mockUserService.toggleUserSync).toHaveBeenCalledWith('U123', false);
+    expect(mockSlackService.clearStatus).toHaveBeenCalledWith(mockUser);
     expect(mockRespond).toHaveBeenCalledWith(expect.stringContaining('stopped'));
   });
 

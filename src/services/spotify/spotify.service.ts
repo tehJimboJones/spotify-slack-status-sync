@@ -2,6 +2,7 @@ import axios from 'axios';
 import { IConfigService } from '../config/types';
 import { User } from '../user/types';
 import { ISpotifyService, TrackState } from './types';
+import { SpotifyTokenRefreshError, SpotifyCurrentlyPlayingError } from './errors';
 
 export class SpotifyService implements ISpotifyService {
   private accessTokens: Map<string, string> = new Map();
@@ -46,7 +47,9 @@ export class SpotifyService implements ISpotifyService {
       return newToken;
     } catch (error) {
       console.error(`Failed to refresh Spotify token for user ${user.id}:`, error);
-      throw error;
+      throw new SpotifyTokenRefreshError(
+        `Failed to refresh Spotify token for user ${user.id}: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -91,7 +94,9 @@ export class SpotifyService implements ISpotifyService {
       };
     } catch (error) {
       console.error('Error fetching currently playing track from Spotify:', error);
-      throw error;
+      throw new SpotifyCurrentlyPlayingError(
+        `Error fetching currently playing track from Spotify: ${(error as Error).message}`,
+      );
     }
   }
 }

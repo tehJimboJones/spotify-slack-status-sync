@@ -2,6 +2,10 @@ import axios from 'axios';
 import { SpotifyService } from '../src/services/spotify/spotify.service';
 import { IConfigService } from '../src/services/config/types';
 import { User } from '../src/services/user/types';
+import {
+  SpotifyTokenRefreshError,
+  SpotifyCurrentlyPlayingError,
+} from '../src/services/spotify/errors';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -166,5 +170,27 @@ describe('Live SpotifyService', () => {
       artistName: 'Test Podcast',
       type: 'episode',
     });
+  });
+
+  it('should throw SpotifyTokenRefreshError when token refresh fails', async () => {
+    const mockUser = { id: 'u1', spotifyRefreshToken: 'token' } as unknown as User;
+
+    mockedAxios.post.mockRejectedValueOnce(new Error('Network error'));
+
+    await expect(service.getCurrentlyPlaying(mockUser)).rejects.toThrow(SpotifyTokenRefreshError);
+  });
+
+  it('should throw SpotifyCurrentlyPlayingError when fetching track fails', async () => {
+    const mockUser = { id: 'u1', spotifyRefreshToken: 'token' } as unknown as User;
+
+    mockedAxios.post.mockResolvedValueOnce({
+      data: { access_token: 'new_access_token', expires_in: 3600 },
+    });
+
+    mockedAxios.get.mockRejectedValueOnce(new Error('Network error'));
+
+    await expect(service.getCurrentlyPlaying(mockUser)).rejects.toThrow(
+      SpotifyCurrentlyPlayingError,
+    );
   });
 });

@@ -2,11 +2,22 @@ import { SlackService } from '../src/services/slack/slack.service';
 import { IConfigService } from '../src/services/config/types';
 import { App } from '@slack/bolt';
 import { User } from '../src/services/user/types';
+import {
+  SlackMessageSendError,
+  SlackMessageUpdateError,
+  SlackStatusSetError,
+  SlackStatusClearError,
+  SlackSettingsModalError,
+} from '../src/services/slack/errors';
 
 // Mock the @slack/bolt module
 jest.mock('@slack/bolt', () => {
   const mApp = {
     client: {
+      chat: {
+        postMessage: jest.fn().mockResolvedValue({ ok: true, channel: 'C1', ts: '123' }),
+        update: jest.fn().mockResolvedValue({ ok: true }),
+      },
       users: {
         profile: {
           set: jest.fn().mockResolvedValue({ ok: true }),
@@ -165,5 +176,54 @@ describe('SlackService', () => {
 
     const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
     expect(mockedAppInstance.view).toHaveBeenCalledWith('test_modal', expect.any(Function));
+  });
+
+  it('should throw SlackStatusSetError when profile.set fails', async () => {
+    const mockUser = { slackUserId: 'U1', slackUserToken: 'xoxp-user-token' } as unknown as User;
+    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+    const error = new Error('Slack API Error');
+    mockedAppInstance.client.users.profile.set.mockRejectedValueOnce(error);
+
+    await expect(service.setStatus(mockUser, 'Test Status', ':invalid_emoji:')).rejects.toThrow(
+      SlackStatusSetError,
+    );
+  });
+
+  it('should throw SlackStatusClearError when clearing status fails', async () => {
+    const mockUser = { slackUserId: 'U1', slackUserToken: 'xoxp-user-token' } as unknown as User;
+    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+    const error = new Error('Slack API Error');
+    mockedAppInstance.client.users.profile.set.mockRejectedValueOnce(error);
+
+    await expect(service.clearStatus(mockUser)).rejects.toThrow(SlackStatusClearError);
+  });
+
+  it('should throw SlackMessageSendError when postMessage fails', async () => {
+    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+    const error = new Error('API Error');
+    mockedAppInstance.client.chat.postMessage.mockRejectedValueOnce(error);
+
+    await expect(service.sendMessage('U1', 'Test')).rejects.toThrow(SlackMessageSendError);
+  });
+
+  it('should throw SlackMessageUpdateError when update fails', async () => {
+    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+    const error = new Error('API Error');
+    mockedAppInstance.client.chat.update.mockRejectedValueOnce(error);
+
+    await expect(service.updateMessage('C1', '123', 'Updated')).rejects.toThrow(
+      SlackMessageUpdateError,
+    );
+  });
+
+  it('should throw SlackSettingsModalError when views.open fails', async () => {
+    const mockUser = { slackUserId: 'U1' } as unknown as User;
+    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+    const error = new Error('API Error');
+    mockedAppInstance.client.views.open.mockRejectedValueOnce(error);
+
+    await expect(service.openSettingsModal('trigger-1', 'U1', mockUser)).rejects.toThrow(
+      SlackSettingsModalError,
+    );
   });
 });

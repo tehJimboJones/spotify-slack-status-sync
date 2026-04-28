@@ -23,6 +23,14 @@ export class CommandListenerService implements ICommandListener {
         await context.respond('Spotify status sync started! :headphones:');
       } else if (args === 'stop') {
         await this.userService.toggleUserSync(context.userId, false);
+        const user = await this.userService.getUser(context.userId);
+        if (user) {
+          try {
+            await slackService.clearStatus(user);
+          } catch (error) {
+            console.error('Failed to clear status during stop command:', error);
+          }
+        }
         await context.respond('Spotify status sync stopped. :octagonal_sign:');
       } else if (args === 'login') {
         const authUrl = `${this.configService.getBotConfig().baseUrl}/auth/start?userId=${context.userId}`;

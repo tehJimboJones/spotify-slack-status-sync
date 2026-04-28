@@ -8,11 +8,13 @@ services:
     container_name: spotify-status-bot-app
     restart: unless-stopped
     env_file:
-      - ../.env
+      - .env
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
     depends_on:
       - db
+    networks:
+      - default
 
   db:
     build:
@@ -24,13 +26,20 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: ${DB_NAME:-spotify_bot}
       MYSQL_USER: ${DB_USER:-bot_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-bot_pass}
+      MYSQL_PASSWORD: ${DB_PASS:-bot_pass}
     env_file:
-      - ../.env
+      - .env
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - default
 
 volumes:
   db_data:
+
+networks:
+  default:
+    name: spotify-status-bot
+    

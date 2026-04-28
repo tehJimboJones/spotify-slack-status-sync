@@ -4,6 +4,13 @@ import { User } from '../user/types';
 import { ICommandListener } from './command/types';
 import { IViewListener } from './view/types';
 import { ISlackService, IEventListener } from './types';
+import {
+  SlackMessageSendError,
+  SlackMessageUpdateError,
+  SlackStatusSetError,
+  SlackStatusClearError,
+  SlackSettingsModalError,
+} from './errors';
 
 export class SlackService implements ISlackService {
   private app: App;
@@ -36,7 +43,9 @@ export class SlackService implements ISlackService {
       return null;
     } catch (error) {
       console.error(`Failed to send message to ${channelOrUserId}:`, error);
-      return null;
+      throw new SlackMessageSendError(
+        `Failed to send message to ${channelOrUserId}: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -53,6 +62,9 @@ export class SlackService implements ISlackService {
       });
     } catch (error) {
       console.error(`Failed to update message ${messageTimestamp} in ${channel}:`, error);
+      throw new SlackMessageUpdateError(
+        `Failed to update message ${messageTimestamp} in ${channel}: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -82,6 +94,9 @@ export class SlackService implements ISlackService {
       console.log(`Updated Slack status for ${user.slackUserId} to: ${emoji} ${text}`);
     } catch (error) {
       console.error(`Failed to update Slack status for ${user.slackUserId}:`, error);
+      throw new SlackStatusSetError(
+        `Failed to update Slack status for ${user.slackUserId}: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -98,6 +113,9 @@ export class SlackService implements ISlackService {
       console.log(`Cleared Slack status for ${user.slackUserId}`);
     } catch (error) {
       console.error(`Failed to clear Slack status for ${user.slackUserId}:`, error);
+      throw new SlackStatusClearError(
+        `Failed to clear Slack status for ${user.slackUserId}: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -234,6 +252,9 @@ export class SlackService implements ISlackService {
       });
     } catch (error) {
       console.error('Failed to open settings modal:', error);
+      throw new SlackSettingsModalError(
+        `Failed to open settings modal: ${(error as Error).message}`,
+      );
     }
   }
 }

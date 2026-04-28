@@ -71,7 +71,23 @@ async function bootstrap() {
     console.log('Application bootstrapped successfully.');
   } catch (error) {
     console.error('Failed to bootstrap application:', error);
+    if (error && typeof error === 'object' && 'parent' in error) {
+      const innerError = (error as { parent: unknown }).parent;
+      logErrors(innerError);
+    }
     process.exit(1);
+  }
+}
+
+function logErrors(error: unknown) {
+  console.error('Failed to bootstrap application:', error);
+  if (error && typeof error === 'object' && 'errors' in error) {
+    const errObj = error as { errors: unknown[] };
+    if (Array.isArray(errObj.errors)) {
+      for (const inner of errObj.errors) {
+        logErrors(inner);
+      }
+    }
   }
 }
 
