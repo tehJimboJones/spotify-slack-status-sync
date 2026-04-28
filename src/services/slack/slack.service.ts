@@ -3,7 +3,7 @@ import { IConfigService } from '../config/types';
 import { User } from '../user/types';
 import { ICommandListener } from './command/types';
 import { IViewListener } from './view/types';
-import { ISlackService } from './types';
+import { ISlackService, IEventListener } from './types';
 
 export class SlackService implements ISlackService {
   private app: App;
@@ -17,9 +17,55 @@ export class SlackService implements ISlackService {
     });
   }
 
+  public async sendMessage(
+    channelOrUserId: string,
+    text: string,
+  ): Promise<{ channel: string; messageTimestamp: string } | null> {
+    try {
+      const response = await this.app.client.chat.postMessage({
+        channel: channelOrUserId,
+        text,
+      });
+
+      if (response.ok && response.channel && response.ts) {
+        return {
+          channel: response.channel,
+          messageTimestamp: response.ts,
+        };
+      }
+      return null;
+    } catch (error) {
+      console.error(`Failed to send message to ${channelOrUserId}:`, error);
+      return null;
+    }
+  }
+
+  public async updateMessage(
+    channel: string,
+    messageTimestamp: string,
+    text: string,
+  ): Promise<void> {
+    try {
+      await this.app.client.chat.update({
+        channel,
+        ts: messageTimestamp,
+        text,
+      });
+    } catch (error) {
+      console.error(`Failed to update message ${messageTimestamp} in ${channel}:`, error);
+    }
+  }
+
+  public registerEventListener(listener: IEventListener): void {
+    this.app.event(listener.eventName, async ({ event, body }) => {
+      await listener.handle({ event, body }, this);
+    });
+  }
+
   public registerViewListener(listener: IViewListener): void {
     this.app.view(listener.viewCallbackId, async ({ ack, body, view }) => {
-      await listener.handle({ ack, body, view });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await listener.handle({ ack: ack as any, body, view }, this);
     });
   }
 
@@ -63,14 +109,17 @@ export class SlackService implements ISlackService {
   public registerCommandListener(listener: ICommandListener): void {
     this.app.command(listener.commandName, async ({ command, ack, respond }) => {
       await ack();
-      await listener.handle({
-        userId: command.user_id,
-        triggerId: command.trigger_id,
-        text: command.text,
-        respond: async (text: string) => {
-          await respond(text);
+      await listener.handle(
+        {
+          userId: command.user_id,
+          triggerId: command.trigger_id,
+          text: command.text,
+          respond: async (text: string) => {
+            await respond(text);
+          },
         },
-      });
+        this,
+      );
     });
   }
 

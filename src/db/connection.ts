@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import { IConfigService } from '../services/config/types';
 import { UserModel } from './models/User';
+import { EmojiConfigSessionModel } from './models/EmojiConfigSession';
 
 let sequelizeInstance: Sequelize | null = null;
 
@@ -26,7 +27,7 @@ export function getDbConnection(configService: IConfigService): Sequelize {
     database: dbConfig.name,
     storage: dbConfig.storage,
     logging: false, // Set to console.log to see SQL queries
-    models: [UserModel],
+    models: [UserModel, EmojiConfigSessionModel],
   });
 
   return sequelizeInstance;

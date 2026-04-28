@@ -9,6 +9,8 @@ import { SyncService } from './services/sync/sync.service';
 import { CommandListenerService } from './services/slack/command/command-listener.service';
 import { UserService } from './services/user/user.service';
 import { SettingsModalViewListener } from './services/slack/view/settings-modal-view-listener.service';
+import { ReactionAddedListenerService } from './services/slack/event/reaction-added-listener.service';
+import { SessionRepository } from './services/session/session.repository';
 import { getDbConnection } from './db/connection';
 import { SequelizeUserRepository } from './db/repositories/UserRepository';
 import express from 'express';
@@ -33,15 +35,24 @@ async function bootstrap() {
     const userRepository = new SequelizeUserRepository();
     const userService = new UserService(userRepository);
 
+    // Initialize Session Persistence Layer
+    const sessionRepository = new SessionRepository();
+
     // Initialize core services
     const spotify = new SpotifyService(configService);
     const slack = new SlackService(configService);
     const syncService = new SyncService(spotify, slack, userService, configService);
-    const commandListener = new CommandListenerService(userService, slack, configService);
+    const commandListener = new CommandListenerService(
+      userService,
+      configService,
+      sessionRepository,
+    );
+    const reactionListener = new ReactionAddedListenerService(userService, sessionRepository);
+    const settingsModalViewListener = new SettingsModalViewListener(userService);
 
     slack.registerCommandListener(commandListener);
-    const settingsModalViewListener = new SettingsModalViewListener(userService);
     slack.registerViewListener(settingsModalViewListener);
+    slack.registerEventListener(reactionListener);
 
     // Start the Slack Bolt app to listen for commands
     await slack.start();

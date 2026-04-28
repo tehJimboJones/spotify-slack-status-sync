@@ -3,17 +3,18 @@ import { ISlackService } from '../types';
 import { IConfigService } from '../../config/types';
 import { UserNotFoundError } from '../../user/errors';
 import { ICommandContext, ICommandListener } from './types';
+import { ISessionRepository } from '../../session/types';
 
 export class CommandListenerService implements ICommandListener {
   public readonly commandName = '/spotifystatus';
 
   constructor(
     private userService: IUserService,
-    private slackService: ISlackService,
     private configService: IConfigService,
+    private sessionRepository?: ISessionRepository,
   ) {}
 
-  public async handle(context: ICommandContext): Promise<void> {
+  public async handle(context: ICommandContext, slackService: ISlackService): Promise<void> {
     const args = context.text.trim().toLowerCase();
 
     try {
@@ -30,10 +31,12 @@ export class CommandListenerService implements ICommandListener {
         );
       } else if (args === 'settings') {
         const user = await this.userService.getUser(context.userId);
-        await this.slackService.openSettingsModal(context.triggerId, context.userId, user || {});
+        await slackService.openSettingsModal(context.triggerId, context.userId, user || {});
+      } else if (args === 'emojis') {
+        await this.handleEmojisCommand(context, slackService);
       } else {
         await context.respond(
-          'Unknown command. Please use `/spotifystatus start`, `stop`, `login`, or `settings`.',
+          'Unknown command. Please use `/spotifystatus start`, `stop`, `login`, `settings`, or `emojis`.',
         );
       }
     } catch (error) {
@@ -47,5 +50,65 @@ export class CommandListenerService implements ICommandListener {
         await context.respond('An unexpected error occurred while processing your command.');
       }
     }
+  }
+
+  private async handleEmojisCommand(
+    context: ICommandContext,
+    slackService: ISlackService,
+  ): Promise<void> {
+    if (!this.sessionRepository) {
+      await context.respond('Emoji configuration is not enabled.');
+      return;
+    }
+
+    const { userId } = context;
+
+    // 1. Cleanup old active sessions
+    const activeSessions = await this.sessionRepository.findActiveSessions(userId);
+
+    for (const session of activeSessions) {
+      try {
+        await slackService.updateMessage(
+          session.channelId,
+          session.messageTs,
+          `~React to this message to set your ${session.settingType} emoji~\n*(This configuration message has expired)*`,
+        );
+        await this.sessionRepository.deleteSession(session.id);
+      } catch (error) {
+        console.error(`Failed to cleanup session ${session.id}:`, error);
+      }
+    }
+
+    // 2. Send new messages
+    const settings: (
+      | 'statusEmoji'
+      | 'pausedEmoji'
+      | 'podcastStatusEmoji'
+      | 'podcastPausedEmoji'
+    )[] = ['statusEmoji', 'pausedEmoji', 'podcastStatusEmoji', 'podcastPausedEmoji'];
+
+    for (const setting of settings) {
+      try {
+        const response = await slackService.sendMessage(
+          userId, // DMs can be opened by sending to userId
+          `React to this message to set your **${setting}** emoji.`,
+        );
+
+        if (response?.messageTimestamp) {
+          await this.sessionRepository.createSession({
+            userId,
+            channelId: response.channel,
+            messageTs: response.messageTimestamp,
+            settingType: setting,
+          });
+        }
+      } catch (error) {
+        console.error(`Failed to send setup message for ${setting}:`, error);
+      }
+    }
+
+    await context.respond(
+      'Sent you a direct message to configure your emojis! Please check your DMs.',
+    );
   }
 }

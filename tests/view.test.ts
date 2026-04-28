@@ -2,9 +2,11 @@ import { SettingsModalViewListener } from '../src/services/slack/view/settings-m
 import { IViewContext } from '../src/services/slack/view/types';
 import { IUserService } from '../src/services/user/types';
 import { SlackViewAction, ViewOutput } from '@slack/bolt';
+import { ISlackService } from '../src/services/slack/types';
 
 describe('SettingsModalViewListener', () => {
   let mockUserService: jest.Mocked<IUserService>;
+  let mockSlackService: jest.Mocked<ISlackService>;
   let listener: SettingsModalViewListener;
 
   beforeEach(() => {
@@ -14,6 +16,8 @@ describe('SettingsModalViewListener', () => {
       toggleUserSync: jest.fn(),
       upsertUser: jest.fn().mockResolvedValue(undefined),
     };
+
+    mockSlackService = {} as unknown as jest.Mocked<ISlackService>;
 
     listener = new SettingsModalViewListener(mockUserService);
   });
@@ -42,9 +46,9 @@ describe('SettingsModalViewListener', () => {
       } as unknown as ViewOutput,
     };
 
-    await listener.handle(context);
+    await listener.handle(context, mockSlackService);
 
-    expect(mockAck).toHaveBeenCalled();
+    expect(mockAck).toHaveBeenCalledWith(); // Expecting empty ack on success
     expect(mockUserService.upsertUser).toHaveBeenCalledWith('U1', {
       statusFormat: '{song}',
       statusEmoji: ':playing:',
@@ -54,5 +58,56 @@ describe('SettingsModalViewListener', () => {
       podcastStatusEmoji: ':mic:',
       podcastPausedEmoji: ':stop:',
     });
+  });
+
+  it('should return errors payload when invalid emojis are provided', async () => {
+    const mockAck = jest.fn();
+    const context: IViewContext = {
+      ack: mockAck,
+      body: { user: { id: 'U1' } } as unknown as SlackViewAction,
+      view: {
+        state: {
+          values: {
+            status_format_block: { status_format: { value: '{song}' } },
+            status_emoji_block: { status_emoji: { value: 'invalid_emoji_no_colons' } },
+            paused_emoji_block: { paused_emoji: { value: ':valid:' } },
+          },
+        },
+      } as unknown as ViewOutput,
+    };
+
+    await listener.handle(context, mockSlackService);
+
+    expect(mockAck).toHaveBeenCalledWith(
+      expect.objectContaining({
+        response_action: 'errors',
+        errors: expect.objectContaining({
+          status_emoji_block: expect.any(String),
+        }),
+      }),
+    );
+    expect(mockUserService.upsertUser).not.toHaveBeenCalled();
+  });
+
+  it('should accept valid Unicode emojis', async () => {
+    const mockAck = jest.fn();
+    const context: IViewContext = {
+      ack: mockAck,
+      body: { user: { id: 'U1' } } as unknown as SlackViewAction,
+      view: {
+        state: {
+          values: {
+            status_format_block: { status_format: { value: '{song}' } },
+            status_emoji_block: { status_emoji: { value: '🎧' } },
+            paused_emoji_block: { paused_emoji: { value: '⏸️' } },
+          },
+        },
+      } as unknown as ViewOutput,
+    };
+
+    await listener.handle(context, mockSlackService);
+
+    expect(mockAck).toHaveBeenCalledWith();
+    expect(mockUserService.upsertUser).toHaveBeenCalled();
   });
 });

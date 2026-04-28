@@ -19,13 +19,16 @@ describe('SyncService', () => {
     };
 
     mockSlack = {
+      sendMessage: jest.fn().mockResolvedValue({ channel: 'C123', messageTimestamp: 'new_ts' }),
+      updateMessage: jest.fn().mockResolvedValue(undefined),
       setStatus: jest.fn().mockResolvedValue(undefined),
       clearStatus: jest.fn().mockResolvedValue(undefined),
       start: jest.fn().mockResolvedValue(undefined),
       registerCommandListener: jest.fn(),
       registerViewListener: jest.fn(),
+      registerEventListener: jest.fn(),
       openSettingsModal: jest.fn(),
-    };
+    } as unknown as jest.Mocked<ISlackService>;
 
     mockUserService = {
       getUser: jest.fn().mockResolvedValue(null),

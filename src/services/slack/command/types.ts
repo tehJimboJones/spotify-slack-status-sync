@@ -1,3 +1,5 @@
+import { ISlackService } from '../types';
+
 export interface ICommandContext {
   userId: string;
   triggerId: string;
@@ -7,5 +9,5 @@ export interface ICommandContext {
 
 export interface ICommandListener {
   commandName: string;
-  handle(context: ICommandContext): Promise<void>;
+  handle(context: ICommandContext, slackService: ISlackService): Promise<void>;
 }

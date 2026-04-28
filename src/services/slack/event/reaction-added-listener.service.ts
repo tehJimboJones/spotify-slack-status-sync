@@ -1,0 +1,53 @@
+import { IEventListener, IEventContext, ISlackService } from '../types';
+import { IUserService } from '../../user/types';
+import { ISessionRepository } from '../../session/types';
+
+export class ReactionAddedListenerService implements IEventListener {
+  public readonly eventName = 'reaction_added';
+
+  constructor(
+    private userService: IUserService,
+    private sessionRepository: ISessionRepository,
+  ) {}
+
+  public async handle(context: IEventContext, slackService: ISlackService): Promise<void> {
+    const { event } = context;
+
+    // Ignore reactions from bots or if item.ts is missing
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    if (!(event as any).user || !(event as any).item || !(event as any).item.ts) {
+      return;
+    }
+
+    const messageTs = (event as any).item.ts;
+    const session = await this.sessionRepository.findByMessageTs(messageTs);
+
+    if (!session) {
+      // Not a configuration message we are tracking
+      return;
+    }
+
+    // Slack gives us the emoji without colons, e.g., 'headphones' or '+1'
+    const emojiAlias = `:${(event as any).reaction}:`;
+
+    // Save the new setting
+    await this.userService.upsertUser((event as any).user, {
+      [session.settingType]: emojiAlias,
+    });
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+
+    // Send a confirmation and remove the old instructions
+    try {
+      await slackService.updateMessage(
+        session.channelId,
+        session.messageTs,
+        `✅ Your ${session.settingType} emoji has been updated to ${emojiAlias}!`,
+      );
+    } catch (error) {
+      console.error('Failed to update confirmation message:', error);
+    }
+
+    // Delete the session since it's fulfilled
+    await this.sessionRepository.deleteSession(session.id);
+  }
+}
