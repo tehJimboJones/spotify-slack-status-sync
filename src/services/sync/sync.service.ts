@@ -1,3 +1,14 @@
+/**
+ * Status synchronization orchestrator.
+ * @remarks
+ * Manages the core business logic of polling Spotify for currently playing media and pushing status updates to the user's Slack profile.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { IConfigService } from '../config/types';
 import { ISpotifyService } from '../spotify/types';
 import { ISlackService } from '../slack/types';
@@ -6,6 +17,29 @@ import { ISyncService } from './types';
 import { SlackStatusSetError } from '../slack/errors';
 import { SpotifyTokenRefreshError, SpotifyCurrentlyPlayingError } from '../spotify/errors';
 
+/**
+ * Orchestrates Spotify-to-Slack status synchronization.
+ *
+ * @remarks
+ * Polls the Spotify API for active users and updates their Slack profile status accordingly. Manages its own background loop and error isolation per user.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * SyncService([SyncService]) -->|Implements| ISyncService[ISyncService]
+ * SyncService -->|Uses| IUserService[IUserService]
+ * SyncService -->|Uses| ISpotifyService[ISpotifyService]
+ * SyncService -->|Uses| ISlackService[ISlackService]
+ * Client[App Bootstrap] -.->|Instantiates| SyncService
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const syncService = new SyncService(userService, spotifyService, slackService);
+ * ```
+ *
+ * @public
+ */
 export class SyncService implements ISyncService {
   private timer: NodeJS.Timeout | null = null;
   private isRunning: boolean = false;

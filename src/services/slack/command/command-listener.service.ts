@@ -1,3 +1,14 @@
+/**
+ * Slack slash command handler.
+ * @remarks
+ * Registers and processes incoming slash commands from Slack, directing user requests to the appropriate service logic or returning usage instructions.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { IUserService } from '../../user/types';
 import { ISlackService } from '../types';
 import { IConfigService } from '../../config/types';
@@ -5,6 +16,27 @@ import { UserNotFoundError } from '../../user/errors';
 import { ICommandContext, ICommandListener } from './types';
 import { ISessionRepository } from '../../session/types';
 
+/**
+ * Handler for bot-specific slash commands.
+ *
+ * @remarks
+ * Parses and routes slash command text (e.g., 'on', 'off', 'settings') to the appropriate internal services to perform the requested action.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * CommandListenerService([CommandListenerService]) -->|Implements| ICommandListener[ICommandListener]
+ * CommandListenerService -->|Uses| IUserService[IUserService]
+ * Client[App Bootstrap] -.->|Instantiates| CommandListenerService
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const commandListener = new CommandListenerService(userService, slackService);
+ * ```
+ *
+ * @public
+ */
 export class CommandListenerService implements ICommandListener {
   public readonly commandName = '/spotifystatus';
 

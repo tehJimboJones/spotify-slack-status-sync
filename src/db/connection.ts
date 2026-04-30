@@ -1,3 +1,14 @@
+/**
+ * Database connection and ORM configuration.
+ * @remarks
+ * Initializes the Sequelize instance, registers models, and manages the lifecycle of the application's database connection.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { Sequelize } from 'sequelize-typescript';
 import { IConfigService } from '../services/config/types';
 import { UserModel } from './models/User';
@@ -8,7 +19,7 @@ let sequelizeInstance: Sequelize | null = null;
 /**
  * Initializes and returns the Sequelize database connection.
  *
- * @param config - The application configuration containing DB credentials.
+ * @param configService - The application configuration containing DB credentials.
  * @returns The authenticated Sequelize instance.
  */
 export function getDbConnection(configService: IConfigService): Sequelize {

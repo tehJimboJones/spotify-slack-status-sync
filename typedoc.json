@@ -1,0 +1,7 @@
+{
+  "externalSymbolLinkMappings": {
+    "sequelize": {
+      "FindOptions.limit": "https://sequelize.org/api/v7/interfaces/_sequelize_core.index.findoptions#limit"
+    }
+  }
+}

@@ -1,7 +1,39 @@
+/**
+ * Slack reaction added event handler.
+ * @remarks
+ * Listens for reaction events in Slack, enabling interactive workflows like emoji selection based on user reactions.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { IEventListener, IEventContext, ISlackService } from '../types';
 import { IUserService } from '../../user/types';
 import { ISessionRepository } from '../../session/types';
 
+/**
+ * Handler for the `reaction_added` Slack event.
+ *
+ * @remarks
+ * Processes user emoji reactions, specifically looking for interactions related to the emoji configuration workflow to capture user preferences.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * ReactionAddedListenerService([ReactionAddedListenerService]) -->|Implements| IEventListener[IEventListener]
+ * ReactionAddedListenerService -->|Uses| ISessionRepository[ISessionRepository]
+ * Client[App Bootstrap] -.->|Instantiates| ReactionAddedListenerService
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const listener = new ReactionAddedListenerService(sessionRepo);
+ * ```
+ *
+ * @public
+ */
 export class ReactionAddedListenerService implements IEventListener {
   public readonly eventName = 'reaction_added';
 

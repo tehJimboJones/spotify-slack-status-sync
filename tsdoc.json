@@ -16,13 +16,5 @@
             "syntaxKind": "block",
             "allowMultiple": false
         }
-    ],
-    "supportFlags": {
-        "supportedHtmlElements": [
-            "b",
-            "i",
-            "p",
-            "br"
-        ]
-    }
+    ]
 }

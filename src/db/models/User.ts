@@ -1,6 +1,38 @@
+/**
+ * Sequelize model for user accounts.
+ * @remarks
+ * Defines the schema for application users, persisting their Slack identities, Spotify credentials, and synchronization preferences.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { Table, Column, Model, DataType, Default } from 'sequelize-typescript';
 import { User } from '../../services/user/types';
 
+/**
+ * Sequelize ORM model mapping to the users table.
+ *
+ * @remarks
+ * Defines the database schema and Active Record methods for User entities, mapping directly to underlying database columns.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * UserModel([UserModel]) -->|Extends| Model[Sequelize Model]
+ * UserModel -->|Implements| User[User]
+ * SequelizeUserRepository[SequelizeUserRepository] -->|Uses| UserModel
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const user = await UserModel.findOne({ where: { slackId: 'U123' } });
+ * ```
+ *
+ * @public
+ */
 @Table({
   tableName: 'users',
   timestamps: true, // Automatically adds createdAt and updatedAt

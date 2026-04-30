@@ -1,8 +1,40 @@
+/**
+ * Data access repository for User entities.
+ * @remarks
+ * Abstracts direct database access for the User model, providing an interface for creating, retrieving, and updating user records.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { IUserRepository, User } from '../../services/user/types';
 import { UserModel } from '../models/User';
 
 /**
  * Sequelize implementation of the User repository.
+ */
+/**
+ * Sequelize-based implementation of the User repository.
+ *
+ * @remarks
+ * Implements the IUserRepository contract using Sequelize models to persist and retrieve User entities in a relational database.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * SequelizeUserRepository([SequelizeUserRepository]) -->|Implements| IUserRepository[IUserRepository]
+ * SequelizeUserRepository -->|Uses| UserModel[UserModel]
+ * Client[App Bootstrap] -.->|Instantiates| SequelizeUserRepository
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const userRepository = new SequelizeUserRepository();
+ * ```
+ *
+ * @public
  */
 export class SequelizeUserRepository implements IUserRepository {
   public async findById(id: string): Promise<User | null> {

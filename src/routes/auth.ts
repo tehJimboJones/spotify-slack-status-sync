@@ -1,9 +1,40 @@
+/**
+ * Express routes for authentication workflows.
+ * @remarks
+ * Handles incoming HTTP requests for OAuth flows, specifically managing the Spotify authorization callback and token generation.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { Router, Request, Response } from 'express';
 import axios from 'axios';
 import { IConfigService } from '../services/config/types';
 import { IUserService } from '../services/user/types';
 import * as crypto from 'crypto';
 
+/**
+ * Internal interface for OAuth session state.
+ *
+ * @remarks
+ * Defines the structure of the temporary session data stored during the Spotify OAuth redirect flow.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * SessionData([SessionData])
+ * AuthRoute[Auth Express Route] -.->|Uses| SessionData
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const session: SessionData = { state: 'random_string', slackUserId: 'U123' };
+ * ```
+ *
+ * @public
+ */
 interface SessionData {
   slackUserId: string;
   slackUserToken: string;

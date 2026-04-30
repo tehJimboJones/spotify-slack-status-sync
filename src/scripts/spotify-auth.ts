@@ -1,4 +1,15 @@
 /**
+ * CLI script for local Spotify authentication.
+ * @remarks
+ * Provides a standalone script to manually authenticate with Spotify and retrieve initial OAuth tokens during development or setup.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
+/**
  * Standalone script to obtain a Spotify refresh token.
  */
 import express from 'express';

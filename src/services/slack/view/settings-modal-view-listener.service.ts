@@ -1,3 +1,14 @@
+/**
+ * Slack settings modal interaction handler.
+ * @remarks
+ * Processes form submissions from the bot's settings modal in Slack, updating user preferences for status synchronization.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { IUserService } from '../../user/types';
 import { IViewContext, IViewListener } from './types';
 import { ISlackService } from '../types';
@@ -10,6 +21,27 @@ function isValidEmoji(emoji: string | null | undefined): boolean {
   return emojiAliasRegex.test(emoji) || unicodeEmojiRegex.test(emoji);
 }
 
+/**
+ * Handler for the Slack settings modal submission.
+ *
+ * @remarks
+ * Processes configuration updates (like enabling/disabling sync or podcast tracking) submitted via the bot's interactive settings modal.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * SettingsModalViewListener([SettingsModalViewListener]) -->|Implements| IViewListener[IViewListener]
+ * SettingsModalViewListener -->|Uses| IUserService[IUserService]
+ * Client[App Bootstrap] -.->|Instantiates| SettingsModalViewListener
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const listener = new SettingsModalViewListener(userService);
+ * ```
+ *
+ * @public
+ */
 export class SettingsModalViewListener implements IViewListener {
   public readonly viewCallbackId = 'settings_modal';
 

@@ -1,3 +1,14 @@
+/**
+ * Application configuration management service.
+ * @remarks
+ * Centralizes environment variable parsing and validation, exposing typed configuration slices to the rest of the application.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import * as dotenv from 'dotenv';
 import { AppConfig, IConfigService } from './types';
 
@@ -6,6 +17,26 @@ dotenv.config();
 
 /**
  * Service responsible for loading and providing application configuration.
+ */
+/**
+ * Centralized configuration management service.
+ *
+ * @remarks
+ * Parses, validates, and serves application configuration from environment variables, ensuring defaults and immutability.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * ConfigService([ConfigService]) -->|Implements| IConfigService[IConfigService]
+ * Client[App Bootstrap] -.->|Instantiates| ConfigService
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const configService = new ConfigService();
+ * ```
+ *
+ * @public
  */
 export class ConfigService implements IConfigService {
   private config: AppConfig;

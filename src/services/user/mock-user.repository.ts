@@ -1,6 +1,37 @@
+/**
+ * Mock implementation of the user repository.
+ * @remarks
+ * Provides an in-memory, stubbed version of the data access layer for User entities, used to isolate unit tests from the database.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { IConfigService } from '../config/types';
 import { User, IUserRepository } from './types';
 
+/**
+ * In-memory mock of the User repository.
+ *
+ * @remarks
+ * Provides a stubbed, ephemeral data access layer for User entities to facilitate isolated unit testing of services depending on IUserRepository.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * MockUserRepository([MockUserRepository]) -->|Implements| IUserRepository[IUserRepository]
+ * Client[Test Suite] -.->|Instantiates| MockUserRepository
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const repo = new MockUserRepository();
+ * ```
+ *
+ * @public
+ */
 export class MockUserRepository implements IUserRepository {
   private users: User[] = [];
 

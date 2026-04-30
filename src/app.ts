@@ -1,4 +1,15 @@
 /**
+ * Application entry point and initialization.
+ * @remarks
+ * Bootstraps the Express server and Slack bot, initializes the database connection, and wires up all application services and routes.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
+/**
  * Application bootstrapper.
  * Initializes configuration, services, and starts the background processes.
  */

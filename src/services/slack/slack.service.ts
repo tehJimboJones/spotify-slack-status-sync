@@ -1,3 +1,14 @@
+/**
+ * Core Slack integration service.
+ * @remarks
+ * Wraps the Slack Bolt API, managing the bot's connection, exposing methods for sending messages or updating status, and orchestrating event listeners.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import { App } from '@slack/bolt';
 import { IConfigService } from '../config/types';
 import { User } from '../user/types';
@@ -12,6 +23,27 @@ import {
   SlackSettingsModalError,
 } from './errors';
 
+/**
+ * Concrete implementation of the Slack integration.
+ *
+ * @remarks
+ * Wraps the `@slack/bolt` framework, managing the bot's WebSocket connection and mediating all outbound calls and inbound events.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * SlackService([SlackService]) -->|Implements| ISlackService[ISlackService]
+ * SlackService -->|Uses| IConfigService[IConfigService]
+ * Client[App Bootstrap] -.->|Instantiates| SlackService
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const slackService = new SlackService(configService);
+ * ```
+ *
+ * @public
+ */
 export class SlackService implements ISlackService {
   private app: App;
 

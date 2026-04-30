@@ -13,7 +13,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "test": "jest",
     "test:watch": "jest --watch",
-    "docs": "typedoc --plugin typedoc-plugin-markdown --out docs/api --entryPointStrategy expand src",
+    "docs": "typedoc --plugin typedoc-plugin-markdown --out docs/jsdoc --entryPointStrategy expand src",
     "prepare": "husky"
   },
   "lint-staged": {

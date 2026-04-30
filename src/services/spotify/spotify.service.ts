@@ -1,9 +1,41 @@
+/**
+ * Core Spotify API integration service.
+ * @remarks
+ * Handles authentication, token refresh, and data retrieval from the Spotify Web API, specifically fetching currently playing tracks and podcasts.
+ *
+ * @author jmaciejewski
+ * @date   2026-04-29
+ * @copyright (c) 2026 Spotify Status Bot. All rights reserved.
+ *
+ * @packageDocumentation
+ */
 import axios from 'axios';
 import { IConfigService } from '../config/types';
 import { User } from '../user/types';
 import { ISpotifyService, TrackState } from './types';
 import { SpotifyTokenRefreshError, SpotifyCurrentlyPlayingError } from './errors';
 
+/**
+ * Concrete implementation of the Spotify API service.
+ *
+ * @remarks
+ * Handles network requests to the Spotify API via Axios, parsing responses into TrackState DTOs and managing OAuth token refreshes.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * SpotifyService([SpotifyService]) -->|Implements| ISpotifyService[ISpotifyService]
+ * SpotifyService -->|Uses| IConfigService[IConfigService]
+ * Client[App Bootstrap] -.->|Instantiates| SpotifyService
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const spotifyService = new SpotifyService(configService);
+ * ```
+ *
+ * @public
+ */
 export class SpotifyService implements ISpotifyService {
   private accessTokens: Map<string, string> = new Map();
   private tokenExpirations: Map<string, number> = new Map();
