@@ -1,6 +1,6 @@
 {
   "name": "spotify-status-bot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Slack bot that updates your status based on your currently playing Spotify track",
   "main": "dist/src/app.js",
   "scripts": {
