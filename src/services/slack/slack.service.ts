@@ -55,8 +55,6 @@ export class SlackService implements ISlackService {
     });
     this.app = new App({
       token: configService.getSlackConfig().userToken,
-      appToken: configService.getSlackConfig().appToken,
-      socketMode: !!configService.getSlackConfig().appToken,
       receiver: this.receiver,
     });
   }
@@ -157,10 +155,11 @@ export class SlackService implements ISlackService {
   }
 
   public async start(): Promise<void> {
-    // HTTP lifecycle is owned by the shared Express server in app.ts.
-    // In Socket Mode, Bolt's WebSocket connection is established when
-    // the App is constructed — nothing extra is needed here.
-    console.log('Slack Bolt app initialized (HTTP managed by shared Express server).');
+    // Wire all registered listeners into the ExpressReceiver's middleware
+    // chain without starting a second HTTP server. The shared Express server
+    // in app.ts owns the HTTP lifecycle; events arrive at POST /slack/events.
+    await this.app.init();
+    console.log('Slack Bolt app initialized. Listening for events at POST /slack/events.');
   }
 
   public getRouter(): Router {
