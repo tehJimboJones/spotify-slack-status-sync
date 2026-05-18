@@ -55,6 +55,7 @@ export class SlackService implements ISlackService {
     });
     this.app = new App({
       token: configService.getSlackConfig().userToken,
+      appToken: configService.getSlackConfig().appToken,
       receiver: this.receiver,
     });
   }
