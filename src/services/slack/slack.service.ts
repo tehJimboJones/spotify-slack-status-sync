@@ -154,14 +154,6 @@ export class SlackService implements ISlackService {
     }
   }
 
-  public async start(): Promise<void> {
-    // Wire all registered listeners into the ExpressReceiver's middleware
-    // chain without starting a second HTTP server. The shared Express server
-    // in app.ts owns the HTTP lifecycle; events arrive at POST /slack/events.
-    await this.app.init();
-    console.log('Slack Bolt app initialized. Listening for events at POST /slack/events.');
-  }
-
   public getRouter(): Router {
     // ExpressReceiver bundles its own @types/express (v4) which diverges from
     // the project's express@5 types at the structural level. Both are

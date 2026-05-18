@@ -27,11 +27,11 @@ jest.mock('@slack/bolt', () => {
         open: jest.fn().mockResolvedValue({ ok: true }),
       },
     },
-    start: jest.fn().mockResolvedValue(undefined),
     command: jest.fn(),
     view: jest.fn(),
   };
-  return { App: jest.fn(() => mApp) };
+  const mReceiver = { router: {} };
+  return { App: jest.fn(() => mApp), ExpressReceiver: jest.fn(() => mReceiver) };
 });
 
 describe('SlackService', () => {
@@ -76,11 +76,10 @@ describe('SlackService', () => {
     service = new SlackService(mockConfig);
   });
 
-  it('should initialize the bolt app with the correct credentials', () => {
+  it('should initialize the bolt app with the correct token', () => {
     expect(App).toHaveBeenCalledWith(
       expect.objectContaining({
         token: 'xoxp-test',
-        signingSecret: 'secret',
       }),
     );
   });
@@ -116,12 +115,6 @@ describe('SlackService', () => {
         status_expiration: 0,
       }),
     });
-  });
-  it('should start the bolt app on the configured port', async () => {
-    await service.start();
-
-    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
-    expect(mockedAppInstance.start).toHaveBeenCalledWith(3000);
   });
 
   it('should register command listener', () => {

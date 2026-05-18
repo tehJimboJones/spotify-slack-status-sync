@@ -97,10 +97,6 @@ export interface ISlackService {
   updateMessage(channel: string, messageTimestamp: string, text: string): Promise<void>;
   setStatus(user: User, text: string, emoji: string): Promise<void>;
   clearStatus(user: User): Promise<void>;
-  start(): Promise<void>;
-  /**
-   * Returns the Express Router for the Bolt receiver, to be mounted on the shared app server.
-   */
   getRouter(): Router;
   registerCommandListener(listener: ICommandListener): void;
   registerViewListener(listener: IViewListener): void;

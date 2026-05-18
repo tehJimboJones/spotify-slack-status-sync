@@ -65,9 +65,6 @@ async function bootstrap() {
     slack.registerViewListener(settingsModalViewListener);
     slack.registerEventListener(reactionListener);
 
-    // Initialize Bolt (establishes WS connection in Socket Mode)
-    await slack.start();
-
     // Single shared Express server
     const app = express();
     const port = configService.getBotConfig().port;
