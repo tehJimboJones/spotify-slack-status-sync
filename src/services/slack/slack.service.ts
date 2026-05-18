@@ -9,7 +9,8 @@
  *
  * @packageDocumentation
  */
-import { App } from '@slack/bolt';
+import { App, ExpressReceiver } from '@slack/bolt';
+import { Router } from 'express';
 import { IConfigService } from '../config/types';
 import { User } from '../user/types';
 import { ICommandListener } from './command/types';
@@ -46,13 +47,17 @@ import {
  */
 export class SlackService implements ISlackService {
   private app: App;
+  private receiver: ExpressReceiver;
 
   constructor(private configService: IConfigService) {
+    this.receiver = new ExpressReceiver({
+      signingSecret: configService.getSlackConfig().signingSecret,
+    });
     this.app = new App({
       token: configService.getSlackConfig().userToken,
-      signingSecret: configService.getSlackConfig().signingSecret,
       appToken: configService.getSlackConfig().appToken,
       socketMode: !!configService.getSlackConfig().appToken,
+      receiver: this.receiver,
     });
   }
 
@@ -152,8 +157,17 @@ export class SlackService implements ISlackService {
   }
 
   public async start(): Promise<void> {
-    await this.app.start(this.configService.getBotConfig().port);
-    console.log(`Slack Bolt app started on port ${this.configService.getBotConfig().port}`);
+    // HTTP lifecycle is owned by the shared Express server in app.ts.
+    // In Socket Mode, Bolt's WebSocket connection is established when
+    // the App is constructed — nothing extra is needed here.
+    console.log('Slack Bolt app initialized (HTTP managed by shared Express server).');
+  }
+
+  public getRouter(): Router {
+    // ExpressReceiver bundles its own @types/express (v4) which diverges from
+    // the project's express@5 types at the structural level. Both are
+    // wire-compatible at runtime; the cast is intentional and safe.
+    return this.receiver.router as unknown as Router;
   }
 
   public registerCommandListener(listener: ICommandListener): void {

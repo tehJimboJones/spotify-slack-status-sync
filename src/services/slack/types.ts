@@ -13,6 +13,7 @@ import { User } from '../user/types';
 import { ICommandListener } from './command/types';
 import { IViewListener } from './view/types';
 import { SlackEvent, ViewResponseAction } from '@slack/bolt';
+import { Router } from 'express';
 
 export { SlackEvent, ViewResponseAction };
 
@@ -97,6 +98,10 @@ export interface ISlackService {
   setStatus(user: User, text: string, emoji: string): Promise<void>;
   clearStatus(user: User): Promise<void>;
   start(): Promise<void>;
+  /**
+   * Returns the Express Router for the Bolt receiver, to be mounted on the shared app server.
+   */
+  getRouter(): Router;
   registerCommandListener(listener: ICommandListener): void;
   registerViewListener(listener: IViewListener): void;
   registerEventListener(listener: IEventListener): void;

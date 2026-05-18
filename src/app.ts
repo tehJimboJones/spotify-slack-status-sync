@@ -65,18 +65,25 @@ async function bootstrap() {
     slack.registerViewListener(settingsModalViewListener);
     slack.registerEventListener(reactionListener);
 
-    // Start the Slack Bolt app to listen for commands
+    // Initialize Bolt (establishes WS connection in Socket Mode)
     await slack.start();
+
+    // Single shared Express server
+    const app = express();
+    const port = configService.getBotConfig().port;
+
+    // Mount Bolt's receiver router (handles POST /slack/events)
+    app.use(slack.getRouter());
+
+    // Mount auth routes
+    app.use('/auth', createAuthRouter(configService, userService));
 
     // Start background sync
     syncService.start();
 
-    // Start Express server for OAuth callbacks
-    const authApp = express();
-    const authPort = parseInt(process.env.AUTH_PORT || '3001', 10);
-    authApp.use('/auth', createAuthRouter(configService, userService));
-    authApp.listen(authPort, () => {
-      console.log(`Auth Express server started on port ${authPort}`);
+    // One port to rule them all
+    app.listen(port, () => {
+      console.log(`Server listening on port ${port}`);
     });
 
     console.log('Application bootstrapped successfully.');
