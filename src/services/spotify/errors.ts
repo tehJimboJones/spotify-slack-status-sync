@@ -62,3 +62,35 @@ export class SpotifyCurrentlyPlayingError extends AppError {
     super(message, 'SPOTIFY_CURRENTLY_PLAYING_ERROR');
   }
 }
+
+/**
+ * Exception thrown when the Spotify service is in an active exponential-backoff window.
+ *
+ * @remarks
+ * Raised immediately (without making a network request) whenever a caller attempts to reach
+ * Spotify while the service is still waiting out a prior 429 rate-limit response.  Callers
+ * should inspect {@link SpotifyRateLimitError.retryAfterMs} to know how long to wait.
+ *
+ * ### Relationships
+ * ```mermaid
+ * graph TD
+ * SpotifyRateLimitError([SpotifyRateLimitError]) -->|Extends| AppError[AppError]
+ * SpotifyService[SpotifyService] -.-|Throws| SpotifyRateLimitError
+ * ```
+ *
+ * @example
+ * ```typescript
+ * throw new SpotifyRateLimitError(12_000);
+ * ```
+ *
+ * @public
+ */
+export class SpotifyRateLimitError extends AppError {
+  /** Milliseconds remaining in the current backoff window. */
+  readonly retryAfterMs: number;
+
+  constructor(retryAfterMs: number) {
+    super(`Spotify rate limit active — retry in ${retryAfterMs} ms`, 'SPOTIFY_RATE_LIMIT_ERROR');
+    this.retryAfterMs = retryAfterMs;
+  }
+}
