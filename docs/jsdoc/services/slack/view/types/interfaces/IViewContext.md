@@ -6,7 +6,7 @@
 
 # Interface: IViewContext
 
-Defined in: [src/services/slack/view/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/view/types.ts#L35)
+Defined in: [src/services/slack/view/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/view/types.ts#L35)
 
 Context payload for Slack view submissions.
 
@@ -33,7 +33,7 @@ const ctx: IViewContext = { user: 'U123', view: { state: { values: {} } } };
 
 > **ack**: (`response?`) => `Promise`\<`void`\>
 
-Defined in: [src/services/slack/view/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/view/types.ts#L36)
+Defined in: [src/services/slack/view/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/view/types.ts#L36)
 
 #### Parameters
 
@@ -51,7 +51,7 @@ Defined in: [src/services/slack/view/types.ts:36](https://github.com/tehJimboJon
 
 > **body**: `SlackViewAction`
 
-Defined in: [src/services/slack/view/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/view/types.ts#L37)
+Defined in: [src/services/slack/view/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/view/types.ts#L37)
 
 ***
 
@@ -59,4 +59,4 @@ Defined in: [src/services/slack/view/types.ts:37](https://github.com/tehJimboJon
 
 > **view**: `ViewOutput`
 
-Defined in: [src/services/slack/view/types.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/view/types.ts#L38)
+Defined in: [src/services/slack/view/types.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/view/types.ts#L38)

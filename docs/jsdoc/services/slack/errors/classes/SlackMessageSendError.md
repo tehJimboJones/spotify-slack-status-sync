@@ -6,7 +6,7 @@
 
 # Class: SlackMessageSendError
 
-Defined in: [src/services/slack/errors.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/errors.ts#L34)
+Defined in: [src/services/slack/errors.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/errors.ts#L34)
 
 Exception for Slack message delivery failures.
 
@@ -37,7 +37,7 @@ throw new SlackMessageSendError('Failed to send message to channel X');
 
 > **new SlackMessageSendError**(`message?`): `SlackMessageSendError`
 
-Defined in: [src/services/slack/errors.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/errors.ts#L35)
+Defined in: [src/services/slack/errors.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/errors.ts#L35)
 
 #### Parameters
 
@@ -71,7 +71,7 @@ Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 > `readonly` **code**: `string`
 
-Defined in: [src/errors.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/errors.ts#L33)
+Defined in: [src/errors.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/errors.ts#L33)
 
 #### Inherited from
 

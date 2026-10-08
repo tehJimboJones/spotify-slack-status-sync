@@ -6,7 +6,7 @@
 
 # Class: CommandListenerService
 
-Defined in: [src/services/slack/command/command-listener.service.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/command-listener.service.ts#L40)
+Defined in: [src/services/slack/command/command-listener.service.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/command-listener.service.ts#L40)
 
 Handler for bot-specific slash commands.
 
@@ -38,7 +38,7 @@ const commandListener = new CommandListenerService(userService, slackService);
 
 > **new CommandListenerService**(`userService`, `configService`, `sessionRepository?`): `CommandListenerService`
 
-Defined in: [src/services/slack/command/command-listener.service.ts:43](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/command-listener.service.ts#L43)
+Defined in: [src/services/slack/command/command-listener.service.ts:43](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/command-listener.service.ts#L43)
 
 #### Parameters
 
@@ -64,7 +64,7 @@ Defined in: [src/services/slack/command/command-listener.service.ts:43](https://
 
 > `readonly` **commandName**: `"/spotifystatus"` = `'/spotifystatus'`
 
-Defined in: [src/services/slack/command/command-listener.service.ts:41](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/command-listener.service.ts#L41)
+Defined in: [src/services/slack/command/command-listener.service.ts:41](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/command-listener.service.ts#L41)
 
 #### Implementation of
 
@@ -76,7 +76,7 @@ Defined in: [src/services/slack/command/command-listener.service.ts:41](https://
 
 > **handle**(`context`, `slackService`): `Promise`\<`void`\>
 
-Defined in: [src/services/slack/command/command-listener.service.ts:49](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/command-listener.service.ts#L49)
+Defined in: [src/services/slack/command/command-listener.service.ts:49](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/command-listener.service.ts#L49)
 
 #### Parameters
 

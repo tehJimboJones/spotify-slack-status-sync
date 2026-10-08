@@ -6,7 +6,7 @@
 
 # Class: UserNotFoundError
 
-Defined in: [src/services/user/errors.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/errors.ts#L36)
+Defined in: [src/services/user/errors.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/errors.ts#L36)
 
 Exception thrown when a user cannot be located.
 
@@ -37,7 +37,7 @@ throw new UserNotFoundError('User U123 not found');
 
 > **new UserNotFoundError**(`message?`): `UserNotFoundError`
 
-Defined in: [src/services/user/errors.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/errors.ts#L37)
+Defined in: [src/services/user/errors.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/errors.ts#L37)
 
 #### Parameters
 

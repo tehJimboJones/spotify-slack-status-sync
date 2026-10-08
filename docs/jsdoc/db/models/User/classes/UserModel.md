@@ -6,7 +6,7 @@
 
 # Class: UserModel
 
-Defined in: [src/db/models/User.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L40)
+Defined in: [src/db/models/User.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L40)
 
 Sequelize ORM model mapping to the users table.
 
@@ -173,7 +173,7 @@ Defined in: node\_modules/sequelize-typescript/dist/model/model/model.d.ts:17
 
 > **id**: `string`
 
-Defined in: [src/db/models/User.ts:46](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L46)
+Defined in: [src/db/models/User.ts:46](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L46)
 
 #### Implementation of
 
@@ -203,7 +203,7 @@ Returns true if this instance has not yet been persisted to the database
 
 > **isSyncActive**: `boolean`
 
-Defined in: [src/db/models/User.ts:72](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L72)
+Defined in: [src/db/models/User.ts:72](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L72)
 
 #### Implementation of
 
@@ -215,7 +215,7 @@ Defined in: [src/db/models/User.ts:72](https://github.com/tehJimboJones/spotify-
 
 > **pausedEmoji**: `string`
 
-Defined in: [src/db/models/User.ts:93](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L93)
+Defined in: [src/db/models/User.ts:93](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L93)
 
 #### Implementation of
 
@@ -227,7 +227,7 @@ Defined in: [src/db/models/User.ts:93](https://github.com/tehJimboJones/spotify-
 
 > **podcastPausedEmoji**: `string`
 
-Defined in: [src/db/models/User.ts:121](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L121)
+Defined in: [src/db/models/User.ts:121](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L121)
 
 #### Implementation of
 
@@ -239,7 +239,7 @@ Defined in: [src/db/models/User.ts:121](https://github.com/tehJimboJones/spotify
 
 > **podcastStatusEmoji**: `string`
 
-Defined in: [src/db/models/User.ts:114](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L114)
+Defined in: [src/db/models/User.ts:114](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L114)
 
 #### Implementation of
 
@@ -251,7 +251,7 @@ Defined in: [src/db/models/User.ts:114](https://github.com/tehJimboJones/spotify
 
 > **podcastStatusFormat**: `string`
 
-Defined in: [src/db/models/User.ts:107](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L107)
+Defined in: [src/db/models/User.ts:107](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L107)
 
 #### Implementation of
 
@@ -277,7 +277,7 @@ A reference to the sequelize instance
 
 > **slackUserId**: `string`
 
-Defined in: [src/db/models/User.ts:53](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L53)
+Defined in: [src/db/models/User.ts:53](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L53)
 
 #### Implementation of
 
@@ -289,7 +289,7 @@ Defined in: [src/db/models/User.ts:53](https://github.com/tehJimboJones/spotify-
 
 > **slackUserToken**: `string`
 
-Defined in: [src/db/models/User.ts:59](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L59)
+Defined in: [src/db/models/User.ts:59](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L59)
 
 #### Implementation of
 
@@ -301,7 +301,7 @@ Defined in: [src/db/models/User.ts:59](https://github.com/tehJimboJones/spotify-
 
 > **spotifyRefreshToken**: `string`
 
-Defined in: [src/db/models/User.ts:65](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L65)
+Defined in: [src/db/models/User.ts:65](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L65)
 
 #### Implementation of
 
@@ -313,7 +313,7 @@ Defined in: [src/db/models/User.ts:65](https://github.com/tehJimboJones/spotify-
 
 > **statusEmoji**: `string`
 
-Defined in: [src/db/models/User.ts:86](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L86)
+Defined in: [src/db/models/User.ts:86](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L86)
 
 #### Implementation of
 
@@ -325,7 +325,7 @@ Defined in: [src/db/models/User.ts:86](https://github.com/tehJimboJones/spotify-
 
 > **statusFormat**: `string`
 
-Defined in: [src/db/models/User.ts:79](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L79)
+Defined in: [src/db/models/User.ts:79](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L79)
 
 #### Implementation of
 
@@ -337,7 +337,7 @@ Defined in: [src/db/models/User.ts:79](https://github.com/tehJimboJones/spotify-
 
 > **syncPodcasts**: `boolean`
 
-Defined in: [src/db/models/User.ts:100](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/User.ts#L100)
+Defined in: [src/db/models/User.ts:100](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/User.ts#L100)
 
 #### Implementation of
 
@@ -455,7 +455,7 @@ The attributes of the model.
 
 #### Deprecated
 
-use [Model.getAttributes](../../EmojiConfigSession/classes/EmojiConfigSessionModel.md#getattributes) for better typings.
+use [Model.getAttributes](../../AcronymConfig/classes/AcronymConfigModel.md#getattributes) for better typings.
 
 #### Inherited from
 
@@ -4609,7 +4609,7 @@ Defined in: node\_modules/sequelize/types/model.d.ts:2551
 
 Decrements the value of one or more attributes.
 
-Works like [Model.increment](../../EmojiConfigSession/classes/EmojiConfigSessionModel.md#increment-1)
+Works like [Model.increment](../../AcronymConfig/classes/AcronymConfigModel.md#increment-1)
 
 ##### Type Parameters
 
@@ -4657,7 +4657,7 @@ Defined in: node\_modules/sequelize/types/model.d.ts:2556
 
 Decrements the value of one or more attributes.
 
-Works like [Model.increment](../../EmojiConfigSession/classes/EmojiConfigSessionModel.md#increment-1)
+Works like [Model.increment](../../AcronymConfig/classes/AcronymConfigModel.md#increment-1)
 
 ##### Type Parameters
 
@@ -5214,7 +5214,7 @@ Skip locked rows. Only supported in Postgres.
 Use sub queries (internal).
 
 If unspecified, this will `true` by default if `limit` is specified, and `false` otherwise.
-See [FindOptions#limit](https://sequelize.org/api/v7/interfaces/_sequelize_core.index.findoptions) for more information.
+See [FindOptions#limit](https://sequelize.org/api/v7/interfaces/_sequelize_core.index.findoptions#limit) for more information.
 
 ###### transaction?
 

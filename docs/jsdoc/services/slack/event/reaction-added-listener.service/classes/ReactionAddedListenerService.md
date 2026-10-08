@@ -6,7 +6,7 @@
 
 # Class: ReactionAddedListenerService
 
-Defined in: [src/services/slack/event/reaction-added-listener.service.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/event/reaction-added-listener.service.ts#L37)
+Defined in: [src/services/slack/event/reaction-added-listener.service.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/event/reaction-added-listener.service.ts#L37)
 
 Handler for the `reaction_added` Slack event.
 
@@ -38,7 +38,7 @@ const listener = new ReactionAddedListenerService(sessionRepo);
 
 > **new ReactionAddedListenerService**(`userService`, `sessionRepository`): `ReactionAddedListenerService`
 
-Defined in: [src/services/slack/event/reaction-added-listener.service.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/event/reaction-added-listener.service.ts#L40)
+Defined in: [src/services/slack/event/reaction-added-listener.service.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/event/reaction-added-listener.service.ts#L40)
 
 #### Parameters
 
@@ -60,7 +60,7 @@ Defined in: [src/services/slack/event/reaction-added-listener.service.ts:40](htt
 
 > `readonly` **eventName**: `"reaction_added"` = `'reaction_added'`
 
-Defined in: [src/services/slack/event/reaction-added-listener.service.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/event/reaction-added-listener.service.ts#L38)
+Defined in: [src/services/slack/event/reaction-added-listener.service.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/event/reaction-added-listener.service.ts#L38)
 
 #### Implementation of
 
@@ -72,7 +72,7 @@ Defined in: [src/services/slack/event/reaction-added-listener.service.ts:38](htt
 
 > **handle**(`context`, `slackService`): `Promise`\<`void`\>
 
-Defined in: [src/services/slack/event/reaction-added-listener.service.ts:45](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/event/reaction-added-listener.service.ts#L45)
+Defined in: [src/services/slack/event/reaction-added-listener.service.ts:45](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/event/reaction-added-listener.service.ts#L45)
 
 #### Parameters
 

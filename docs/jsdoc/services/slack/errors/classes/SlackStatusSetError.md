@@ -6,7 +6,7 @@
 
 # Class: SlackStatusSetError
 
-Defined in: [src/services/slack/errors.ts:86](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/errors.ts#L86)
+Defined in: [src/services/slack/errors.ts:86](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/errors.ts#L86)
 
 Exception for Slack status modification failures.
 
@@ -37,7 +37,7 @@ throw new SlackStatusSetError('Failed to set status for user U123');
 
 > **new SlackStatusSetError**(`message?`): `SlackStatusSetError`
 
-Defined in: [src/services/slack/errors.ts:87](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/errors.ts#L87)
+Defined in: [src/services/slack/errors.ts:87](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/errors.ts#L87)
 
 #### Parameters
 
@@ -71,7 +71,7 @@ Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 > `readonly` **code**: `string`
 
-Defined in: [src/errors.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/errors.ts#L33)
+Defined in: [src/errors.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/errors.ts#L33)
 
 #### Inherited from
 

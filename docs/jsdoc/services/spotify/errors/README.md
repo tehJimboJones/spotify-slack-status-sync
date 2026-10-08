@@ -27,4 +27,5 @@ jmaciejewski
 ## Classes
 
 - [SpotifyCurrentlyPlayingError](classes/SpotifyCurrentlyPlayingError.md)
+- [SpotifyRateLimitError](classes/SpotifyRateLimitError.md)
 - [SpotifyTokenRefreshError](classes/SpotifyTokenRefreshError.md)

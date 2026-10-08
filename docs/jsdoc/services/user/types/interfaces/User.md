@@ -6,7 +6,7 @@
 
 # Interface: User
 
-Defined in: [src/services/user/types.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L33)
+Defined in: [src/services/user/types.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L33)
 
 Domain model interface for a User.
 
@@ -34,7 +34,7 @@ const user: User = { slackId: 'U123', isSyncEnabled: true };
 
 > **id**: `string`
 
-Defined in: [src/services/user/types.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L34)
+Defined in: [src/services/user/types.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L34)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [src/services/user/types.ts:34](https://github.com/tehJimboJones/spo
 
 > **isSyncActive**: `boolean`
 
-Defined in: [src/services/user/types.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L38)
+Defined in: [src/services/user/types.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L38)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [src/services/user/types.ts:38](https://github.com/tehJimboJones/spo
 
 > **pausedEmoji**: `string`
 
-Defined in: [src/services/user/types.ts:41](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L41)
+Defined in: [src/services/user/types.ts:41](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L41)
 
 ***
 
@@ -58,7 +58,7 @@ Defined in: [src/services/user/types.ts:41](https://github.com/tehJimboJones/spo
 
 > **podcastPausedEmoji**: `string`
 
-Defined in: [src/services/user/types.ts:45](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L45)
+Defined in: [src/services/user/types.ts:45](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L45)
 
 ***
 
@@ -66,7 +66,7 @@ Defined in: [src/services/user/types.ts:45](https://github.com/tehJimboJones/spo
 
 > **podcastStatusEmoji**: `string`
 
-Defined in: [src/services/user/types.ts:44](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L44)
+Defined in: [src/services/user/types.ts:44](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L44)
 
 ***
 
@@ -74,7 +74,7 @@ Defined in: [src/services/user/types.ts:44](https://github.com/tehJimboJones/spo
 
 > **podcastStatusFormat**: `string`
 
-Defined in: [src/services/user/types.ts:43](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L43)
+Defined in: [src/services/user/types.ts:43](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L43)
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: [src/services/user/types.ts:43](https://github.com/tehJimboJones/spo
 
 > **slackUserId**: `string`
 
-Defined in: [src/services/user/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L35)
+Defined in: [src/services/user/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L35)
 
 ***
 
@@ -90,7 +90,7 @@ Defined in: [src/services/user/types.ts:35](https://github.com/tehJimboJones/spo
 
 > **slackUserToken**: `string`
 
-Defined in: [src/services/user/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L36)
+Defined in: [src/services/user/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L36)
 
 ***
 
@@ -98,7 +98,7 @@ Defined in: [src/services/user/types.ts:36](https://github.com/tehJimboJones/spo
 
 > **spotifyRefreshToken**: `string`
 
-Defined in: [src/services/user/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L37)
+Defined in: [src/services/user/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L37)
 
 ***
 
@@ -106,7 +106,7 @@ Defined in: [src/services/user/types.ts:37](https://github.com/tehJimboJones/spo
 
 > **statusEmoji**: `string`
 
-Defined in: [src/services/user/types.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L40)
+Defined in: [src/services/user/types.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L40)
 
 ***
 
@@ -114,7 +114,7 @@ Defined in: [src/services/user/types.ts:40](https://github.com/tehJimboJones/spo
 
 > **statusFormat**: `string`
 
-Defined in: [src/services/user/types.ts:39](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L39)
+Defined in: [src/services/user/types.ts:39](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L39)
 
 ***
 
@@ -122,4 +122,4 @@ Defined in: [src/services/user/types.ts:39](https://github.com/tehJimboJones/spo
 
 > **syncPodcasts**: `boolean`
 
-Defined in: [src/services/user/types.ts:42](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L42)
+Defined in: [src/services/user/types.ts:42](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L42)

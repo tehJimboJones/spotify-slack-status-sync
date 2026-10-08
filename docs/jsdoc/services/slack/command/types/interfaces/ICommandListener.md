@@ -6,7 +6,7 @@
 
 # Interface: ICommandListener
 
-Defined in: [src/services/slack/command/types.ts:62](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/types.ts#L62)
+Defined in: [src/services/slack/command/types.ts:62](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/types.ts#L62)
 
 Interface for handling Slack slash commands.
 
@@ -34,7 +34,7 @@ slackService.registerCommandListener('/spotify', commandListener);
 
 > **commandName**: `string`
 
-Defined in: [src/services/slack/command/types.ts:63](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/types.ts#L63)
+Defined in: [src/services/slack/command/types.ts:63](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/types.ts#L63)
 
 ## Methods
 
@@ -42,7 +42,7 @@ Defined in: [src/services/slack/command/types.ts:63](https://github.com/tehJimbo
 
 > **handle**(`context`, `slackService`): `Promise`\<`void`\>
 
-Defined in: [src/services/slack/command/types.ts:64](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/types.ts#L64)
+Defined in: [src/services/slack/command/types.ts:64](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/types.ts#L64)
 
 #### Parameters
 

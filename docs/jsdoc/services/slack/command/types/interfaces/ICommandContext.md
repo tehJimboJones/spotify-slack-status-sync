@@ -6,7 +6,7 @@
 
 # Interface: ICommandContext
 
-Defined in: [src/services/slack/command/types.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/types.ts#L34)
+Defined in: [src/services/slack/command/types.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/types.ts#L34)
 
 Context payload for Slack slash commands.
 
@@ -33,7 +33,7 @@ const ctx: ICommandContext = { command: '/spotify', text: 'on', user: 'U123' };
 
 > **respond**: (`text`) => `Promise`\<`void`\>
 
-Defined in: [src/services/slack/command/types.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/types.ts#L38)
+Defined in: [src/services/slack/command/types.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/types.ts#L38)
 
 #### Parameters
 
@@ -51,7 +51,7 @@ Defined in: [src/services/slack/command/types.ts:38](https://github.com/tehJimbo
 
 > **text**: `string`
 
-Defined in: [src/services/slack/command/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/types.ts#L37)
+Defined in: [src/services/slack/command/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/types.ts#L37)
 
 ***
 
@@ -59,7 +59,7 @@ Defined in: [src/services/slack/command/types.ts:37](https://github.com/tehJimbo
 
 > **triggerId**: `string`
 
-Defined in: [src/services/slack/command/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/types.ts#L36)
+Defined in: [src/services/slack/command/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/types.ts#L36)
 
 ***
 
@@ -67,4 +67,4 @@ Defined in: [src/services/slack/command/types.ts:36](https://github.com/tehJimbo
 
 > **userId**: `string`
 
-Defined in: [src/services/slack/command/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/command/types.ts#L35)
+Defined in: [src/services/slack/command/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/command/types.ts#L35)

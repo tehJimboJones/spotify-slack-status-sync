@@ -6,7 +6,7 @@
 
 # Interface: TrackState
 
-Defined in: [src/services/spotify/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/spotify/types.ts#L35)
+Defined in: [src/services/spotify/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/spotify/types.ts#L35)
 
 Represents the current Spotify playback state.
 
@@ -34,7 +34,7 @@ const state: TrackState = { isPlaying: true, title: 'Song', artist: 'Artist' };
 
 > `optional` **artistName?**: `string`
 
-Defined in: [src/services/spotify/types.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/spotify/types.ts#L38)
+Defined in: [src/services/spotify/types.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/spotify/types.ts#L38)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [src/services/spotify/types.ts:38](https://github.com/tehJimboJones/
 
 > **isPlaying**: `boolean`
 
-Defined in: [src/services/spotify/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/spotify/types.ts#L36)
+Defined in: [src/services/spotify/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/spotify/types.ts#L36)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [src/services/spotify/types.ts:36](https://github.com/tehJimboJones/
 
 > `optional` **songName?**: `string`
 
-Defined in: [src/services/spotify/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/spotify/types.ts#L37)
+Defined in: [src/services/spotify/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/spotify/types.ts#L37)
 
 ***
 
@@ -58,4 +58,4 @@ Defined in: [src/services/spotify/types.ts:37](https://github.com/tehJimboJones/
 
 > `optional` **type?**: `"track"` \| `"episode"`
 
-Defined in: [src/services/spotify/types.ts:39](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/spotify/types.ts#L39)
+Defined in: [src/services/spotify/types.ts:39](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/spotify/types.ts#L39)

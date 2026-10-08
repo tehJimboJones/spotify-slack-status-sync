@@ -6,7 +6,7 @@
 
 # Interface: AppConfig
 
-Defined in: [src/services/config/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/types.ts#L35)
+Defined in: [src/services/config/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/types.ts#L35)
 
 Structure of the unified application configuration.
 
@@ -33,7 +33,7 @@ const cfg: AppConfig = { port: 3000, slack: { ... } };
 
 > **bot**: `object`
 
-Defined in: [src/services/config/types.ts:52](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/types.ts#L52)
+Defined in: [src/services/config/types.ts:52](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/types.ts#L52)
 
 Bot behavior configuration
 
@@ -67,7 +67,7 @@ Bot behavior configuration
 
 > **db**: `object`
 
-Defined in: [src/services/config/types.ts:60](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/types.ts#L60)
+Defined in: [src/services/config/types.ts:60](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/types.ts#L60)
 
 #### dialect
 
@@ -103,7 +103,7 @@ Defined in: [src/services/config/types.ts:60](https://github.com/tehJimboJones/s
 
 > **slack**: `object`
 
-Defined in: [src/services/config/types.ts:44](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/types.ts#L44)
+Defined in: [src/services/config/types.ts:44](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/types.ts#L44)
 
 Slack API configuration credentials
 
@@ -133,7 +133,7 @@ Slack API configuration credentials
 
 > **spotify**: `object`
 
-Defined in: [src/services/config/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/types.ts#L37)
+Defined in: [src/services/config/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/types.ts#L37)
 
 Spotify API configuration credentials
 

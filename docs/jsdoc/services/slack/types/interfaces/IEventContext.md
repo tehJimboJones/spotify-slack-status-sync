@@ -6,7 +6,7 @@
 
 # Interface: IEventContext
 
-Defined in: [src/services/slack/types.ts:39](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L39)
+Defined in: [src/services/slack/types.ts:54](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L54)
 
 Context payload for Slack events.
 
@@ -33,7 +33,7 @@ const ctx: IEventContext = { event: { type: 'reaction_added' } };
 
 > **body**: `Record`\<`string`, `unknown`\>
 
-Defined in: [src/services/slack/types.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L40)
+Defined in: [src/services/slack/types.ts:55](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L55)
 
 ***
 
@@ -41,4 +41,4 @@ Defined in: [src/services/slack/types.ts:40](https://github.com/tehJimboJones/sp
 
 > **event**: [`SlackEvent`](../type-aliases/SlackEvent.md)
 
-Defined in: [src/services/slack/types.ts:41](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L41)
+Defined in: [src/services/slack/types.ts:56](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L56)

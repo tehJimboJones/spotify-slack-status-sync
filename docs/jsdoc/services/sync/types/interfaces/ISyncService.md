@@ -6,7 +6,7 @@
 
 # Interface: ISyncService
 
-Defined in: [src/services/sync/types.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/sync/types.ts#L33)
+Defined in: [src/services/sync/types.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/sync/types.ts#L33)
 
 Interface for the status synchronization orchestrator.
 
@@ -34,7 +34,7 @@ syncService.startSync();
 
 > **start**(): `void`
 
-Defined in: [src/services/sync/types.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/sync/types.ts#L34)
+Defined in: [src/services/sync/types.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/sync/types.ts#L34)
 
 #### Returns
 
@@ -46,7 +46,7 @@ Defined in: [src/services/sync/types.ts:34](https://github.com/tehJimboJones/spo
 
 > **stop**(): `void`
 
-Defined in: [src/services/sync/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/sync/types.ts#L35)
+Defined in: [src/services/sync/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/sync/types.ts#L35)
 
 #### Returns
 
@@ -58,7 +58,7 @@ Defined in: [src/services/sync/types.ts:35](https://github.com/tehJimboJones/spo
 
 > **syncNow**(): `Promise`\<`void`\>
 
-Defined in: [src/services/sync/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/sync/types.ts#L36)
+Defined in: [src/services/sync/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/sync/types.ts#L36)
 
 #### Returns
 

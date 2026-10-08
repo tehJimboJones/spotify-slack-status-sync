@@ -8,7 +8,7 @@
 
 > **createAuthRouter**(`configService`, `userService`): `Router`
 
-Defined in: [src/routes/auth.ts:47](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/routes/auth.ts#L47)
+Defined in: [src/routes/auth.ts:47](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/routes/auth.ts#L47)
 
 ## Parameters
 

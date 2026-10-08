@@ -26,6 +26,9 @@ jest.mock('@slack/bolt', () => {
       views: {
         open: jest.fn().mockResolvedValue({ ok: true }),
       },
+      conversations: {
+        join: jest.fn().mockResolvedValue({ ok: true }),
+      },
     },
     command: jest.fn(),
     view: jest.fn(),
@@ -191,6 +194,46 @@ describe('SlackService', () => {
     await expect(service.clearStatus(mockUser)).rejects.toThrow(SlackStatusClearError);
   });
 
+  it('should send a message with default options when none are provided', async () => {
+    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+    mockedAppInstance.client.chat.postMessage.mockResolvedValueOnce({
+      ok: true,
+      channel: 'C1',
+      ts: '123',
+    });
+
+    const result = await service.sendMessage('C1', 'Hello World');
+    expect(result).toEqual({ channel: 'C1', messageTimestamp: '123' });
+    expect(mockedAppInstance.client.chat.postMessage).toHaveBeenCalledWith({
+      channel: 'C1',
+      text: 'Hello World',
+    });
+  });
+
+  it('should send a message with custom username, icon, and threadTs when options are provided', async () => {
+    const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+    mockedAppInstance.client.chat.postMessage.mockResolvedValueOnce({
+      ok: true,
+      channel: 'C1',
+      ts: '123',
+    });
+
+    const result = await service.sendMessage('C1', 'Guess text?', {
+      username: 'BTU Bot',
+      iconEmoji: ':robot_face:',
+      threadTs: 'parent_ts_123',
+    });
+
+    expect(result).toEqual({ channel: 'C1', messageTimestamp: '123' });
+    expect(mockedAppInstance.client.chat.postMessage).toHaveBeenCalledWith({
+      channel: 'C1',
+      text: 'Guess text?',
+      username: 'BTU Bot',
+      icon_emoji: ':robot_face:',
+      thread_ts: 'parent_ts_123',
+    });
+  });
+
   it('should throw SlackMessageSendError when postMessage fails', async () => {
     const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
     const error = new Error('API Error');
@@ -218,5 +261,36 @@ describe('SlackService', () => {
     await expect(service.openSettingsModal('trigger-1', 'U1', mockUser)).rejects.toThrow(
       SlackSettingsModalError,
     );
+  });
+
+  describe('joinChannel', () => {
+    it('should call conversations.join and return true on success', async () => {
+      const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+      mockedAppInstance.client.conversations.join.mockResolvedValueOnce({ ok: true });
+
+      const result = await service.joinChannel('C123');
+      expect(result).toBe(true);
+      expect(mockedAppInstance.client.conversations.join).toHaveBeenCalledWith({ channel: 'C123' });
+    });
+
+    it('should return true if already in channel (already_in_channel warning)', async () => {
+      const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+      mockedAppInstance.client.conversations.join.mockResolvedValueOnce({
+        ok: true,
+        warning: 'already_in_channel',
+      });
+
+      const result = await service.joinChannel('C123');
+      expect(result).toBe(true);
+    });
+
+    it('should return false gracefully if channel join fails with an API error (e.g. private channel)', async () => {
+      const mockedAppInstance = (App as unknown as jest.Mock).mock.results[0].value;
+      const apiError = new Error('method_not_supported_for_channel_type');
+      mockedAppInstance.client.conversations.join.mockRejectedValueOnce(apiError);
+
+      const result = await service.joinChannel('C_PRIVATE');
+      expect(result).toBe(false);
+    });
   });
 });

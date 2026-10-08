@@ -6,7 +6,7 @@
 
 # Class: AppError
 
-Defined in: [src/errors.ts:32](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/errors.ts#L32)
+Defined in: [src/errors.ts:32](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/errors.ts#L32)
 
 Base exception class for application errors.
 
@@ -33,6 +33,7 @@ throw new AppError('Something went wrong', 500);
 
 ## Extended by
 
+- [`AcronymError`](../../services/acronym/errors/classes/AcronymError.md)
 - [`SlackMessageSendError`](../../services/slack/errors/classes/SlackMessageSendError.md)
 - [`SlackMessageUpdateError`](../../services/slack/errors/classes/SlackMessageUpdateError.md)
 - [`SlackStatusSetError`](../../services/slack/errors/classes/SlackStatusSetError.md)
@@ -40,6 +41,7 @@ throw new AppError('Something went wrong', 500);
 - [`SlackSettingsModalError`](../../services/slack/errors/classes/SlackSettingsModalError.md)
 - [`SpotifyTokenRefreshError`](../../services/spotify/errors/classes/SpotifyTokenRefreshError.md)
 - [`SpotifyCurrentlyPlayingError`](../../services/spotify/errors/classes/SpotifyCurrentlyPlayingError.md)
+- [`SpotifyRateLimitError`](../../services/spotify/errors/classes/SpotifyRateLimitError.md)
 
 ## Constructors
 
@@ -47,7 +49,7 @@ throw new AppError('Something went wrong', 500);
 
 > **new AppError**(`message`, `code`): `AppError`
 
-Defined in: [src/errors.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/errors.ts#L35)
+Defined in: [src/errors.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/errors.ts#L35)
 
 #### Parameters
 
@@ -85,7 +87,7 @@ Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 > `readonly` **code**: `string`
 
-Defined in: [src/errors.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/errors.ts#L33)
+Defined in: [src/errors.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/errors.ts#L33)
 
 ***
 

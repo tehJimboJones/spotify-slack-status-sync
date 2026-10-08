@@ -24,7 +24,13 @@ import { ReactionAddedListenerService } from './services/slack/event/reaction-ad
 import { SessionRepository } from './services/session/session.repository';
 import { getDbConnection } from './db/connection';
 import { SequelizeUserRepository } from './db/repositories/UserRepository';
+import { SequelizeAcronymConfigRepository } from './db/repositories/AcronymConfigRepository';
+import { AcronymService } from './services/acronym/acronym.service';
+import { AcronymCommandListenerService } from './services/slack/command/acronym-command-listener.service';
+import { AcronymMessageListenerService } from './services/slack/event/acronym-message-listener.service';
 import express from 'express';
+import path from 'path';
+import fs from 'fs';
 import { createAuthRouter } from './routes/auth';
 
 /**
@@ -61,9 +67,28 @@ async function bootstrap() {
     const reactionListener = new ReactionAddedListenerService(userService, sessionRepository);
     const settingsModalViewListener = new SettingsModalViewListener(userService);
 
+    // Initialize Acronym Guesser Feature
+    const acronymCatalogPath =
+      [
+        path.resolve(process.cwd(), 'config/acronyms.json'),
+        path.resolve(__dirname, '../config/acronyms.json'),
+        path.resolve(__dirname, '../../config/acronyms.json'),
+      ].find((p) => fs.existsSync(p)) || path.resolve(process.cwd(), 'config/acronyms.json');
+
+    const acronymRepository = new SequelizeAcronymConfigRepository();
+    const acronymService = new AcronymService(acronymRepository, acronymCatalogPath);
+    const acronymCommandListener = new AcronymCommandListenerService(acronymService);
+    const acronymMessageListener = new AcronymMessageListenerService(acronymService);
+
     slack.registerCommandListener(commandListener);
+    slack.registerCommandListener(acronymCommandListener);
     slack.registerViewListener(settingsModalViewListener);
     slack.registerEventListener(reactionListener);
+    slack.registerEventListener(acronymMessageListener);
+
+    // Auto-join configured monitored channels on startup (public channels with channels:join scope)
+    const monitoredChannels = await acronymService.getMonitoredChannels();
+    await Promise.allSettled(monitoredChannels.map((c) => slack.joinChannel(c)));
 
     // Single shared Express server
     const app = express();

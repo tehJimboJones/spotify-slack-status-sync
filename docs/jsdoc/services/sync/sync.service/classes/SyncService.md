@@ -6,7 +6,7 @@
 
 # Class: SyncService
 
-Defined in: [src/services/sync/sync.service.ts:43](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/sync/sync.service.ts#L43)
+Defined in: [src/services/sync/sync.service.ts:48](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/sync/sync.service.ts#L48)
 
 Orchestrates Spotify-to-Slack status synchronization.
 
@@ -40,7 +40,7 @@ const syncService = new SyncService(userService, spotifyService, slackService);
 
 > **new SyncService**(`spotify`, `slack`, `userService`, `configService`): `SyncService`
 
-Defined in: [src/services/sync/sync.service.ts:48](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/sync/sync.service.ts#L48)
+Defined in: [src/services/sync/sync.service.ts:74](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/sync/sync.service.ts#L74)
 
 #### Parameters
 
@@ -48,17 +48,25 @@ Defined in: [src/services/sync/sync.service.ts:48](https://github.com/tehJimboJo
 
 [`ISpotifyService`](../../../spotify/types/interfaces/ISpotifyService.md)
 
+Spotify API service for fetching playback state.
+
 ##### slack
 
 [`ISlackService`](../../../slack/types/interfaces/ISlackService.md)
+
+Slack API service for updating user profile statuses.
 
 ##### userService
 
 [`IUserService`](../../../user/types/interfaces/IUserService.md)
 
+Service for retrieving active users to sync.
+
 ##### configService
 
 [`IConfigService`](../../../config/types/interfaces/IConfigService.md)
+
+Application configuration provider.
 
 #### Returns
 
@@ -70,11 +78,17 @@ Defined in: [src/services/sync/sync.service.ts:48](https://github.com/tehJimboJo
 
 > **start**(): `void`
 
-Defined in: [src/services/sync/sync.service.ts:55](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/sync/sync.service.ts#L55)
+Defined in: [src/services/sync/sync.service.ts:89](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/sync/sync.service.ts#L89)
+
+Starts the background polling loop.
 
 #### Returns
 
 `void`
+
+#### Remarks
+
+No-ops if the service is already running. Logs the configured poll interval on startup.
 
 #### Implementation of
 
@@ -86,7 +100,9 @@ Defined in: [src/services/sync/sync.service.ts:55](https://github.com/tehJimboJo
 
 > **stop**(): `void`
 
-Defined in: [src/services/sync/sync.service.ts:66](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/sync/sync.service.ts#L66)
+Defined in: [src/services/sync/sync.service.ts:105](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/sync/sync.service.ts#L105)
+
+Stops the background polling loop and cancels any pending timer.
 
 #### Returns
 
@@ -102,11 +118,21 @@ Defined in: [src/services/sync/sync.service.ts:66](https://github.com/tehJimboJo
 
 > **syncNow**(): `Promise`\<`void`\>
 
-Defined in: [src/services/sync/sync.service.ts:88](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/sync/sync.service.ts#L88)
+Defined in: [src/services/sync/sync.service.ts:143](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/sync/sync.service.ts#L143)
+
+Performs a single synchronization pass across all active users.
 
 #### Returns
 
 `Promise`\<`void`\>
+
+#### Remarks
+
+For each user, fetches the current Spotify playback state and, if it has changed
+since the last poll, updates or clears their Slack status accordingly.
+Per-user errors are isolated so one failure does not prevent other users from syncing.
+If a [SpotifyRateLimitError](../../../spotify/errors/classes/SpotifyRateLimitError.md) is caught, `nextPollDelayMs` is updated so the
+subsequent `runLoop` tick respects the backoff window.
 
 #### Implementation of
 

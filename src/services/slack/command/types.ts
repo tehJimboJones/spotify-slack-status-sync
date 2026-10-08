@@ -35,6 +35,8 @@ export interface ICommandContext {
   userId: string;
   triggerId: string;
   text: string;
+  channelId?: string;
+  channelName?: string;
   respond: (text: string) => Promise<void>;
 }
 

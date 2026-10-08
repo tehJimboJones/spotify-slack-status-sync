@@ -6,7 +6,7 @@
 
 # Interface: IEventListener
 
-Defined in: [src/services/slack/types.ts:65](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L65)
+Defined in: [src/services/slack/types.ts:80](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L80)
 
 Interface for handling Slack events.
 
@@ -34,7 +34,7 @@ slackService.registerEventListener('reaction_added', reactionListener);
 
 > **eventName**: `string`
 
-Defined in: [src/services/slack/types.ts:66](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L66)
+Defined in: [src/services/slack/types.ts:81](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L81)
 
 ## Methods
 
@@ -42,7 +42,7 @@ Defined in: [src/services/slack/types.ts:66](https://github.com/tehJimboJones/sp
 
 > **handle**(`context`, `slackService`): `Promise`\<`void`\>
 
-Defined in: [src/services/slack/types.ts:67](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L67)
+Defined in: [src/services/slack/types.ts:82](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L82)
 
 #### Parameters
 

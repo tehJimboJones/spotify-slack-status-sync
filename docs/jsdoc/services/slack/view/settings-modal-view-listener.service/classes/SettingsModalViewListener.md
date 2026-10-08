@@ -6,7 +6,7 @@
 
 # Class: SettingsModalViewListener
 
-Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:45](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/view/settings-modal-view-listener.service.ts#L45)
+Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:45](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/view/settings-modal-view-listener.service.ts#L45)
 
 Handler for the Slack settings modal submission.
 
@@ -38,7 +38,7 @@ const listener = new SettingsModalViewListener(userService);
 
 > **new SettingsModalViewListener**(`userService`): `SettingsModalViewListener`
 
-Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:48](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/view/settings-modal-view-listener.service.ts#L48)
+Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:48](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/view/settings-modal-view-listener.service.ts#L48)
 
 #### Parameters
 
@@ -56,7 +56,7 @@ Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:48]
 
 > `readonly` **viewCallbackId**: `"settings_modal"` = `'settings_modal'`
 
-Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:46](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/view/settings-modal-view-listener.service.ts#L46)
+Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:46](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/view/settings-modal-view-listener.service.ts#L46)
 
 #### Implementation of
 
@@ -68,7 +68,7 @@ Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:46]
 
 > **handle**(`context`, `_slackService`): `Promise`\<`void`\>
 
-Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:51](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/view/settings-modal-view-listener.service.ts#L51)
+Defined in: [src/services/slack/view/settings-modal-view-listener.service.ts:51](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/view/settings-modal-view-listener.service.ts#L51)
 
 #### Parameters
 

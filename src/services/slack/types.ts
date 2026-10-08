@@ -18,6 +18,20 @@ import { Router } from 'express';
 export { SlackEvent, ViewResponseAction };
 
 /**
+ * Options for sending messages to Slack.
+ *
+ * @public
+ */
+export interface SlackSendMessageOptions {
+  /** Custom bot username to post as (requires chat:write.customize) */
+  username?: string;
+  /** Custom emoji icon (e.g. :robot_face:) */
+  iconEmoji?: string;
+  /** Parent message timestamp to reply in thread */
+  threadTs?: string;
+}
+
+/**
  * Context payload for Slack events.
  *
  * @remarks
@@ -93,6 +107,7 @@ export interface ISlackService {
   sendMessage(
     channelOrUserId: string,
     text: string,
+    options?: SlackSendMessageOptions,
   ): Promise<{ channel: string; messageTimestamp: string } | null>;
   updateMessage(channel: string, messageTimestamp: string, text: string): Promise<void>;
   setStatus(user: User, text: string, emoji: string): Promise<void>;
@@ -106,4 +121,5 @@ export interface ISlackService {
     userId: string,
     currentSettings: Partial<User>,
   ): Promise<void>;
+  joinChannel(channelId: string): Promise<boolean>;
 }

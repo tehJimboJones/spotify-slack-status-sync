@@ -6,7 +6,7 @@
 
 # Interface: EmojiConfigSession
 
-Defined in: [src/services/session/types.ts:32](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/types.ts#L32)
+Defined in: [src/services/session/types.ts:32](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/types.ts#L32)
 
 Domain model for an emoji configuration session.
 
@@ -33,7 +33,7 @@ const session: EmojiConfigSession = { userId: 'U123', messageTs: '12345.67' };
 
 > **channelId**: `string`
 
-Defined in: [src/services/session/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/types.ts#L35)
+Defined in: [src/services/session/types.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/types.ts#L35)
 
 ***
 
@@ -41,7 +41,7 @@ Defined in: [src/services/session/types.ts:35](https://github.com/tehJimboJones/
 
 > **id**: `number`
 
-Defined in: [src/services/session/types.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/types.ts#L33)
+Defined in: [src/services/session/types.ts:33](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/types.ts#L33)
 
 ***
 
@@ -49,7 +49,7 @@ Defined in: [src/services/session/types.ts:33](https://github.com/tehJimboJones/
 
 > **messageTs**: `string`
 
-Defined in: [src/services/session/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/types.ts#L36)
+Defined in: [src/services/session/types.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/types.ts#L36)
 
 ***
 
@@ -57,7 +57,7 @@ Defined in: [src/services/session/types.ts:36](https://github.com/tehJimboJones/
 
 > **settingType**: `"statusEmoji"` \| `"pausedEmoji"` \| `"podcastStatusEmoji"` \| `"podcastPausedEmoji"`
 
-Defined in: [src/services/session/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/types.ts#L37)
+Defined in: [src/services/session/types.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/types.ts#L37)
 
 ***
 
@@ -65,4 +65,4 @@ Defined in: [src/services/session/types.ts:37](https://github.com/tehJimboJones/
 
 > **userId**: `string`
 
-Defined in: [src/services/session/types.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/types.ts#L34)
+Defined in: [src/services/session/types.ts:34](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/types.ts#L34)

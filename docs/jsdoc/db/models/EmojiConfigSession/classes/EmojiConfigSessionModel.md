@@ -6,7 +6,7 @@
 
 # Class: EmojiConfigSessionModel
 
-Defined in: [src/db/models/EmojiConfigSession.ts:41](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/EmojiConfigSession.ts#L41)
+Defined in: [src/db/models/EmojiConfigSession.ts:41](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/EmojiConfigSession.ts#L41)
 
 Sequelize ORM model for transient emoji sessions.
 
@@ -135,7 +135,7 @@ try to access this!
 
 > **channelId**: `string`
 
-Defined in: [src/db/models/EmojiConfigSession.ts:62](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/EmojiConfigSession.ts#L62)
+Defined in: [src/db/models/EmojiConfigSession.ts:62](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/EmojiConfigSession.ts#L62)
 
 #### Implementation of
 
@@ -185,7 +185,7 @@ Defined in: node\_modules/sequelize-typescript/dist/model/model/model.d.ts:17
 
 > **id**: `number`
 
-Defined in: [src/db/models/EmojiConfigSession.ts:50](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/EmojiConfigSession.ts#L50)
+Defined in: [src/db/models/EmojiConfigSession.ts:50](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/EmojiConfigSession.ts#L50)
 
 #### Implementation of
 
@@ -215,7 +215,7 @@ Returns true if this instance has not yet been persisted to the database
 
 > **messageTs**: `string`
 
-Defined in: [src/db/models/EmojiConfigSession.ts:68](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/EmojiConfigSession.ts#L68)
+Defined in: [src/db/models/EmojiConfigSession.ts:68](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/EmojiConfigSession.ts#L68)
 
 #### Implementation of
 
@@ -241,7 +241,7 @@ A reference to the sequelize instance
 
 > **settingType**: `"statusEmoji"` \| `"pausedEmoji"` \| `"podcastStatusEmoji"` \| `"podcastPausedEmoji"`
 
-Defined in: [src/db/models/EmojiConfigSession.ts:74](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/EmojiConfigSession.ts#L74)
+Defined in: [src/db/models/EmojiConfigSession.ts:74](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/EmojiConfigSession.ts#L74)
 
 #### Implementation of
 
@@ -265,7 +265,7 @@ Defined in: node\_modules/sequelize-typescript/dist/model/model/model.d.ts:16
 
 > **userId**: `string`
 
-Defined in: [src/db/models/EmojiConfigSession.ts:56](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/models/EmojiConfigSession.ts#L56)
+Defined in: [src/db/models/EmojiConfigSession.ts:56](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/models/EmojiConfigSession.ts#L56)
 
 #### Implementation of
 
@@ -371,7 +371,7 @@ The attributes of the model.
 
 #### Deprecated
 
-use [Model.getAttributes](#getattributes) for better typings.
+use [Model.getAttributes](../../AcronymConfig/classes/AcronymConfigModel.md#getattributes) for better typings.
 
 #### Inherited from
 
@@ -4497,7 +4497,7 @@ Defined in: node\_modules/sequelize/types/model.d.ts:2551
 
 Decrements the value of one or more attributes.
 
-Works like [Model.increment](#increment-1)
+Works like [Model.increment](../../AcronymConfig/classes/AcronymConfigModel.md#increment-1)
 
 ##### Type Parameters
 
@@ -4545,7 +4545,7 @@ Defined in: node\_modules/sequelize/types/model.d.ts:2556
 
 Decrements the value of one or more attributes.
 
-Works like [Model.increment](#increment-1)
+Works like [Model.increment](../../AcronymConfig/classes/AcronymConfigModel.md#increment-1)
 
 ##### Type Parameters
 
@@ -5102,7 +5102,7 @@ Skip locked rows. Only supported in Postgres.
 Use sub queries (internal).
 
 If unspecified, this will `true` by default if `limit` is specified, and `false` otherwise.
-See [FindOptions#limit](https://sequelize.org/api/v7/interfaces/_sequelize_core.index.findoptions) for more information.
+See [FindOptions#limit](https://sequelize.org/api/v7/interfaces/_sequelize_core.index.findoptions#limit) for more information.
 
 ###### transaction?
 

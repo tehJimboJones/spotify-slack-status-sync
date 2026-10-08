@@ -8,7 +8,7 @@
 
 > **getDbConnection**(`configService`): `Sequelize`
 
-Defined in: [src/db/connection.ts:25](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/connection.ts#L25)
+Defined in: [src/db/connection.ts:26](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/connection.ts#L26)
 
 Initializes and returns the Sequelize database connection.
 

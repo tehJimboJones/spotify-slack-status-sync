@@ -29,6 +29,7 @@ jmaciejewski
 - [IEventContext](interfaces/IEventContext.md)
 - [IEventListener](interfaces/IEventListener.md)
 - [ISlackService](interfaces/ISlackService.md)
+- [SlackSendMessageOptions](interfaces/SlackSendMessageOptions.md)
 
 ## Type Aliases
 

@@ -6,7 +6,7 @@
 
 # Class: ConfigService
 
-Defined in: [src/services/config/config.service.ts:41](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/config.service.ts#L41)
+Defined in: [src/services/config/config.service.ts:41](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/config.service.ts#L41)
 
 Centralized configuration management service.
 
@@ -37,7 +37,7 @@ const configService = new ConfigService();
 
 > **new ConfigService**(): `ConfigService`
 
-Defined in: [src/services/config/config.service.ts:44](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/config.service.ts#L44)
+Defined in: [src/services/config/config.service.ts:44](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/config.service.ts#L44)
 
 #### Returns
 
@@ -49,7 +49,7 @@ Defined in: [src/services/config/config.service.ts:44](https://github.com/tehJim
 
 > **getBotConfig**(): `object`
 
-Defined in: [src/services/config/config.service.ts:115](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/config.service.ts#L115)
+Defined in: [src/services/config/config.service.ts:115](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/config.service.ts#L115)
 
 #### Returns
 
@@ -89,7 +89,7 @@ Defined in: [src/services/config/config.service.ts:115](https://github.com/tehJi
 
 > **getDbConfig**(): `object`
 
-Defined in: [src/services/config/config.service.ts:119](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/config.service.ts#L119)
+Defined in: [src/services/config/config.service.ts:119](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/config.service.ts#L119)
 
 #### Returns
 
@@ -133,7 +133,7 @@ Defined in: [src/services/config/config.service.ts:119](https://github.com/tehJi
 
 > **getFullConfig**(): [`AppConfig`](../../types/interfaces/AppConfig.md)
 
-Defined in: [src/services/config/config.service.ts:123](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/config.service.ts#L123)
+Defined in: [src/services/config/config.service.ts:123](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/config.service.ts#L123)
 
 #### Returns
 
@@ -149,7 +149,7 @@ Defined in: [src/services/config/config.service.ts:123](https://github.com/tehJi
 
 > **getSlackConfig**(): `object`
 
-Defined in: [src/services/config/config.service.ts:111](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/config.service.ts#L111)
+Defined in: [src/services/config/config.service.ts:111](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/config.service.ts#L111)
 
 #### Returns
 
@@ -185,7 +185,7 @@ Defined in: [src/services/config/config.service.ts:111](https://github.com/tehJi
 
 > **getSpotifyConfig**(): `object`
 
-Defined in: [src/services/config/config.service.ts:107](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/config/config.service.ts#L107)
+Defined in: [src/services/config/config.service.ts:107](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/config/config.service.ts#L107)
 
 #### Returns
 

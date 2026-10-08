@@ -6,7 +6,7 @@
 
 # Class: MockSpotifyService
 
-Defined in: [src/services/spotify/mock-spotify.service.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/spotify/mock-spotify.service.ts#L35)
+Defined in: [src/services/spotify/mock-spotify.service.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/spotify/mock-spotify.service.ts#L35)
 
 Mock implementation of the Spotify service.
 
@@ -37,7 +37,7 @@ const spotifyService = new MockSpotifyService();
 
 > **new MockSpotifyService**(`config?`): `MockSpotifyService`
 
-Defined in: [src/services/spotify/mock-spotify.service.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/spotify/mock-spotify.service.ts#L38)
+Defined in: [src/services/spotify/mock-spotify.service.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/spotify/mock-spotify.service.ts#L38)
 
 #### Parameters
 
@@ -55,7 +55,7 @@ Defined in: [src/services/spotify/mock-spotify.service.ts:38](https://github.com
 
 > **getCurrentlyPlaying**(`user`): `Promise`\<[`TrackState`](../../types/interfaces/TrackState.md) \| `null`\>
 
-Defined in: [src/services/spotify/mock-spotify.service.ts:42](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/spotify/mock-spotify.service.ts#L42)
+Defined in: [src/services/spotify/mock-spotify.service.ts:42](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/spotify/mock-spotify.service.ts#L42)
 
 #### Parameters
 
@@ -77,7 +77,7 @@ Defined in: [src/services/spotify/mock-spotify.service.ts:42](https://github.com
 
 > **setMockState**(`state`): `void`
 
-Defined in: [src/services/spotify/mock-spotify.service.ts:50](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/spotify/mock-spotify.service.ts#L50)
+Defined in: [src/services/spotify/mock-spotify.service.ts:50](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/spotify/mock-spotify.service.ts#L50)
 
 #### Parameters
 

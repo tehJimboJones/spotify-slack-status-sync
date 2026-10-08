@@ -6,7 +6,7 @@
 
 # Class: SessionRepository
 
-Defined in: [src/services/session/session.repository.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/session.repository.ts#L36)
+Defined in: [src/services/session/session.repository.ts:36](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/session.repository.ts#L36)
 
 Concrete repository for managing sessions.
 
@@ -48,7 +48,7 @@ const sessionRepo = new SessionRepository();
 
 > **createSession**(`session`): `Promise`\<[`EmojiConfigSession`](../../types/interfaces/EmojiConfigSession.md)\>
 
-Defined in: [src/services/session/session.repository.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/session.repository.ts#L37)
+Defined in: [src/services/session/session.repository.ts:37](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/session.repository.ts#L37)
 
 #### Parameters
 
@@ -70,7 +70,7 @@ Defined in: [src/services/session/session.repository.ts:37](https://github.com/t
 
 > **deleteSession**(`id`): `Promise`\<`void`\>
 
-Defined in: [src/services/session/session.repository.ts:57](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/session.repository.ts#L57)
+Defined in: [src/services/session/session.repository.ts:57](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/session.repository.ts#L57)
 
 #### Parameters
 
@@ -92,7 +92,7 @@ Defined in: [src/services/session/session.repository.ts:57](https://github.com/t
 
 > **deleteSessionsByMessageTs**(`messageTsList`): `Promise`\<`void`\>
 
-Defined in: [src/services/session/session.repository.ts:63](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/session.repository.ts#L63)
+Defined in: [src/services/session/session.repository.ts:63](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/session.repository.ts#L63)
 
 #### Parameters
 
@@ -114,7 +114,7 @@ Defined in: [src/services/session/session.repository.ts:63](https://github.com/t
 
 > **findActiveSessions**(`userId`): `Promise`\<[`EmojiConfigSession`](../../types/interfaces/EmojiConfigSession.md)[]\>
 
-Defined in: [src/services/session/session.repository.ts:43](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/session.repository.ts#L43)
+Defined in: [src/services/session/session.repository.ts:43](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/session.repository.ts#L43)
 
 #### Parameters
 
@@ -136,7 +136,7 @@ Defined in: [src/services/session/session.repository.ts:43](https://github.com/t
 
 > **findByMessageTs**(`messageTs`): `Promise`\<[`EmojiConfigSession`](../../types/interfaces/EmojiConfigSession.md) \| `null`\>
 
-Defined in: [src/services/session/session.repository.ts:50](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/session/session.repository.ts#L50)
+Defined in: [src/services/session/session.repository.ts:50](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/session/session.repository.ts#L50)
 
 #### Parameters
 

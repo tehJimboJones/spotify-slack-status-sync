@@ -15,7 +15,7 @@ import { IConfigService } from '../config/types';
 import { User } from '../user/types';
 import { ICommandListener } from './command/types';
 import { IViewListener } from './view/types';
-import { ISlackService, IEventListener } from './types';
+import { ISlackService, IEventListener, SlackSendMessageOptions } from './types';
 import {
   SlackMessageSendError,
   SlackMessageUpdateError,
@@ -62,12 +62,26 @@ export class SlackService implements ISlackService {
   public async sendMessage(
     channelOrUserId: string,
     text: string,
+    options?: SlackSendMessageOptions,
   ): Promise<{ channel: string; messageTimestamp: string } | null> {
     try {
-      const response = await this.app.client.chat.postMessage({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const postArgs: any = {
         channel: channelOrUserId,
         text,
-      });
+      };
+
+      if (options?.username) {
+        postArgs.username = options.username;
+      }
+      if (options?.iconEmoji) {
+        postArgs.icon_emoji = options.iconEmoji;
+      }
+      if (options?.threadTs) {
+        postArgs.thread_ts = options.threadTs;
+      }
+
+      const response = await this.app.client.chat.postMessage(postArgs);
 
       if (response.ok && response.channel && response.ts) {
         return {
@@ -169,6 +183,8 @@ export class SlackService implements ISlackService {
           userId: command.user_id,
           triggerId: command.trigger_id,
           text: command.text,
+          channelId: command.channel_id,
+          channelName: command.channel_name,
           respond: async (text: string) => {
             await respond(text);
           },
@@ -292,6 +308,25 @@ export class SlackService implements ISlackService {
       throw new SlackSettingsModalError(
         `Failed to open settings modal: ${(error as Error).message}`,
       );
+    }
+  }
+
+  public async joinChannel(channelId: string): Promise<boolean> {
+    try {
+      const response = await this.app.client.conversations.join({
+        channel: channelId,
+      });
+      if (response.ok) {
+        console.log(`[SlackService] Successfully joined channel ${channelId}`);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      // Non-fatal: private channels, already in channel, or missing channels:join scope
+      const err = error as { data?: { error?: string }; message?: string };
+      const errCode = err.data?.error || err.message || 'unknown_error';
+      console.log(`[SlackService] Could not join channel ${channelId} (${errCode}).`);
+      return false;
     }
   }
 }

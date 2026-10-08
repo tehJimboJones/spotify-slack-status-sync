@@ -6,7 +6,7 @@
 
 # Interface: ISlackService
 
-Defined in: [src/services/slack/types.ts:91](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L91)
+Defined in: [src/services/slack/types.ts:106](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L106)
 
 Interface for Slack API interactions.
 
@@ -34,7 +34,7 @@ await slackService.setStatus('U123', 'Working', ':computer:');
 
 > **clearStatus**(`user`): `Promise`\<`void`\>
 
-Defined in: [src/services/slack/types.ts:98](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L98)
+Defined in: [src/services/slack/types.ts:114](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L114)
 
 #### Parameters
 
@@ -48,11 +48,23 @@ Defined in: [src/services/slack/types.ts:98](https://github.com/tehJimboJones/sp
 
 ***
 
+### getRouter()
+
+> **getRouter**(): `Router`
+
+Defined in: [src/services/slack/types.ts:115](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L115)
+
+#### Returns
+
+`Router`
+
+***
+
 ### openSettingsModal()
 
 > **openSettingsModal**(`triggerId`, `userId`, `currentSettings`): `Promise`\<`void`\>
 
-Defined in: [src/services/slack/types.ts:103](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L103)
+Defined in: [src/services/slack/types.ts:119](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L119)
 
 #### Parameters
 
@@ -78,7 +90,7 @@ Defined in: [src/services/slack/types.ts:103](https://github.com/tehJimboJones/s
 
 > **registerCommandListener**(`listener`): `void`
 
-Defined in: [src/services/slack/types.ts:100](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L100)
+Defined in: [src/services/slack/types.ts:116](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L116)
 
 #### Parameters
 
@@ -96,7 +108,7 @@ Defined in: [src/services/slack/types.ts:100](https://github.com/tehJimboJones/s
 
 > **registerEventListener**(`listener`): `void`
 
-Defined in: [src/services/slack/types.ts:102](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L102)
+Defined in: [src/services/slack/types.ts:118](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L118)
 
 #### Parameters
 
@@ -114,7 +126,7 @@ Defined in: [src/services/slack/types.ts:102](https://github.com/tehJimboJones/s
 
 > **registerViewListener**(`listener`): `void`
 
-Defined in: [src/services/slack/types.ts:101](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L101)
+Defined in: [src/services/slack/types.ts:117](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L117)
 
 #### Parameters
 
@@ -130,9 +142,9 @@ Defined in: [src/services/slack/types.ts:101](https://github.com/tehJimboJones/s
 
 ### sendMessage()
 
-> **sendMessage**(`channelOrUserId`, `text`): `Promise`\<\{ `channel`: `string`; `messageTimestamp`: `string`; \} \| `null`\>
+> **sendMessage**(`channelOrUserId`, `text`, `options?`): `Promise`\<\{ `channel`: `string`; `messageTimestamp`: `string`; \} \| `null`\>
 
-Defined in: [src/services/slack/types.ts:92](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L92)
+Defined in: [src/services/slack/types.ts:107](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L107)
 
 #### Parameters
 
@@ -144,6 +156,10 @@ Defined in: [src/services/slack/types.ts:92](https://github.com/tehJimboJones/sp
 
 `string`
 
+##### options?
+
+[`SlackSendMessageOptions`](SlackSendMessageOptions.md)
+
 #### Returns
 
 `Promise`\<\{ `channel`: `string`; `messageTimestamp`: `string`; \} \| `null`\>
@@ -154,7 +170,7 @@ Defined in: [src/services/slack/types.ts:92](https://github.com/tehJimboJones/sp
 
 > **setStatus**(`user`, `text`, `emoji`): `Promise`\<`void`\>
 
-Defined in: [src/services/slack/types.ts:97](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L97)
+Defined in: [src/services/slack/types.ts:113](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L113)
 
 #### Parameters
 
@@ -176,23 +192,11 @@ Defined in: [src/services/slack/types.ts:97](https://github.com/tehJimboJones/sp
 
 ***
 
-### start()
-
-> **start**(): `Promise`\<`void`\>
-
-Defined in: [src/services/slack/types.ts:99](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L99)
-
-#### Returns
-
-`Promise`\<`void`\>
-
-***
-
 ### updateMessage()
 
 > **updateMessage**(`channel`, `messageTimestamp`, `text`): `Promise`\<`void`\>
 
-Defined in: [src/services/slack/types.ts:96](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/slack/types.ts#L96)
+Defined in: [src/services/slack/types.ts:112](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/slack/types.ts#L112)
 
 #### Parameters
 

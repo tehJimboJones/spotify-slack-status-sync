@@ -6,7 +6,7 @@
 
 # Class: SequelizeUserRepository
 
-Defined in: [src/db/repositories/UserRepository.ts:39](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/repositories/UserRepository.ts#L39)
+Defined in: [src/db/repositories/UserRepository.ts:39](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/repositories/UserRepository.ts#L39)
 
 Sequelize-based implementation of the User repository.
 
@@ -48,7 +48,7 @@ const userRepository = new SequelizeUserRepository();
 
 > **create**(`user`): `Promise`\<[`User`](../../../../services/user/types/interfaces/User.md)\>
 
-Defined in: [src/db/repositories/UserRepository.ts:63](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/repositories/UserRepository.ts#L63)
+Defined in: [src/db/repositories/UserRepository.ts:63](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/repositories/UserRepository.ts#L63)
 
 Helper method for tests/admin to create users since we removed create() from interface
 to align with Phase 1 constraints.
@@ -73,7 +73,7 @@ to align with Phase 1 constraints.
 
 > **findAll**(): `Promise`\<[`User`](../../../../services/user/types/interfaces/User.md)[]\>
 
-Defined in: [src/db/repositories/UserRepository.ts:54](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/repositories/UserRepository.ts#L54)
+Defined in: [src/db/repositories/UserRepository.ts:54](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/repositories/UserRepository.ts#L54)
 
 #### Returns
 
@@ -89,7 +89,7 @@ Defined in: [src/db/repositories/UserRepository.ts:54](https://github.com/tehJim
 
 > **findById**(`id`): `Promise`\<[`User`](../../../../services/user/types/interfaces/User.md) \| `null`\>
 
-Defined in: [src/db/repositories/UserRepository.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/repositories/UserRepository.ts#L40)
+Defined in: [src/db/repositories/UserRepository.ts:40](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/repositories/UserRepository.ts#L40)
 
 #### Parameters
 
@@ -111,7 +111,7 @@ Defined in: [src/db/repositories/UserRepository.ts:40](https://github.com/tehJim
 
 > **findBySlackId**(`slackId`): `Promise`\<[`User`](../../../../services/user/types/interfaces/User.md) \| `null`\>
 
-Defined in: [src/db/repositories/UserRepository.ts:45](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/repositories/UserRepository.ts#L45)
+Defined in: [src/db/repositories/UserRepository.ts:45](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/repositories/UserRepository.ts#L45)
 
 #### Parameters
 
@@ -133,7 +133,7 @@ Defined in: [src/db/repositories/UserRepository.ts:45](https://github.com/tehJim
 
 > **update**(`slackId`, `data`): `Promise`\<`void`\>
 
-Defined in: [src/db/repositories/UserRepository.ts:50](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/db/repositories/UserRepository.ts#L50)
+Defined in: [src/db/repositories/UserRepository.ts:50](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/db/repositories/UserRepository.ts#L50)
 
 #### Parameters
 

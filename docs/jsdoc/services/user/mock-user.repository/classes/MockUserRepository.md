@@ -6,7 +6,7 @@
 
 # Class: MockUserRepository
 
-Defined in: [src/services/user/mock-user.repository.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/mock-user.repository.ts#L35)
+Defined in: [src/services/user/mock-user.repository.ts:35](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/mock-user.repository.ts#L35)
 
 In-memory mock of the User repository.
 
@@ -37,7 +37,7 @@ const repo = new MockUserRepository();
 
 > **new MockUserRepository**(`configService`): `MockUserRepository`
 
-Defined in: [src/services/user/mock-user.repository.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/mock-user.repository.ts#L38)
+Defined in: [src/services/user/mock-user.repository.ts:38](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/mock-user.repository.ts#L38)
 
 #### Parameters
 
@@ -55,7 +55,7 @@ Defined in: [src/services/user/mock-user.repository.ts:38](https://github.com/te
 
 > **create**(`user`): `Promise`\<[`User`](../../types/interfaces/User.md)\>
 
-Defined in: [src/services/user/mock-user.repository.ts:74](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/mock-user.repository.ts#L74)
+Defined in: [src/services/user/mock-user.repository.ts:74](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/mock-user.repository.ts#L74)
 
 #### Parameters
 
@@ -77,7 +77,7 @@ Defined in: [src/services/user/mock-user.repository.ts:74](https://github.com/te
 
 > **findAll**(): `Promise`\<[`User`](../../types/interfaces/User.md)[]\>
 
-Defined in: [src/services/user/mock-user.repository.ts:70](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/mock-user.repository.ts#L70)
+Defined in: [src/services/user/mock-user.repository.ts:70](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/mock-user.repository.ts#L70)
 
 #### Returns
 
@@ -93,7 +93,7 @@ Defined in: [src/services/user/mock-user.repository.ts:70](https://github.com/te
 
 > **findById**(`id`): `Promise`\<[`User`](../../types/interfaces/User.md) \| `null`\>
 
-Defined in: [src/services/user/mock-user.repository.ts:55](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/mock-user.repository.ts#L55)
+Defined in: [src/services/user/mock-user.repository.ts:55](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/mock-user.repository.ts#L55)
 
 #### Parameters
 
@@ -115,7 +115,7 @@ Defined in: [src/services/user/mock-user.repository.ts:55](https://github.com/te
 
 > **findBySlackId**(`slackId`): `Promise`\<[`User`](../../types/interfaces/User.md) \| `null`\>
 
-Defined in: [src/services/user/mock-user.repository.ts:59](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/mock-user.repository.ts#L59)
+Defined in: [src/services/user/mock-user.repository.ts:59](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/mock-user.repository.ts#L59)
 
 #### Parameters
 
@@ -137,7 +137,7 @@ Defined in: [src/services/user/mock-user.repository.ts:59](https://github.com/te
 
 > **update**(`slackId`, `data`): `Promise`\<`void`\>
 
-Defined in: [src/services/user/mock-user.repository.ts:63](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/mock-user.repository.ts#L63)
+Defined in: [src/services/user/mock-user.repository.ts:63](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/mock-user.repository.ts#L63)
 
 #### Parameters
 

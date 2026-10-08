@@ -6,7 +6,7 @@
 
 # Interface: IUserRepository
 
-Defined in: [src/services/user/types.ts:69](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L69)
+Defined in: [src/services/user/types.ts:69](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L69)
 
 Data access interface for User entities.
 
@@ -34,7 +34,7 @@ const user = await userRepository.findBySlackId('U123');
 
 > **create**(`user`): `Promise`\<[`User`](User.md)\>
 
-Defined in: [src/services/user/types.ts:74](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L74)
+Defined in: [src/services/user/types.ts:74](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L74)
 
 #### Parameters
 
@@ -52,7 +52,7 @@ Defined in: [src/services/user/types.ts:74](https://github.com/tehJimboJones/spo
 
 > **findAll**(): `Promise`\<[`User`](User.md)[]\>
 
-Defined in: [src/services/user/types.ts:73](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L73)
+Defined in: [src/services/user/types.ts:73](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L73)
 
 #### Returns
 
@@ -64,7 +64,7 @@ Defined in: [src/services/user/types.ts:73](https://github.com/tehJimboJones/spo
 
 > **findById**(`id`): `Promise`\<[`User`](User.md) \| `null`\>
 
-Defined in: [src/services/user/types.ts:70](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L70)
+Defined in: [src/services/user/types.ts:70](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L70)
 
 #### Parameters
 
@@ -82,7 +82,7 @@ Defined in: [src/services/user/types.ts:70](https://github.com/tehJimboJones/spo
 
 > **findBySlackId**(`slackId`): `Promise`\<[`User`](User.md) \| `null`\>
 
-Defined in: [src/services/user/types.ts:71](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L71)
+Defined in: [src/services/user/types.ts:71](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L71)
 
 #### Parameters
 
@@ -100,7 +100,7 @@ Defined in: [src/services/user/types.ts:71](https://github.com/tehJimboJones/spo
 
 > **update**(`slackId`, `data`): `Promise`\<`void`\>
 
-Defined in: [src/services/user/types.ts:72](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1e46a35f98db5d61d3f91586400e86d860cce2c4/src/services/user/types.ts#L72)
+Defined in: [src/services/user/types.ts:72](https://github.com/tehJimboJones/spotify-slack-status-sync/blob/1402fbb61b76cfa6bdbfdcbea9a2cb5b97347808/src/services/user/types.ts#L72)
 
 #### Parameters
 
