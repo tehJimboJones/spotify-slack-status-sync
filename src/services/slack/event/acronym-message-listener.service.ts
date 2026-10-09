@@ -68,9 +68,11 @@ export class AcronymMessageListenerService implements IEventListener {
           console.log(
             `[Acronym Guesser] Matched acronym "${acronym}"! Posting "${guess}" as "${botName || 'Default Bot'}"`,
           );
+          // Always reply in a thread: continue an existing thread, or start one
+          // under the triggering message instead of posting to the channel.
           await slackService.sendMessage(event.channel, guess, {
             username: botName,
-            threadTs: event.thread_ts,
+            threadTs: event.thread_ts ?? event.ts,
           });
         } catch (error) {
           console.error(`Failed to generate or send guess for acronym ${acronym}:`, error);

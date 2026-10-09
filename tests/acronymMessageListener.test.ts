@@ -129,7 +129,7 @@ describe('AcronymMessageListenerService', () => {
     expect(mockSlackService.sendMessage).not.toHaveBeenCalled();
   });
 
-  it('should detect an acronym and reply with random guess and custom botName', async () => {
+  it('should detect an acronym and reply in a thread under the top-level message', async () => {
     mockAcronymService.generateGuess.mockReturnValue({
       guess: 'Bumbling Tiger Uniforms?',
       botName: 'BTU Bot',
@@ -141,6 +141,7 @@ describe('AcronymMessageListenerService', () => {
         type: 'message',
         channel: 'C123',
         text: 'something something, yada, yada, BTU yada something',
+        ts: '1111.2222',
       } as any,
     };
 
@@ -149,7 +150,7 @@ describe('AcronymMessageListenerService', () => {
     expect(mockAcronymService.generateGuess).toHaveBeenCalledWith('BTU');
     expect(mockSlackService.sendMessage).toHaveBeenCalledWith('C123', 'Bumbling Tiger Uniforms?', {
       username: 'BTU Bot',
-      threadTs: undefined,
+      threadTs: '1111.2222',
     });
   });
 
@@ -202,6 +203,7 @@ describe('AcronymMessageListenerService', () => {
         type: 'message',
         channel: 'C123',
         text: 'Check this BTU',
+        ts: '9999.0000',
         thread_ts: '1234.5678',
       } as any,
     };
